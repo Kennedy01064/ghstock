@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% block title %}Mi Centro de Operaciones{% endblock %}
+
+{% block content %}
+<div class="space-y-8 pb-10 max-w-5xl mx-auto">
+
+    <!-- ════════════════════════════════════════════════════ -->
+    <!-- Hero greeting                                        -->
+    <!-- ════════════════════════════════════════════════════ -->
+    <div class="relative bg-gradient-to-br from-[#00205B] to-[#001540] rounded-2xl p-7 text-white shadow-lg overflow-hidden border border-[#00205B]">
+        <div class="absolute -top-6 -right-6 text-[11rem] font-black leading-none opacity-5 text-[#FAAC2A]" style="font-family: Arial, sans-serif;">H</div>
+        <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FAAC2A]/10 rounded-full blur-2xl"></div>
+        <div class="relative z-10 flex items-start justify-between">
+            <div>
+                <p class="text-[#FAAC2A] text-[11px] font-black uppercase tracking-widest mb-1.5 drop-shadow-sm">Centro de Operaciones</p>
+                <h2 class="text-3xl font-black leading-tight tracking-tight">¡Hola, {{ current_user.username }}! 👋</h2>
+                <p class="text-slate-300 text-sm mt-1 font-medium">
+                    {% if pedidos_en_transito > 0 %}
+                        Tienes <span class="text-white font-extrabold">{{ pedidos_en_transito }}</span> pedido{{ 's' if pedidos_en_transito != 1 }} en proceso logístico.
+                    {% else %}
+                        Todo al día. Sin pedidos en curso.
+                    {% endif %}
+                </p>
+            </div>
+            <div class="w-14 h-14 bg-white/10 border border-white/20 shadow-inner rounded-xl flex items-center justify-center shrink-0 text-xl font-black backdrop-blur-sm relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-tr from-transparent to-white/10"></div>
+                <span class="relative z-10 text-[#FAAC2A]">{{ current_user.username[0]|upper }}</span>
+            </div>
+        </div>
+
+        <div class="relative z-10 flex gap-4 mt-6">
+            <div class="bg-white/10 border border-white/5 shadow-inner rounded-xl px-5 py-3 flex-1 text-center backdrop-blur-sm hover:bg-white/15 transition-colors">
+                <p class="text-2xl font-black">{{ buildings|length }}</p>
+                <p class="text-[10px] font-black text-[#FAAC2A] uppercase tracking-widest mt-1">Edificio{{ 's' if buildings|length != 1 }}</p>
+            </div>
+            <div class="bg-white/10 border border-white/5 shadow-inner rounded-xl px-5 py-3 flex-1 text-center backdrop-blur-sm hover:bg-white/15 transition-colors">
+                <p class="text-2xl font-black">{{ pedidos_activos }}</p>
+                <p class="text-[10px] font-black text-[#FAAC2A] uppercase tracking-widest mt-1">Activo{{ 's' if pedidos_activos != 1 }}</p>
+            </div>
+            <div class="bg-white/10 border border-white/5 shadow-inner rounded-xl px-5 py-3 flex-1 text-center backdrop-blur-sm hover:bg-white/15 transition-colors relative">
+                {% if pedidos_en_transito > 0 %}
+                <span class="absolute -top-1.5 -right-1.5 w-3 h-3 bg-[#FAAC2A] border-2 border-[#00205B] rounded-full animate-pulse"></span>
+                {% endif %}
+                <p class="text-2xl font-black">{{ pedidos_en_transito }}</p>
+                <p class="text-[10px] font-black text-[#FAAC2A] uppercase tracking-widest mt-1">En Tránsito</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════ -->
+    <!-- My Buildings Grid                                    -->
+    <!-- ════════════════════════════════════════════════════ -->
+    <div>
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-extrabold text-[#00205B] uppercase tracking-widest flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#FAAC2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                Mis Edificios
+            </h3>
+            <span class="text-[10px] font-black text-[#00205B] tracking-wider bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-full shadow-sm">{{ buildings|length }} ASIGNADO{{ 'S' if buildings|length != 1 }}</span>
+        </div>
+
+        {% if buildings %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for building in buildings %}
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-hover flex flex-col h-full group">
+                <!-- Top stripe -->
+                <div class="h-1.5 bg-gradient-to-r from-[#00205B] to-[#FAAC2A]"></div>
+                <div class="p-5 flex flex-col flex-1">
+                    <!-- Building info -->
+                    <div class="flex items-center gap-4 mb-5">
+                        {% if building.imagen_frontis %}
+                        <div class="w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-sm border border-slate-200">
+                            <img src="{{ url_for('static', filename='uploads/' + building.imagen_frontis) }}" alt="Frontis de {{ building.name }}" class="w-full h-full object-cover">
+                        </div>
+                        {% else %}
+                        <div class="w-16 h-16 bg-slate-50 border border-slate-200 shadow-inner rounded-xl flex items-center justify-center shrink-0">
+                            <svg class="w-8 h-8 text-[#00205B]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        {% endif %}
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-[15px] font-extrabold text-[#00205B] leading-tight truncate">{{ building.name }}</h4>
+                            {% if building.address %}
+                            <p class="text-xs text-slate-500 font-medium flex items-center gap-1.5 mt-1 truncate">
+                                <svg class="w-3.5 h-3.5 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                {{ building.address }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="flex-1 flex flex-col justify-end">
+                        <!-- Order stats for this building -->
+                        {% set building_orders = building.orders | selectattr("created_by_id", "equalto", current_user.id) | list %}
+                        <div class="flex gap-2 mb-4 h-6">
+                            {% set drafts = building_orders | selectattr("status", "equalto", "draft") | list %}
+                            {% set submitted_count = building_orders | selectattr("status", "equalto", "submitted") | list | length %}
+                            {% set dispatched_count = building_orders | selectattr("status", "equalto", "dispatched") | list | length %}
+                            
+                            {% if drafts %}
+                            <span class="shrink-0 inline-flex items-center gap-1.5 text-[10px] font-black px-2.5 py-0.5 rounded-md border bg-amber-50 text-amber-700 border-amber-200">
+                                <span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></span>
+                                BORRADOR
+                            </span>
+                            {% endif %}
+                            {% if submitted_count %}
+                            <span class="text-[10px] font-black px-2.5 py-1 rounded-md border bg-emerald-50 text-emerald-700 border-emerald-200">{{ submitted_count }} ENVIADO{{ 'S' if submitted_count != 1 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Primary action button -->
+                        <form method="POST" action="{{ url_for('orders.create_order', building_id=building.id) }}">
+                            <button type="submit"
+                                class="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-extrabold text-[#00205B] bg-[#FAAC2A] hover:bg-[#E5981D] shadow-sm hover:shadow-md active:scale-[.98] transition-all border border-[#E5981D]/30 group-hover:shadow-[0_4px_14px_0_rgba(250,172,42,0.2)]">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                                </svg>
+                                Iniciar Solicitud
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-12 text-center">
+            <div class="w-16 h-16 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-inner">
+                <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"/>
+                </svg>
+            </div>
+            <h4 class="text-[15px] font-extrabold text-[#00205B]">Centro de Operaciones Vacío</h4>
+            <p class="text-sm text-slate-500 mt-2 font-medium max-w-sm mx-auto">Tu perfil aún no tiene edificios de mantenimiento asignados. Contacta al administrador central.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- ════════════════════════════════════════════════════ -->
+    <!-- Recent Orders History                               -->
+    <!-- ════════════════════════════════════════════════════ -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden card-hover">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-white shadow-sm border border-slate-200 rounded-xl flex items-center justify-center">
+                    <svg class="w-4 h-4 text-[#00205B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-[13px] font-extrabold text-[#00205B]">Tu Historial Documentado</h3>
+                    <p class="text-[11px] font-medium text-slate-400 uppercase tracking-widest mt-0.5">Últimas solicitudes operativas</p>
+                </div>
+            </div>
+        </div>
+
+        {% if historial_pedidos %}
+        <ul class="divide-y divide-slate-100">
+            {% for order in historial_pedidos %}
+            <li>
+                <a href="{{ url_for('orders.order_detail', order_id=order.id) }}" class="px-5 py-4 flex items-center justify-between gap-3 hover:bg-slate-50 border-l-2 border-transparent hover:border-[#FAAC2A] transition-all group cursor-pointer">
+                    <div class="flex items-center gap-4 min-w-0">
+                        <!-- Order number custom badge -->
+                        <div class="w-10 h-10 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#00205B] group-hover:border-[#00205B] shadow-sm transition-all">
+                            <span class="text-[11px] font-black text-slate-500 group-hover:text-[#FAAC2A] transition-colors">#{{ order.id }}</span>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-[13px] font-extrabold text-[#00205B] truncate group-hover:text-[#FAAC2A] transition-colors">{{ order.building.name }}</p>
+                            <p class="text-xs text-slate-400 font-medium mt-0.5">
+                                {{ order.items|length }} PRODUCTO{{ 'S' if order.items|length != 1 }} <span class="mx-1.5 opacity-50">•</span>
+                                {{ order.created_at.strftime('%d/%m/%Y') }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                        <span class="text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider border
+                            {% if order.status == 'draft' %} bg-amber-50 text-amber-700 border-amber-200
+                            {% elif order.status == 'submitted' %} bg-emerald-50 text-emerald-700 border-emerald-200
+                            {% elif order.status == 'processing' %} bg-slate-50 text-slate-600 border-slate-200
+                            {% elif order.status == 'dispatched' %} bg-emerald-100 text-emerald-800 border-emerald-300
+                            {% else %} bg-slate-50 text-slate-600 border-slate-200 {% endif %}">
+                            {% if order.status == 'draft' %}Borrador
+                            {% elif order.status == 'submitted' %}Enviado
+                            {% elif order.status == 'processing' %}En Línea
+                            {% elif order.status == 'dispatched' %}Despachado
+                            {% else %}{{ order.status }}{% endif %}
+                        </span>
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-[#FAAC2A]/10 transition-colors">
+                            <svg class="w-4 h-4 text-slate-300 group-hover:text-[#FAAC2A] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="px-5 py-12 text-center">
+            <div class="w-14 h-14 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-inner">
+                <svg class="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+            </div>
+            <p class="text-[13px] font-extrabold text-[#00205B]">Sin Operaciones Registradas</p>
+            <p class="text-xs font-medium text-slate-500 mt-1 max-w-xs mx-auto">Selecciona un edificio e inicia tu primera solicitud de materiales.</p>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Despacho #{{ batch.id }}{% endblock %}
+
+{% block content %}
+<div class="space-y-6 pb-36 max-w-4xl mx-auto"> <!-- Added high bottom padding for the huge mobile action button -->
+    <!-- Header Minimalista -->
+    <div class="text-center py-4">
+        <h2 class="text-2xl font-extrabold text-[#00205B] tracking-tight">SALIDA DE INVENTARIO</h2>
+        <p class="text-[#FAAC2A] font-extrabold mt-1 tracking-widest uppercase text-sm">Lote Operativo #{{ batch.id }}</p>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="bg-amber-50 border-l-4 border-[#FAAC2A] p-5 rounded-r-xl shadow-sm">
+        <div class="flex">
+            <div class="flex-shrink-0 mt-0.5">
+                <svg class="h-6 w-6 text-amber-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-amber-900 leading-relaxed">
+                    Atención: Confirmar esta acción <strong class="font-extrabold text-amber-950">descontará</strong> las siguientes cantidades del stock global de forma irreversible. Valida físicamente antes de confirmar.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- List of Products to Pick -->
+    <div class="bg-white shadow-lg shadow-black/5 border border-slate-200/80 rounded-2xl overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center bg-gradient-to-r from-slate-50 to-white">
+            <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Resumen a Extraer</span>
+            <span class="text-xs font-black text-[#00205B] bg-slate-200/50 px-3 py-1 rounded-full">{{ batch.items|length }} Ítems</span>
+        </div>
+        <ul class="divide-y divide-slate-100">
+            {% for item in batch.items %}
+                <li class="p-5 flex items-center justify-between hover:bg-slate-50 transition-colors">
+                    <div>
+                        <p class="text-lg font-extrabold text-[#00205B] leading-tight">{{ item.product.name }}</p>
+                        <p class="text-xs font-medium text-slate-500 mt-1.5 flex items-center gap-1.5">
+                            Stock Actual: 
+                            <span class="font-bold px-1.5 py-0.5 rounded text-[11px] bg-slate-100 border {% if item.product.stock_actual < item.total_quantity %}text-rose-600 border-rose-200 bg-rose-50{% else %}text-slate-700 border-slate-200{% endif %}">
+                                {{ item.product.stock_actual }}
+                            </span> 
+                            {{ item.product.unit }}s
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-[#FAAC2A]/10 border border-[#FAAC2A]/20 rounded-xl px-5 py-3 min-w-[5rem] shadow-sm">
+                         <span class="text-[10px] font-black text-[#00205B]/60 uppercase tracking-widest leading-none mb-1.5">Req</span>
+                         <span class="text-2xl font-black text-[#00205B] leading-none">-{{ item.total_quantity }}</span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Sticky Massive Action Button -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-md border-t border-slate-200 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.1)] z-50">
+    <div class="max-w-4xl mx-auto">
+        <form method="POST" action="{{ url_for('dispatch.confirm_dispatch', batch_id=batch.id) }}" 
+              onsubmit="return confirm('¿Confirmas que los productos físicos ya han sido retirados del almacén? Esta acción ajustará el inventario.');">
+            <button type="submit" 
+                    class="w-full flex justify-center items-center py-5 px-4 rounded-xl shadow-xl text-lg font-black text-[#FAAC2A] bg-[#00205B] hover:bg-[#001540] active:scale-[.98] transition-all outline-none focus:ring-4 focus:ring-[#00205B]/30 group">
+                    <svg class="w-7 h-7 mr-3 text-[#FAAC2A] group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                CONFIRMAR EXTRACCIÓN Y DESPACHO
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

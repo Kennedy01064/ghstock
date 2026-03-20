@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Editar Edificio{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto space-y-6 pb-10">
+
+    <!-- Header -->
+    <div class="flex items-center gap-3">
+        <a href="{{ url_for('catalog.list_buildings') }}"
+           class="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+        </a>
+        <div>
+            <h2 class="text-xl font-extrabold text-[#00205B]">Editar Edificio</h2>
+            <p class="text-sm text-slate-400 font-medium">Modifica los datos y asignación de "{{ building.name }}".</p>
+        </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+        <div class="h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
+
+        <form method="POST" action="{{ url_for('catalog.edit_building', building_id=building.id) }}" enctype="multipart/form-data" class="p-6 space-y-5">
+            
+            <!-- Default fields -->
+            <div>
+                <label for="name" class="block text-sm font-bold text-slate-700 mb-1.5">Nombre del Edificio <span class="text-red-400">*</span></label>
+                <div class="relative">
+                    <input type="text" id="name" name="name" value="{{ building.name }}" required
+                           class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent focus:bg-white transition-all">
+                </div>
+            </div>
+
+            <div>
+                <label for="address" class="block text-sm font-bold text-slate-700 mb-1.5">Dirección / Referencia</label>
+                <div class="relative">
+                    <input type="text" id="address" name="address" value="{{ building.address or '' }}"
+                           class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent focus:bg-white transition-all">
+                </div>
+            </div>
+
+            <div>
+                <label for="departments_count" class="block text-sm font-bold text-slate-700 mb-1.5">Cantidad de Departamentos</label>
+                <div class="relative">
+                    <input type="number" id="departments_count" name="departments_count" value="{{ building.departments_count }}" min="0" required
+                           class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent focus:bg-white transition-all">
+                </div>
+            </div>
+
+            <!-- Assignments -->
+            <div class="pt-2">
+                <label for="admin_id" class="block text-sm font-bold text-slate-700 mb-1.5">Asignar Administrador</label>
+                <select id="admin_id" name="admin_id" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent focus:bg-white transition-all">
+                    <option value="none">Sin asginar</option>
+                    {% for admin in admins %}
+                        <option value="{{ admin.id }}" {% if building.admin_id == admin.id %}selected{% endif %}>
+                            {{ admin.name or admin.username }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <p class="text-xs text-slate-400 mt-1">El administrador seleccionado podrá gestionar los pedidos de este edificio.</p>
+            </div>
+
+            <!-- Imagen Frontis -->
+            <div>
+                <label for="imagen_frontis" class="block text-sm font-bold text-slate-700 mb-1.5">Foto del Edificio (Frontis)</label>
+                {% if building.imagen_frontis %}
+                <div class="mb-3">
+                    <img src="{{ url_for('static', filename='uploads/' + building.imagen_frontis) }}" alt="Foto actual" class="h-20 w-20 object-cover rounded-xl shadow-sm border border-slate-200">
+                </div>
+                {% endif %}
+                <input type="file" id="imagen_frontis" name="imagen_frontis" accept="image/*"
+                       class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all">
+                <p class="text-xs text-slate-400 mt-1">Selecciona una nueva imagen si deseas reemplazar la actual.</p>
+            </div>
+
+            <!-- Submit -->
+            <div class="pt-4 flex gap-3">
+                <a href="{{ url_for('catalog.list_buildings') }}"
+                   class="flex-1 text-center py-3 rounded-xl text-sm font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition-colors">
+                    Cancelar
+                </a>
+                <button type="submit"
+                        class="flex-1 py-3 rounded-xl text-sm font-extrabold text-[#00205B] shadow-md shadow-black/10 hover:shadow-lg active:scale-[.98] transition-all flex items-center justify-center gap-2 bg-[#FAAC2A] hover:bg-[#E5981D]">
+                    Guardar Cambios
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

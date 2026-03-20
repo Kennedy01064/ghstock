@@ -1,0 +1,6 @@
+sku,nombre,categoria_id,unidad_medida_id,precio,descripcion,imagen_url
+SKU-001,Lejía Tradicional 1L,1,1,3.50,Lejía desinfectante multiusos al 5% para pisos y superficies.,https://cdn-icons-png.flaticon.com/512/2674/2674486.png
+SKU-002,Papel Toalla Interfoliado,2,2,12.00,Paquete de 250 hojas dobles super absorbentes.,https://cdn-icons-png.flaticon.com/512/2921/2921822.png
+SKU-003,Limpiatodo Lavanda 1 Galón,1,1,15.50,Líquido desinfectante para pisos con aroma a lavanda prolongado.,https://cdn-icons-png.flaticon.com/512/2722/2722007.png
+SKU-004,Escoba de Cerdas Duras,3,3,8.90,Escoba industrial ideal para exteriores y patios.,https://cdn-icons-png.flaticon.com/512/2721/2721990.png
+SKU-005,Jabón Líquido Antibacterial 5L,1,1,25.00,Jabón para manos en formato galonera para recargar dispensadores.,https://cdn-icons-png.flaticon.com/512/3063/3063076.png

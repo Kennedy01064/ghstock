@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block title %}Edificios{% endblock %}
+
+{% block content %}
+<div class="space-y-6 pb-28">
+
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-extrabold text-[#00205B] tracking-tight">Edificios</h2>
+            <p class="text-sm text-slate-500 mt-1">Gestiona los edificios, direcciones y sus administradores asignados.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row items-end sm:items-center gap-3 w-full sm:w-auto">
+            <div class="relative w-full sm:w-64">
+                <input type="text" id="searchInput" placeholder="Buscar edificio..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:border-[#FAAC2A] focus:ring-2 focus:ring-[#FAAC2A]/20 transition-all text-[#00205B]">
+                <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            {% if current_user.role == 'superadmin' and not session.get('view_as_admin') %}
+            <a href="{{ url_for('catalog.create_building') }}"
+               class="gradient-btn w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-extrabold text-[#00205B] bg-[#FAAC2A] hover:bg-[#E5981D] rounded-xl shadow-md shadow-black/10 active:scale-95 transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                Nuevo Edificio
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Buildings Table -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+                    <tr>
+                        <th class="px-6 py-4">Edificio</th>
+                        <th class="px-6 py-4 text-center">Dptos.</th>
+                        <th class="px-6 py-4 text-center">Administrador</th>
+                        {% if current_user.role == 'superadmin' and not session.get('view_as_admin') %}
+                        <th class="px-6 py-4 text-right">Acciones</th>
+                        {% else %}
+                        <th class="px-6 py-4 text-right"></th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for building in buildings %}
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                {% if building.imagen_frontis %}
+                                <div class="w-12 h-12 rounded-xl overflow-hidden shrink-0 shadow-sm border border-slate-200">
+                                    <img src="{{ url_for('static', filename='uploads/' + building.imagen_frontis) }}" alt="Frontis de {{ building.name }}" class="w-full h-full object-cover">
+                                </div>
+                                {% else %}
+                                <div class="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 shrink-0 shadow-sm">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <p class="font-extrabold text-slate-800">{{ building.name }}</p>
+                                    <p class="text-xs text-slate-400 max-w-[200px] truncate" title="{{ building.address }}">{{ building.address or 'Sin dirección' }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center font-bold text-slate-600">
+                            {{ building.departments_count }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            {% if building.admin %}
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
+                                    {{ building.admin.name or building.admin.username }}
+                                </span>
+                            {% else %}
+                                <span class="text-xs text-slate-400 italic">Sin asignar</span>
+                            {% endif %}
+                        </td>
+                        {% if current_user.role == 'superadmin' and not session.get('view_as_admin') %}
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ url_for('catalog.edit_building', building_id=building.id) }}"
+                                   class="p-2 text-[#00205B] hover:text-[#FAAC2A] hover:bg-slate-100 rounded-lg transition-colors border border-transparent hover:border-slate-200 shadow-sm hover:shadow" title="Editar">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                </a>
+                                <form method="POST" action="{{ url_for('catalog.delete_building', building_id=building.id) }}" 
+                                      onsubmit="return confirm('¿Estás seguro de que deseas eliminar este edificio? Se cancelará si tiene pedidos asociados.');" class="inline">
+                                    <button type="submit" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Eliminar">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                        {% else %}
+                        <td class="px-6 py-4 text-right"></td>
+                        {% endif %}
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-12 text-center text-slate-400">
+                            No hay edificios registrados.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const tableRows = document.querySelectorAll('tbody tr');
+
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const filter = this.value.toLowerCase();
+            tableRows.forEach(row => {
+                // Prevenir filtrar la fila de estado vacío ("No hay edificios registrados.")
+                if(row.children.length === 1 && row.children[0].colSpan > 1) return;
+                
+                const text = row.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

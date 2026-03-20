@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %}Almacén Local{% endblock %}
+
+{% block content %}
+<div class="space-y-6 pb-28">
+
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-extrabold text-[#00205B] tracking-tight">Almacén Local</h2>
+            <p class="text-sm text-slate-500 mt-1">Gestiona los productos, su nombre, stock y detalles correspondientes.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row items-end sm:items-center gap-3 w-full sm:w-auto">
+            <div class="relative w-full sm:w-64">
+                <input type="text" id="searchInput" placeholder="Buscar producto..." class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all">
+                <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <div class="flex gap-2 w-full sm:w-auto">
+                <a href="{{ url_for('catalog.upload_csv') }}"
+                   class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl shadow-sm transition-all">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                    <span class="hidden sm:inline">Importar CSV</span>
+                </a>
+                <a href="{{ url_for('catalog.create_product') }}"
+                   class="gradient-btn w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2 text-sm font-extrabold text-[#00205B] bg-[#FAAC2A] hover:bg-[#E5981D] rounded-xl shadow-md shadow-black/10 active:scale-95 transition-all">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Nuevo
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Table -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+                    <tr>
+                        <th class="px-6 py-4">Producto</th>
+                        <th class="px-6 py-4 text-center">Unidad</th>
+                        <th class="px-6 py-4 text-center">Stock</th>
+                        <th class="px-6 py-4 text-right">Precio</th>
+                        <th class="px-6 py-4 text-center">Estado</th>
+                        <th class="px-6 py-4 text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for product in products %}
+                    <tr class="hover:bg-slate-50 transition-colors {% if not product.is_active %}opacity-60 bg-slate-50 grayscale{% endif %}">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-slate-100 rounded-lg overflow-hidden shrink-0">
+                                    <img src="{{ product.imagen_url }}" alt="img" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <p class="font-extrabold text-slate-800">{{ product.name }}</p>
+                                    <p class="text-xs text-slate-400">SKU: {{ product.sku or 'N/A' }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center text-slate-600 font-medium">
+                            {{ product.unit|capitalize }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold 
+                                {% if product.stock_actual <= product.stock_minimo %}bg-red-100 text-red-700{% else %}bg-emerald-100 text-emerald-700{% endif %}">
+                                {{ product.stock_actual }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right font-bold text-slate-700">
+                            S/ {{ "%.2f"|format(product.precio) }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            {% if product.is_active %}
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">Activo</span>
+                            {% else %}
+                                <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ url_for('catalog.edit_product', product_id=product.id) }}"
+                                   class="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Editar">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                </a>
+                                <form method="POST" action="{{ url_for('catalog.toggle_product', product_id=product.id) }}" class="inline">
+                                    {% if product.is_active %}
+                                    <button type="submit" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Desactivar" onclick="return confirm('¿Desactivar producto?');">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </button>
+                                    {% else %}
+                                    <button type="submit" class="p-2 text-emerald-500 hover:bg-emerald-50 rounded-lg transition-colors" title="Activar">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </button>
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center text-slate-400">
+                            No hay productos registrados en el almacén.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const tableRows = document.querySelectorAll('tbody tr');
+
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const filter = this.value.toLowerCase();
+            tableRows.forEach(row => {
+                if(row.children.length === 1 && row.children[0].colSpan > 1) return;
+                
+                const text = row.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

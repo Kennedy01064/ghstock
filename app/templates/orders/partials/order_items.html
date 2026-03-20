@@ -1,0 +1,54 @@
+<ul id="order-items-list" class="divide-y divide-slate-100">
+    {% for item in order.items %}
+    <li class="px-5 py-4 flex items-center gap-3 hover:bg-slate-50/70 transition-colors">
+        <!-- Product Thumbnail -->
+        <img src="{{ item.product.imagen_url if item.product else '/static/img/default-product.png' }}"
+             alt="{{ item.display_name }}"
+             class="w-12 h-12 rounded-xl object-cover border border-slate-200 shadow-sm shrink-0"
+             onerror="this.src='https://via.placeholder.com/48?text=N/A'">
+
+        <!-- Quantity Badge -->
+        <div class="w-8 h-8 bg-slate-100 border border-slate-200 text-[#00205B] font-black text-sm rounded-xl flex items-center justify-center shrink-0 shadow-sm">
+            {{ item.quantity }}
+        </div>
+
+        <!-- Info (uses snapshot fields, falls back to live product) -->
+        <div class="flex-grow min-w-0">
+            <p class="text-sm font-bold text-slate-800 truncate">{{ item.display_name }}</p>
+            <div class="flex items-center gap-2 mt-0.5">
+                <span class="text-xs text-slate-400 font-medium">{{ item.product.unit if item.product else '' }}</span>
+                {% if item.display_price %}
+                <span class="text-xs font-black text-[#FAAC2A]">
+                    S/ {{ "%.2f"|format(item.display_price * item.quantity) }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Remove button (only for draft) -->
+        {% if order.status == 'draft' %}
+        <button hx-post="{{ url_for('orders.remove_item', order_id=order.id, item_id=item.id) }}"
+                hx-target="#order-items-list" hx-swap="outerHTML"
+                class="w-8 h-8 flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+        </button>
+        {% endif %}
+    </li>
+    {% else %}
+    <li class="px-5 py-10 text-center">
+        <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+            <svg class="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+            </svg>
+        </div>
+        <p class="text-sm font-bold text-slate-500">Pedido vacío</p>
+        <p class="text-xs text-slate-400 mt-0.5">Agrega productos del catálogo</p>
+    </li>
+    {% endfor %}
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        #order-items-list li { animation: fadeIn 0.2s ease-out; }
+    </style>
+</ul>
