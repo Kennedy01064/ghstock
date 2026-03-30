@@ -259,23 +259,108 @@ def consume_inventory(inventory_id):
     """HTMX endpoint to report consumption of local inventory."""
     inv = BuildingInventory.query.get_or_404(inventory_id)
     
-    # IDOR Validation
     if current_user.role != 'superadmin':
         my_building_ids = {b.id for b in current_user.assigned_buildings}
         if inv.building_id not in my_building_ids:
             abort(403)
             
+    quantity = request.form.get('quantity', 1, type=int)
+    if quantity < 1:
+        quantity = 1
+    if quantity > inv.quantity:
+        quantity = inv.quantity
+            
     if inv.quantity > 0:
-        inv.quantity -= 1
+        inv.quantity -= quantity
         
         log = ConsumptionLog(
             building_id=inv.building_id,
             product_id=inv.product_id,
             reported_by_id=current_user.id,
-            quantity_consumed=1
+            quantity_consumed=quantity
         )
         db.session.add(log)
         db.session.commit()
         
     return render_template('orders/partials/inventory_card.html', inv=inv)
+
+
+@orders_bp.route('/adjust_stock/<int:inventory_id>', methods=['POST'])
+@admin_required
+def adjust_stock(inventory_id):
+    """HTMX endpoint to manually adjust stock (add or remove)."""
+    inv = BuildingInventory.query.get_or_404(inventory_id)
+    
+    if current_user.role != 'superadmin':
+        my_building_ids = {b.id for b in current_user.assigned_buildings}
+        if inv.building_id not in my_building_ids:
+            abort(403)
+    
+    action = request.form.get('action')
+    quantity = request.form.get('quantity', 1, type=int)
+    
+    if quantity < 1:
+        quantity = 1
+    
+    if action == 'add':
+        inv.quantity += quantity
+    elif action == 'remove':
+        if inv.quantity >= quantity:
+            inv.quantity -= quantity
+        else:
+            flash('No hay suficiente stock para remover.', 'error')
+            return redirect(url_for('orders.my_inventory'))
+    else:
+        flash('Acción inválida.', 'error')
+        return redirect(url_for('orders.my_inventory'))
+    
+    db.session.commit()
+    flash(f'Stock {"agregado" if action == "add" else "removido"}: {quantity} unidades.', 'success')
+    return redirect(url_for('orders.my_inventory'))
+
+
+@orders_bp.route('/add_inventory', methods=['GET', 'POST'])
+@admin_required
+def add_inventory_item():
+    """Add a new product to local building inventory."""
+    if request.method == 'POST':
+        product_id = request.form.get('product_id', type=int)
+        building_id = request.form.get('building_id', type=int)
+        quantity = request.form.get('quantity', 1, type=int)
+        
+        if current_user.role != 'superadmin':
+            my_building_ids = {b.id for b in current_user.assigned_buildings}
+            if building_id not in my_building_ids:
+                abort(403)
+        
+        if not product_id or quantity < 1:
+            flash('Datos inválidos.', 'error')
+            return redirect(url_for('orders.add_inventory_item'))
+        
+        existing = BuildingInventory.query.filter_by(
+            building_id=building_id,
+            product_id=product_id
+        ).first()
+        
+        if existing:
+            existing.quantity += quantity
+        else:
+            new_inv = BuildingInventory(
+                building_id=building_id,
+                product_id=product_id,
+                quantity=quantity
+            )
+            db.session.add(new_inv)
+        
+        db.session.commit()
+        flash(f'Producto agregado al inventario del edificio.', 'success')
+        return redirect(url_for('orders.my_inventory'))
+    
+    if current_user.role == 'superadmin':
+        buildings = Building.query.all()
+    else:
+        buildings = current_user.assigned_buildings
+    
+    products = Product.query.filter_by(is_active=True).order_by(Product.name).all()
+    return render_template('orders/add_inventory.html', buildings=buildings, products=products)
 

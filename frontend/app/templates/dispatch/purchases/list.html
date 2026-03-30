@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}Compras Directas{% endblock %}
+
+{% block content %}
+<div class="space-y-6 pb-10">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-black text-[#00205B] tracking-tight">Compras Directas</h1>
+            <p class="text-sm font-medium text-slate-500 mt-1">Registro de compras realizadas fuera del sistema de pedidos.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="{{ url_for('dispatch.create_purchase') }}" 
+               class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FAAC2A] hover:bg-[#e99b27] text-[#00205B] font-black rounded-xl text-sm transition-all shadow-lg shadow-[#FAAC2A]/20 hover:shadow-[#FAAC2A]/40">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Nueva Compra
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm whitespace-nowrap">
+                <thead>
+                    <tr class="bg-slate-50/80 border-b border-slate-100 text-xs uppercase tracking-widest font-extrabold text-slate-400">
+                        <th class="px-6 py-4">ID</th>
+                        <th class="px-6 py-4">Fecha</th>
+                        <th class="px-6 py-4">Proveedor</th>
+                        <th class="px-6 py-4">Factura</th>
+                        <th class="px-6 py-4 text-center">Items</th>
+                        <th class="px-6 py-4 text-right">Total</th>
+                        <th class="px-6 py-4">Registrado Por</th>
+                        <th class="px-6 py-4 text-right">Detalle</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for purchase in purchases %}
+                    <tr class="hover:bg-emerald-50/50 transition-colors group">
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-700 font-black rounded-lg text-xs tracking-wider">
+                                #{{ purchase.id }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="font-bold text-slate-700">{{ purchase.purchase_date.strftime('%d/%m/%Y') }}</p>
+                        </td>
+                        <td class="px-6 py-4 font-medium text-slate-700">
+                            {{ purchase.supplier or 'Sin proveedor' }}
+                        </td>
+                        <td class="px-6 py-4 text-slate-500 font-mono text-xs">
+                            {{ purchase.invoice_number or 'N/A' }}
+                        </td>
+                        <td class="px-6 py-4 text-center font-bold text-slate-600">
+                            {{ purchase.items|length }}
+                        </td>
+                        <td class="px-6 py-4 text-right font-black text-emerald-600">
+                            S/ {{ "%.2f"|format(purchase.total_amount or 0) }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-full bg-[#FAAC2A]/20 border border-[#FAAC2A]/30 flex items-center justify-center text-xs font-black text-[#00205B] uppercase">
+                                    {{ (purchase.created_by.name.split()[0][0] if purchase.created_by.name else purchase.created_by.username[0]) | upper }}
+                                </div>
+                                <span class="font-bold text-[#00205B] text-xs">
+                                    {{ purchase.created_by.username }}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <a href="{{ url_for('dispatch.purchase_detail', purchase_id=purchase.id) }}" 
+                               class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-50 hover:bg-white border border-slate-200 hover:border-emerald-300 text-[#00205B] hover:text-emerald-600 font-bold rounded-xl text-xs transition-all shadow-sm group-hover:shadow focus:ring-2 focus:ring-emerald-100 outline-none">
+                                Ver Detalle
+                                <svg class="w-4 h-4 text-slate-400 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="px-6 py-16 text-center">
+                            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-50 text-slate-300 mb-4">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                            </div>
+                            <p class="text-slate-500 font-medium">Aún no hay compras directas registradas.</p>
+                            <a href="{{ url_for('dispatch.create_purchase') }}" class="inline-block mt-3 text-emerald-600 font-bold text-sm hover:underline">Registrar primera compra</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -47,6 +47,16 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
                         Despacho
                     </a>
+                    <a href="{{ url_for('dispatch.history') }}"
+                       class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-white/70 hover:text-[#FAAC2A] hover:bg-white/10 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Historial
+                    </a>
+                    <a href="{{ url_for('dispatch.list_purchases') }}"
+                       class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-white/70 hover:text-emerald-400 hover:bg-white/10 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                        Compras
+                    </a>
                     {% endif %}
                     {% if current_user.role in ['superadmin', 'manager'] and not session.get('view_as_admin') %}
                     <a href="{{ url_for('catalog.warehouse') }}"
@@ -131,6 +141,14 @@
                 <a href="{{ url_for('dispatch.list_pending') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/10 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
                     Despacho
+                </a>
+                <a href="{{ url_for('dispatch.history') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/10 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Historial
+                </a>
+                <a href="{{ url_for('dispatch.list_purchases') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-emerald-400 hover:bg-white/10 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    Compras Directas
                 </a>
                 {% endif %}
                 {% if current_user.role in ['superadmin', 'manager'] and not session.get('view_as_admin') %}

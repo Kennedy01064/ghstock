@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block title %}Nueva Compra Directa{% endblock %}
+
+{% block content %}
+<div class="space-y-6 pb-10">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
+        <h1 class="text-2xl font-black text-[#00205B] tracking-tight">Nueva Compra Directa</h1>
+        <p class="text-sm font-medium text-slate-500 mt-1">Registra una compra realizada fuera del sistema de pedidos.</p>
+    </div>
+
+    <form method="POST" id="purchaseForm" class="space-y-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
+            <h2 class="text-lg font-black text-[#00205B] mb-4">Datos de la Compra</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Proveedor</label>
+                    <input type="text" name="supplier" placeholder="Nombre del proveedor" 
+                           class="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Número de Factura</label>
+                    <input type="text" name="invoice_number" placeholder="001-00012345" 
+                           class="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Fecha de Compra *</label>
+                    <input type="date" name="purchase_date" required 
+                           class="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100">
+                </div>
+                <div class="md:col-span-3">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Notas</label>
+                    <textarea name="notes" rows="2" placeholder="Observaciones adicionales..." 
+                              class="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-black text-[#00205B]">Productos</h2>
+                <button type="button" onclick="addProductRow()" 
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 font-bold rounded-xl text-sm transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Agregar Producto
+                </button>
+            </div>
+
+            <div id="productsContainer" class="space-y-3">
+            </div>
+
+            {% if products %}
+            <div class="mt-4 pt-4 border-t border-slate-100">
+                <button type="button" onclick="showProductSelector()" class="text-sm text-emerald-600 font-bold hover:underline">
+                    + Agregar de la lista de productos existentes
+                </button>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="flex items-center justify-end gap-4">
+            <a href="{{ url_for('dispatch.list_purchases') }}" 
+               class="px-6 py-2.5 border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition-all">
+                Cancelar
+            </a>
+            <button type="submit" 
+                    class="px-6 py-2.5 bg-[#FAAC2A] hover:bg-[#e99b27] text-[#00205B] font-black rounded-xl transition-all shadow-lg shadow-[#FAAC2A]/20">
+                Registrar Compra
+            </button>
+        </div>
+    </form>
+
+    {% if products %}
+    <div id="productSelector" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden m-4">
+            <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                <h3 class="text-lg font-black text-[#00205B]">Seleccionar Producto</h3>
+                <button onclick="hideProductSelector()" class="text-slate-400 hover:text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto max-h-[60vh]">
+                <input type="text" id="productSearch" placeholder="Buscar producto..." 
+                       class="w-full px-4 py-2.5 border border-slate-200 rounded-xl mb-4" onkeyup="filterProducts(this.value)">
+                <div class="space-y-2" id="productList">
+                    {% for product in products %}
+                    <div class="product-item flex items-center justify-between p-3 border border-slate-100 rounded-xl hover:bg-emerald-50 cursor-pointer transition-colors"
+                         data-id="{{ product.id }}" data-name="{{ product.name }}" data-price="{{ product.precio or 0 }}">
+                        <div>
+                            <p class="font-bold text-slate-700">{{ product.name }}</p>
+                            <p class="text-xs text-slate-400">{{ product.categoria }} | Stock: {{ product.stock_actual }}</p>
+                        </div>
+                        <button type="button" onclick="selectProduct({{ product.id }}, '{{ product.name }}', {{ product.precio or 0 }})"
+                                class="px-4 py-2 bg-emerald-100 text-emerald-700 font-bold rounded-lg text-sm hover:bg-emerald-200">
+                            Agregar
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+let rowCount = 0;
+
+function addProductRow(productId = '', productName = '', unitPrice = 0) {
+    const container = document.getElementById('productsContainer');
+    const row = document.createElement('div');
+    row.className = 'flex items-end gap-3 p-4 bg-slate-50 rounded-xl product-row';
+    row.dataset.rowId = rowCount;
+    row.innerHTML = `
+        <div class="flex-1">
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Producto *</label>
+            <input type="hidden" name="product_ids" value="${productId}">
+            <input type="text" value="${productName}" placeholder="Nombre del producto" required
+                   onchange="this.previousElementSibling.value = ''; this.dataset.needsCreate = 'true'"
+                   class="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-medium">
+        </div>
+        <div class="w-24">
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Cantidad</label>
+            <input type="number" name="quantities" value="1" min="1" 
+                   class="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-medium">
+        </div>
+        <div class="w-28">
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">P. Unit.</label>
+            <input type="number" name="unit_prices" value="${unitPrice}" step="0.01" min="0"
+                   class="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-medium">
+        </div>
+        <button type="button" onclick="this.closest('.product-row').remove()" 
+                class="p-2.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </button>
+    `;
+    container.appendChild(row);
+    rowCount++;
+}
+
+function showProductSelector() {
+    document.getElementById('productSelector').classList.remove('hidden');
+    document.getElementById('productSelector').classList.add('flex');
+}
+
+function hideProductSelector() {
+    document.getElementById('productSelector').classList.add('hidden');
+    document.getElementById('productSelector').classList.remove('flex');
+}
+
+function selectProduct(id, name, price) {
+    addProductRow(id, name, price);
+    hideProductSelector();
+}
+
+function filterProducts(query) {
+    const items = document.querySelectorAll('.product-item');
+    const q = query.toLowerCase();
+    items.forEach(item => {
+        const name = item.dataset.name.toLowerCase();
+        item.style.display = name.includes(q) ? 'flex' : 'none';
+    });
+}
+
+document.getElementById('purchaseForm').onsubmit = function(e) {
+    const rows = document.querySelectorAll('.product-row');
+    if (rows.length === 0) {
+        e.preventDefault();
+        alert('Debe agregar al menos un producto');
+        return false;
+    }
+    rows.forEach(row => {
+        const nameInput = row.querySelector('input[type="text"]');
+        if (nameInput.value.trim() && !nameInput.previousElementSibling.value) {
+            nameInput.name = 'new_product_names';
+        }
+    });
+};
+</script>
+{% endblock %}

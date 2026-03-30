@@ -113,14 +113,14 @@
         {% endif %}
 
         <div class="flex flex-col sm:flex-row gap-3 shrink-0 {% if batch.status != 'pending' %}w-full{% endif %}">
-            <a href="{{ url_for('dispatch.export_batch', batch_id=batch.id) }}"
+            <a href="{{ url_for('dispatch.export_batch', batch_id=batch.id) }}" data-hx-disable="true" target="_blank"
                class="flex-1 flex items-center justify-center gap-2 py-4 px-4 bg-slate-100 hover:bg-slate-200 text-[#00205B] border border-slate-300 font-extrabold rounded-2xl shadow-sm hover:shadow active:scale-[.98] transition-all text-xs sm:text-sm">
                 <svg class="w-4 h-4 text-[#FAAC2A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                📥 Descargar Consolidado (Para Compras)
+                📥 Descargar Consolidado PDF
             </a>
-            <a href="{{ url_for('dispatch.export_batch_buildings', batch_id=batch.id) }}"
+            <a href="{{ url_for('dispatch.export_batch_buildings', batch_id=batch.id) }}" data-hx-disable="true" target="_blank"
                class="flex-1 flex items-center justify-center gap-2 py-4 px-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-extrabold rounded-2xl shadow-sm hover:shadow active:scale-[.98] transition-all text-xs sm:text-sm">
-                📦 Descargar por Edificio (Para Distribución)
+                📦 Distribución por Edificio PDF
             </a>
         </div>
     </div>

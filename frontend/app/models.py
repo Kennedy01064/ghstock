@@ -194,3 +194,37 @@ class ConsumptionLog(db.Model):
 
     def __repr__(self):
         return f'<ConsumptionLog Building {self.building_id} Product {self.product_id} Consumed {self.quantity_consumed}>'
+
+
+class Purchase(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    supplier = db.Column(db.String(150), nullable=True)
+    invoice_number = db.Column(db.String(50), nullable=True)
+    purchase_date = db.Column(db.Date, nullable=False)
+    total_amount = db.Column(db.Float, nullable=True, default=0.0)
+    notes = db.Column(db.Text, nullable=True)
+    created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    items = db.relationship('PurchaseItem', backref='purchase', lazy=True, cascade="all, delete-orphan")
+    created_by = db.relationship('User', foreign_keys=[created_by_id])
+
+    def __repr__(self):
+        return f'<Purchase {self.id} - {self.supplier}>'
+
+
+class PurchaseItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    purchase_id = db.Column(db.Integer, db.ForeignKey('purchase.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    unit_price = db.Column(db.Float, nullable=True, default=0.0)
+
+    product = db.relationship('Product')
+
+    @property
+    def total_price(self):
+        return self.quantity * (self.unit_price or 0.0)
+
+    def __repr__(self):
+        return f'<PurchaseItem {self.product.name} x{self.quantity}>'
