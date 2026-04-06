@@ -86,11 +86,13 @@ class InventoryService:
             raise DomainValidationError(f"Product {product_id} not found")
 
         if product.reserved_stock < quantity:
-            # This shouldn't happen in a healthy system, but we must protect the DB constraint
-            product.reserved_stock = 0
-            logger.warning(f"Attempted to release more stock than reserved for product {product.id}. Resetting to 0.")
-        else:
-            product.reserved_stock -= quantity
+            raise DomainConflictError(
+                f"Cannot release {quantity} units for product '{product.name}' (SKU: {product.sku}): "
+                f"only {product.reserved_stock} units are reserved. "
+                f"This indicates a stock ledger inconsistency that must be resolved explicitly."
+            )
+
+        product.reserved_stock -= quantity
 
         InventoryService._create_movement(
             db, product_id, quantity, 'release', actor_id, None, reference_id, reference_type
@@ -120,16 +122,18 @@ class InventoryService:
         if product.stock_actual < quantity:
             raise DomainConflictError(f"Insufficient stock for dispatch: {product.name}")
 
-        # Reduce both
+        # Both stock_actual and reserved_stock must be reduced together.
+        # reserved_stock must cover the full dispatch quantity; if it does not,
+        # the ledger is inconsistent and the operation must be rejected explicitly.
+        if product.reserved_stock < quantity:
+            raise DomainConflictError(
+                f"Cannot confirm dispatch of {quantity} units for product '{product.name}' (SKU: {product.sku}): "
+                f"only {product.reserved_stock} units are reserved. "
+                f"Reservation must be established before dispatch is confirmed."
+            )
+
         product.stock_actual -= quantity
-        
-        # If it was reserved, reduce reservation too.
-        # In a perfect world, we always reserve first.
-        if product.reserved_stock >= quantity:
-            product.reserved_stock -= quantity
-        else:
-            product.reserved_stock = 0
-            logger.warning(f"Dispatching unreserved stock for product {product.id}")
+        product.reserved_stock -= quantity
 
         InventoryService._create_movement(
             db, product_id, -quantity, 'dispatch', actor_id, None, reference_id, reference_type

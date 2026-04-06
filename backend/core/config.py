@@ -40,8 +40,31 @@ class Settings(BaseSettings):
         return [origin.strip() for origin in self.BACKEND_CORS_ORIGINS.split(",") if origin.strip()]
 
     def validate_production(self):
-        if self.ENVIRONMENT == "production" and self.SECRET_KEY == "your-secret-key-for-dev":
-            raise ValueError("SECURITY ALERT: SECRET_KEY must be set in production environment!")
+        if self.ENVIRONMENT != "production":
+            return  # Local/dev/staging: no restrictions enforced here.
+
+        errors = []
+
+        if self.SECRET_KEY == "your-secret-key-for-dev":
+            errors.append(
+                "SECRET_KEY must be changed from the default development value."
+            )
+        if len(self.SECRET_KEY) < 32:
+            errors.append(
+                f"SECRET_KEY is too short ({len(self.SECRET_KEY)} chars). "
+                "Minimum 32 characters required in production."
+            )
+        if "sqlite" in self.SQLALCHEMY_DATABASE_URL.lower():
+            errors.append(
+                f"SQLite is not allowed in production (DATABASE_URL={self.SQLALCHEMY_DATABASE_URL!r}). "
+                "Set DATABASE_URL to a PostgreSQL or other production-grade database."
+            )
+
+        if errors:
+            raise ValueError(
+                "SECURITY ALERT — Backend refused to start in production due to misconfiguration:\n"
+                + "\n".join(f"  - {e}" for e in errors)
+            )
 
 settings = Settings()
 settings.validate_production()

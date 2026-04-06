@@ -245,9 +245,17 @@ def export_batch_buildings(
 def list_purchases(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_active_management),
+    skip: int = 0,
+    limit: int = 100,
 ) -> Any:
-    """List all purchases."""
-    return db.query(models.Purchase).order_by(models.Purchase.purchase_date.desc()).all()
+    """List purchases. Paginated: use skip and limit query parameters."""
+    return (
+        db.query(models.Purchase)
+        .order_by(models.Purchase.purchase_date.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 @router.post("/purchases/", response_model=schemas.dispatch.PurchaseDetail)

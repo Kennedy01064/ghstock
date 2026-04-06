@@ -130,24 +130,51 @@ def get_movement_history(
     limit: int = Query(100, le=500),
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """Get inventory movement history with filtering."""
-    if building_id:
-        _assert_building_access(building_id, current_user)
-    elif current_user.role not in ("superadmin", "manager"):
-         # For non-admins, if no building_id is provided, we should probably limit to their buildings or error.
-         # For now, let's allow them to see nothing if they don't specify, OR we fetch for all their buildings.
-         my_building_ids = [b.id for b in current_user.assigned_buildings]
-         # This is a bit more complex for get_history if we want to filter by multiple buildings.
-         # For now, require building_id for non-admins if they want to filter.
-         pass
+    """Get inventory movement history with filtering.
 
-    return BuildingInventoryService.get_history(
-        db=db,
-        building_id=building_id,
-        product_id=product_id,
-        movement_type=movement_type,
-        limit=limit
+    Access rules:
+    - superadmin / manager: can query any building or all buildings globally.
+    - admin: always scoped to their assigned buildings. If building_id is provided,
+      it must be one of their assigned buildings. If not provided, the response
+      covers only their assigned buildings.
+    """
+    if current_user.role in ("superadmin", "manager"):
+        if building_id:
+            _assert_building_access(building_id, current_user)
+        return BuildingInventoryService.get_history(
+            db=db,
+            building_id=building_id,
+            product_id=product_id,
+            movement_type=movement_type,
+            limit=limit
+        )
+
+    # Non-privileged role: strict scope to assigned buildings only.
+    my_building_ids = [b.id for b in current_user.assigned_buildings]
+
+    if building_id is not None:
+        if building_id not in my_building_ids:
+            raise HTTPException(status_code=403, detail=f"No access to building {building_id}")
+        return BuildingInventoryService.get_history(
+            db=db,
+            building_id=building_id,
+            product_id=product_id,
+            movement_type=movement_type,
+            limit=limit
+        )
+
+    # No building_id provided: return movements for all assigned buildings combined.
+    if not my_building_ids:
+        return []
+
+    query = db.query(models.InventoryMovement).filter(
+        models.InventoryMovement.building_id.in_(my_building_ids)
     )
+    if product_id:
+        query = query.filter(models.InventoryMovement.product_id == product_id)
+    if movement_type:
+        query = query.filter(models.InventoryMovement.movement_type == movement_type)
+    return query.order_by(models.InventoryMovement.created_at.desc()).limit(limit).all()
 
 
 @router.get("/{id}", response_model=schemas.inventory.BuildingInventoryItem)
