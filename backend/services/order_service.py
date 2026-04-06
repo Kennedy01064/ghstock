@@ -206,6 +206,7 @@ class OrderService:
             return order
 
         for item in order.items:
+            item.fulfilled_quantity = item.quantity
             BuildingInventoryService.receive_stock(
                 db=self.db,
                 building_id=order.building_id,

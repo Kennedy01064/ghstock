@@ -15,7 +15,7 @@ class User(Base):
     username = Column(String(80), unique=True, nullable=False, index=True)
     name = Column(String(100), nullable=True)
     password_hash = Column(String(256), nullable=False)
-    role = Column(String(20), nullable=False, default='admin')  # 'superadmin' OR 'admin'
+    role = Column(String(20), nullable=False, default='admin')  # 'superadmin', 'admin', 'manager'
 
     # Reverse relationship for assigned buildings
     assigned_buildings = relationship('Building', backref='admin', lazy=True)
@@ -91,12 +91,16 @@ class Order(Base):
     building_id = Column(Integer, ForeignKey('building.id'), nullable=False, index=True)
     created_by_id = Column(Integer, ForeignKey('user.id'), nullable=False, index=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    status = Column(String(20), default='draft')  # 'draft', 'submitted', 'processing', 'dispatched'
+    status = Column(String(20), default='draft')  # 'draft', 'submitted', 'processing', 'partially_dispatched', 'dispatched', 'delivered', 'cancelled', 'rejected'
     rejection_note = Column(Text, nullable=True)  # Manager's note when rejecting an order
     version = Column(Integer, nullable=False, default=1)
 
     __table_args__ = (
         Index('ix_unique_building_draft_order', 'building_id', unique=True, sqlite_where=text("status = 'draft'"), postgresql_where=text("status = 'draft'")),
+        CheckConstraint(
+            "status IN ('draft', 'submitted', 'processing', 'partially_dispatched', 'dispatched', 'delivered', 'cancelled', 'rejected')",
+            name='chk_order_status'
+        ),
     )
     __mapper_args__ = {
         "version_id_col": version
@@ -116,11 +120,13 @@ class OrderItem(Base):
 
     nombre_producto_snapshot = Column(String(100), nullable=True)
     precio_unitario = Column(Float, nullable=True, default=0.0)
+    fulfilled_quantity = Column(Integer, nullable=False, default=0)
 
     __table_args__ = (
         CheckConstraint('quantity > 0', name='chk_order_item_quantity'),
+        CheckConstraint('fulfilled_quantity >= 0', name='chk_order_item_fulfilled_quantity'),
+        CheckConstraint('fulfilled_quantity <= quantity', name='chk_order_item_fulfillment_limit'),
     )
-
     # Relationship to product
     product = relationship('Product')
 
@@ -130,12 +136,19 @@ class DispatchBatch(Base):
     id = Column(Integer, primary_key=True, index=True)
     created_by_id = Column(Integer, ForeignKey('user.id'), nullable=False, index=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
-    status = Column(String(20), default='pending')  # 'pending', 'dispatched'
+    status = Column(String(20), default='draft')  # 'draft', 'consolidated', 'confirmed', 'shipped', 'cancelled'
     version = Column(Integer, nullable=False, default=1)
 
     __mapper_args__ = {
         "version_id_col": version
     }
+
+    __table_args__ = (
+        CheckConstraint(
+            "status IN ('draft', 'consolidated', 'confirmed', 'shipped', 'cancelled')",
+            name='chk_batch_status'
+        ),
+    )
 
     # Relationships
     orders = relationship('Order', secondary=dispatch_batch_orders, lazy='subquery',
