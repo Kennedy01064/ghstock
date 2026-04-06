@@ -50,7 +50,7 @@ def create_user(
     """Create a new admin or manager user."""
     if user_in.role not in ("admin", "manager"):
         raise HTTPException(status_code=400, detail="Role must be 'admin' or 'manager'")
-    if user_in.role == "manager" and current_user.role != "superadmin":
+    if current_user.role != "superadmin" and user_in.role != "admin":
         raise HTTPException(status_code=403, detail="Only superadmin can create manager users")
     if len(user_in.password) < 6:
         raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
@@ -85,7 +85,7 @@ def update_user(
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    if user.role == "superadmin":
+    if user.username == "krojas" or user.role == "superadmin":
         raise HTTPException(status_code=403, detail="Cannot edit superadmin accounts")
     if user.role == "manager" and current_user.role != "superadmin" and current_user.id != id:
         raise HTTPException(status_code=403, detail="Only superadmin can edit other managers")
@@ -102,10 +102,13 @@ def update_user(
     if user_in.name is not None:
         user.name = user_in.name
 
-    if user_in.role is not None and user_in.role in ("admin", "manager"):
-        if user_in.role == "manager" and current_user.role != "superadmin":
-            raise HTTPException(status_code=403, detail="Only superadmin can assign manager role")
-        user.role = user_in.role
+    if user_in.role is not None:
+        if user_in.role not in ("admin", "manager"):
+            raise HTTPException(status_code=400, detail="Role must be 'admin' or 'manager'")
+        if user_in.role != user.role:
+            if current_user.role != "superadmin":
+                raise HTTPException(status_code=403, detail="Only superadmin can change user roles")
+            user.role = user_in.role
 
     if user_in.password:
         if len(user_in.password) < 6:
@@ -138,8 +141,10 @@ def delete_user(
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    if user.role == "superadmin":
+    if user.username == "krojas" or user.role == "superadmin":
         raise HTTPException(status_code=403, detail="Cannot delete superadmin accounts")
+    if user.role == "manager" and current_user.role != "superadmin":
+        raise HTTPException(status_code=403, detail="Only superadmin can delete manager accounts")
 
     for b in user.assigned_buildings:
         b.admin_id = None

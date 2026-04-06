@@ -27,6 +27,7 @@ class ProductUpdate(BaseModel):
     description: Optional[str] = None
     unit: Optional[str] = None
     precio: Optional[float] = None
+    imagen_url: Optional[str] = None
     stock_actual: Optional[int] = None
     stock_minimo: Optional[int] = None
     is_active: Optional[bool] = None

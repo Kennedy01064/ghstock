@@ -17,18 +17,36 @@ router = APIRouter()
 
 DASHBOARD_CACHE_TTL_SECONDS = 15 * 60
 _redis_client: Redis | None = None
+_redis_disabled = False
 
 
-def _get_redis_client() -> Redis:
-    global _redis_client
+def _get_redis_client() -> Redis | None:
+    global _redis_client, _redis_disabled
+    if _redis_disabled:
+        return None
     if _redis_client is None:
-        _redis_client = Redis.from_url(settings.REDIS_URL, decode_responses=True)
+        try:
+            client = Redis.from_url(
+                settings.REDIS_URL,
+                decode_responses=True,
+                socket_connect_timeout=0.2,
+                socket_timeout=0.2,
+                retry_on_timeout=False,
+            )
+            client.ping()
+            _redis_client = client
+        except RedisError:
+            _redis_disabled = True
+            return None
     return _redis_client
 
 
 def _get_cached_dashboard(cache_key: str) -> Any | None:
+    client = _get_redis_client()
+    if client is None:
+        return None
     try:
-        cached_value = _get_redis_client().get(cache_key)
+        cached_value = client.get(cache_key)
         return json.loads(cached_value) if cached_value else None
     except RedisError:
         return None
@@ -36,8 +54,11 @@ def _get_cached_dashboard(cache_key: str) -> Any | None:
 
 def _cache_dashboard(cache_key: str, schema: type[BaseModel], payload: Any) -> Any:
     serialized_payload = schema.model_validate(payload).model_dump(mode="json")
+    client = _get_redis_client()
+    if client is None:
+        return serialized_payload
     try:
-        _get_redis_client().setex(
+        client.setex(
             cache_key,
             DASHBOARD_CACHE_TTL_SECONDS,
             json.dumps(serialized_payload),

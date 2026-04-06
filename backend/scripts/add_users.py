@@ -19,7 +19,7 @@ with app.app_context():
             print(f"Updated {username} as {role}")
         db.session.commit()
 
-    upsert_user('krojas', 'Karen Rojas', 'superadmin', 'krojas')
+    upsert_user('krojas', 'Kennedy Rojas', 'superadmin', 'krojas')
     upsert_user('eguzman', 'E Guzman', 'admin', 'eguzman')
     upsert_user('dhernandez', 'D Hernandez', 'admin', 'dhernandez')
 

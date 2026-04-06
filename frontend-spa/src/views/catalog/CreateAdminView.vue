@@ -1,0 +1,204 @@
+<template>
+  <div class="max-w-2xl mx-auto space-y-8 pb-20 px-4">
+    <div class="flex flex-col gap-6">
+      <RouterLink :to="{ name: 'catalogAdmins' }" class="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-text-muted hover:text-amber transition-colors group">
+        <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Volver al Listado
+      </RouterLink>
+
+      <div class="flex items-center justify-between">
+        <div class="space-y-2">
+          <span class="eyebrow">Gestion de Talento</span>
+          <h1 class="h2">Alta de Personal</h1>
+          <p class="text-text-muted font-medium">Configuracion de credenciales y permisos corporativos.</p>
+        </div>
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-inner">
+          <svg class="w-6 h-6 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="submitError" class="card border border-rose-500/20 bg-rose-500/10 text-rose-200">
+      {{ submitError }}
+    </div>
+
+    <div class="card">
+      <form class="space-y-6" @submit.prevent="submitForm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-1">
+            <label class="label-premium">Nombre Completo <span class="text-amber">*</span></label>
+            <div class="relative group">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-white/20 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <input v-model="form.name" type="text" required autofocus placeholder="Juan Perez" class="input-field !pl-12">
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <label class="label-premium">ID de Usuario <span class="text-amber">*</span></label>
+            <div class="relative group">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <span class="text-white/20 font-black group-focus-within:text-amber transition-colors">@</span>
+              </div>
+              <input v-model="form.username" type="text" required placeholder="jperez_gh" class="input-field !pl-12 lowercase">
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="eyebrow !text-text-muted">Nivel de Acceso <span class="text-amber">*</span></label>
+          <div class="relative">
+            <button
+              type="button"
+              class="input-field flex justify-between items-center text-left"
+              :class="authStore.currentRole !== 'superadmin' ? 'opacity-60 cursor-not-allowed' : ''"
+              :disabled="authStore.currentRole !== 'superadmin'"
+              @click="roleMenuOpen = !roleMenuOpen"
+            >
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-2 h-2 rounded-full bg-amber shadow-[0_0_8px_rgba(242,173,61,0.5)]" />
+                <span class="font-bold truncate">{{ roleDisplay }}</span>
+              </div>
+              <svg v-if="authStore.currentRole === 'superadmin'" class="w-4 h-4 text-text-muted transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <ul v-if="roleMenuOpen && authStore.currentRole === 'superadmin'" class="absolute z-50 w-full mt-3 bg-navy-accent border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
+              <li>
+                <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/5 transition-colors border-b border-white/5 group" @click="selectRole('admin')">
+                  <div class="flex items-center gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
+                    <span class="text-sm font-black text-white group-hover:text-amber transition-all">Perfil Operativo</span>
+                  </div>
+                  <p class="text-[10px] font-medium text-text-muted mt-1 ml-4.5">Gestion directa de pedidos y suministros de activos asignados.</p>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/5 transition-colors group" @click="selectRole('manager')">
+                  <div class="flex items-center gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
+                    <span class="text-sm font-black text-white group-hover:text-amber transition-all">Perfil Directivo</span>
+                  </div>
+                  <p class="text-[10px] font-medium text-text-muted mt-1 ml-4.5">Control total del catalogo, infraestructura y auditoria de personal.</p>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-1">
+            <label class="label-premium">Contraseña Maestra <span class="text-amber">*</span></label>
+            <div class="relative group">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-white/20 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <input v-model="form.password" type="password" required placeholder="6+ caracteres" class="input-field !pl-12 tracking-widest">
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <label class="label-premium">Verificacion <span class="text-amber">*</span></label>
+            <div class="relative group">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-white/20 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <input v-model="form.confirmPassword" type="password" required placeholder="Repetir clave" class="input-field !pl-12 tracking-widest">
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-white/10">
+          <RouterLink :to="{ name: 'catalogAdmins' }" class="btn btn-secondary flex-1">Cancelar</RouterLink>
+          <button type="submit" class="btn btn-primary flex-1 shadow-2xl shadow-amber/10" :disabled="catalogStore.submitLoading">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
+            Confirmar Registro
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/5 flex items-start gap-4">
+      <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-amber/10 border border-amber/20 text-amber shrink-0">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+      <div class="space-y-1">
+        <p class="text-xs font-black text-white uppercase tracking-widest">Protocolo de Seguridad</p>
+        <p class="text-[11px] font-medium text-text-muted leading-relaxed">
+          Las contraseñas deben ser unicas para cada usuario. Se recomienda el uso de caracteres alfanumericos y simbolos para mayor proteccion de la infraestructura logistica.
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed, reactive, ref } from "vue"
+import { useRouter } from "vue-router"
+
+import { useAuthStore } from "@/stores/authStore"
+import { useCatalogStore } from "@/stores/catalogStore"
+import { useUiStore } from "@/stores/uiStore"
+
+const router = useRouter()
+const authStore = useAuthStore()
+const catalogStore = useCatalogStore()
+const uiStore = useUiStore()
+
+const roleMenuOpen = ref(false)
+const submitError = ref("")
+const form = reactive({
+  name: "",
+  username: "",
+  role: "admin",
+  password: "",
+  confirmPassword: "",
+})
+
+const roleDisplay = computed(() =>
+  form.role === "manager" ? "Gerente de Operaciones (Manager)" : "Administrador de Edificio (Admin)",
+)
+
+function selectRole(role) {
+  form.role = role
+  roleMenuOpen.value = false
+}
+
+async function submitForm() {
+  submitError.value = ""
+
+  if (form.password !== form.confirmPassword) {
+    submitError.value = "La verificacion de contraseña no coincide."
+    return
+  }
+
+  try {
+    await catalogStore.createAdmin({
+      name: form.name,
+      username: form.username,
+      role: authStore.currentRole === "superadmin" ? form.role : "admin",
+      password: form.password,
+    })
+    uiStore.success("El usuario fue registrado correctamente.", "Alta completada")
+    await router.push({ name: "catalogAdmins" })
+  } catch (error) {
+    submitError.value = error.message
+  }
+}
+</script>

@@ -5,6 +5,7 @@ from backend.api.v1.api import api_router
 from backend.core.config import settings
 from backend.core.logging_middleware import LoggingMiddleware
 from backend.core import exceptions
+from backend.db.bootstrap import bootstrap_database
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -29,6 +30,11 @@ if settings.BACKEND_CORS_ORIGINS:
     )
 
 app.include_router(api_router, prefix="/api/v1")
+
+
+@app.on_event("startup")
+def initialize_database() -> None:
+    bootstrap_database()
 
 @app.get("/")
 def read_root():

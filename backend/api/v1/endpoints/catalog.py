@@ -43,6 +43,21 @@ def read_all_products(
     return products
 
 
+@router.get("/uploads", response_model=List[schemas.csv_upload.CsvUpload])
+def read_csv_uploads(
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_management),
+    limit: int = 20,
+) -> Any:
+    """Retrieve recent CSV upload batches."""
+    return (
+        db.query(models.CsvUpload)
+        .order_by(models.CsvUpload.uploaded_at.desc())
+        .limit(limit)
+        .all()
+    )
+
+
 @router.get("/{id}", response_model=schemas.product.Product)
 def read_product(
     *,

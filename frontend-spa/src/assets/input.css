@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-display tracking-tight text-white;
+    }
+}
+
+@layer components {
+    .card { 
+        @apply relative p-7 border border-white/10 rounded-[20px] bg-white/[0.03] transition-all duration-300;
+        backdrop-filter: blur(12px);
+    }
+    .card:hover { border-color: rgba(242, 173, 61, 0.2); }
+    
+    .btn { 
+        @apply inline-flex items-center justify-center gap-2.5 min-h-[52px] px-8 rounded-xl text-[13px] font-bold tracking-tight transition-all border border-transparent cursor-pointer; 
+    }
+    .btn:focus-visible { @apply outline outline-2 outline-amber/70 outline-offset-4; }
+    .btn:disabled { @apply opacity-50 cursor-not-allowed; }
+    
+    .btn-primary { 
+        background: #F2AD3D;
+        color: #041120;
+        @apply shadow-xl shadow-amber/10 uppercase tracking-widest text-[11px] font-black;
+    }
+    .btn-primary:hover { @apply bg-amber-hover shadow-amber/20 -translate-y-0.5; }
+    
+    .btn-secondary, .btn-outline { 
+        @apply bg-white/[0.04] border-white/10 text-white hover:bg-white/[0.08] hover:border-white/20; 
+    }
+
+    .pill { @apply inline-flex items-center px-4 py-1.5 border border-amber-soft/15 rounded-full bg-amber-soft/10 text-amber-soft text-[11px] font-bold tracking-[0.14em] uppercase; }
+    .eyebrow { @apply inline-block text-amber-soft text-[11px] font-bold tracking-[0.22em] uppercase font-display; }
+    .label-premium { 
+        @apply block text-text-muted text-[9px] font-black tracking-[0.25em] uppercase mb-3 ml-1 font-display; 
+    }
+    
+    .input-field { 
+        @apply w-full px-5 py-4 border border-white/10 rounded-xl outline-none text-white text-sm font-medium transition-all placeholder:text-text-muted/30 font-sans;
+        background: rgba(255, 255, 255, 0.04);
+    }
+    .input-field:focus {
+        @apply border-amber/40 bg-white/[0.07] ring-4 ring-amber/5;
+    }
+
+    .select-field {
+        @apply appearance-none w-full px-5 py-4 border border-white/10 rounded-xl outline-none text-white text-sm font-medium transition-all bg-white/[0.04] font-sans pr-12;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23F2AD3D' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1.25rem center;
+        background-size: 1.25rem;
+    }
+    .select-field:focus {
+        @apply border-amber/40 bg-white/[0.07] ring-4 ring-amber/5;
+    }
+
+    .checkbox-premium {
+        @apply w-12 h-12 rounded-2xl border-2 border-white/10 bg-white/5 flex items-center justify-center transition-all duration-500 cursor-pointer;
+    }
+    /* Peer interactions will need Tailwind context, handled by build */
+
+    .section-label {
+        @apply text-[11px] font-bold text-text-muted uppercase tracking-[0.2em] mb-4 block font-display;
+    }
+
+    .avatar-premium {
+        @apply w-10 h-10 rounded-xl bg-amber/10 border border-amber/20 flex items-center justify-center text-amber text-sm font-black;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        @apply w-1.5;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        @apply bg-white/5;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-white/10 rounded-full hover:bg-amber/30 transition-colors;
+    }
+}
