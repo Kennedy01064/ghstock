@@ -1,0 +1,224 @@
+from sqlalchemy.orm import Session
+from backend import models
+from backend.domain.errors import DomainConflictError, DomainValidationError
+from typing import Optional
+import logging
+from backend.services.audit_service import audit_service
+
+logger = logging.getLogger(__name__)
+
+class InventoryService:
+    @staticmethod
+    def _create_movement(
+        db: Session,
+        product_id: int,
+        quantity: int,
+        movement_type: str,
+        actor_id: int,
+        building_id: Optional[int] = None,
+        reference_id: Optional[int] = None,
+        reference_type: Optional[str] = None
+    ):
+        movement = models.InventoryMovement(
+            product_id=product_id,
+            quantity=quantity,
+            movement_type=movement_type,
+            created_by_id=actor_id,
+            building_id=building_id,
+            reference_id=reference_id,
+            reference_type=reference_type
+        )
+        db.add(movement)
+        return movement
+
+    @staticmethod
+    def reserve_stock(
+        db: Session,
+        product_id: int,
+        quantity: int,
+        actor_id: int,
+        reference_id: Optional[int] = None,
+        reference_type: Optional[str] = 'batch'
+    ):
+        """
+        Increment reserved_stock. Available stock decreases.
+        Available = Total - Reserved.
+        We must ensure Total >= Reserved + NewReservation.
+        """
+        if quantity <= 0:
+            raise DomainValidationError(f"Reserve quantity must be positive, got {quantity}")
+
+        product = db.query(models.Product).filter(models.Product.id == product_id).with_for_update().first()
+        if not product:
+            raise DomainValidationError(f"Product {product_id} not found")
+
+        available = product.stock_actual - product.reserved_stock
+        if available < quantity:
+            raise DomainConflictError(
+                f"Insufficient available stock for product {product.name} (SKU: {product.sku}). "
+                f"On-hand: {product.stock_actual}, Reserved: {product.reserved_stock}, "
+                f"Available: {available}, Requested: {quantity}"
+            )
+
+        product.reserved_stock += quantity
+        InventoryService._create_movement(
+            db, product_id, -quantity, 'reserve', actor_id, None, reference_id, reference_type
+        )
+        return product
+
+    @staticmethod
+    def release_stock(
+        db: Session,
+        product_id: int,
+        quantity: int,
+        actor_id: int,
+        reference_id: Optional[int] = None,
+        reference_type: Optional[str] = 'batch'
+    ):
+        """
+        Decrement reserved_stock. Available stock increases.
+        """
+        if quantity <= 0:
+            raise DomainValidationError(f"Release quantity must be positive, got {quantity}")
+
+        product = db.query(models.Product).filter(models.Product.id == product_id).with_for_update().first()
+        if not product:
+            raise DomainValidationError(f"Product {product_id} not found")
+
+        if product.reserved_stock < quantity:
+            # This shouldn't happen in a healthy system, but we must protect the DB constraint
+            product.reserved_stock = 0
+            logger.warning(f"Attempted to release more stock than reserved for product {product.id}. Resetting to 0.")
+        else:
+            product.reserved_stock -= quantity
+
+        InventoryService._create_movement(
+            db, product_id, quantity, 'release', actor_id, None, reference_id, reference_type
+        )
+        return product
+
+    @staticmethod
+    def confirm_dispatch_stock(
+        db: Session,
+        product_id: int,
+        quantity: int,
+        actor_id: int,
+        reference_id: Optional[int] = None,
+        reference_type: Optional[str] = 'batch',
+        request_id: Optional[str] = None
+    ):
+        """
+        Finalize dispatch: reduce stock_actual AND reserved_stock.
+        """
+        if quantity <= 0:
+            raise DomainValidationError(f"Dispatch quantity must be positive, got {quantity}")
+
+        product = db.query(models.Product).filter(models.Product.id == product_id).with_for_update().first()
+        if not product:
+            raise DomainValidationError(f"Product {product_id} not found")
+
+        if product.stock_actual < quantity:
+            raise DomainConflictError(f"Insufficient stock for dispatch: {product.name}")
+
+        # Reduce both
+        product.stock_actual -= quantity
+        
+        # If it was reserved, reduce reservation too.
+        # In a perfect world, we always reserve first.
+        if product.reserved_stock >= quantity:
+            product.reserved_stock -= quantity
+        else:
+            product.reserved_stock = 0
+            logger.warning(f"Dispatching unreserved stock for product {product.id}")
+
+        InventoryService._create_movement(
+            db, product_id, -quantity, 'dispatch', actor_id, None, reference_id, reference_type
+        )
+
+        # Audit Logging
+        audit_service.log_event(
+            operation="CONFIRM_DISPATCH",
+            actor_id=actor_id,
+            request_id=request_id,
+            payload={
+                "product_id": product_id,
+                "sku": product.sku,
+                "quantity": quantity,
+                "reference_id": reference_id
+            }
+        )
+
+        return product
+
+    @staticmethod
+    def register_purchase(
+        db: Session,
+        product_id: int,
+        quantity: int,
+        actor_id: int,
+        reference_id: Optional[int] = None
+    ):
+        """
+        Increment stock_actual (purchase intake).
+        """
+        if quantity <= 0:
+            raise DomainValidationError(f"Purchase quantity must be positive, got {quantity}")
+
+        product = db.query(models.Product).filter(models.Product.id == product_id).with_for_update().first()
+        if not product:
+            raise DomainValidationError(f"Product {product_id} not found")
+
+        product.stock_actual += quantity
+        InventoryService._create_movement(
+            db, product_id, quantity, 'purchase', actor_id, None, reference_id, 'purchase'
+        )
+        return product
+
+    @staticmethod
+    def adjust_stock(
+        db: Session,
+        product_id: int,
+        new_quantity: int,
+        actor_id: int,
+        reason: str = "Manual Adjustment",
+        request_id: Optional[str] = None
+    ):
+        """
+        Force set stock_actual.
+        """
+        if new_quantity < 0:
+            raise DomainValidationError("Stock cannot be adjusted to negative")
+
+        product = db.query(models.Product).filter(models.Product.id == product_id).with_for_update().first()
+        if not product:
+            raise DomainValidationError(f"Product {product_id} not found")
+
+        old_quantity = product.stock_actual
+        delta = new_quantity - product.stock_actual
+        product.stock_actual = new_quantity
+        
+        # Ensure consistency: total cannot be less than reserved
+        if product.stock_actual < product.reserved_stock:
+             product.reserved_stock = product.stock_actual
+             logger.warning(f"Stock adjustment for {product.id} forced reservation reduction to maintain integrity.")
+
+        InventoryService._create_movement(
+            db, product_id, delta, 'adjust', actor_id, None, None, reason[:50]
+        )
+
+        # Audit Logging
+        audit_service.log_event(
+            operation="ADJUST_STOCK",
+            actor_id=actor_id,
+            request_id=request_id,
+            payload={
+                "product_id": product_id,
+                "sku": product.sku,
+                "old_quantity": old_quantity,
+                "new_quantity": new_quantity,
+                "delta": delta,
+                "reason": reason
+            }
+        )
+
+        return product

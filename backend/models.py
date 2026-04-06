@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Text, ForeignKey, Table, Date
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Text, ForeignKey, Table, Date, UniqueConstraint, CheckConstraint, Index, text
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 from backend.db.session import Base
@@ -64,7 +64,9 @@ class Product(Base):
     imagen_url = Column(String(255), nullable=True, default='/static/img/default-product.png')
     stock_actual = Column(Integer, nullable=False, default=0)
     stock_minimo = Column(Integer, nullable=False, default=10)
+    reserved_stock = Column(Integer, nullable=False, default=0)
     is_active = Column(Boolean, default=True)
+    version = Column(Integer, nullable=False, default=1)
     
     source_csv_id = Column(Integer, ForeignKey('csv_upload.id'), nullable=True, index=True)
     
@@ -72,6 +74,15 @@ class Product(Base):
     source_url = Column(String(512), nullable=True)
     is_dynamic = Column(Boolean, default=False)
     last_synced_at = Column(DateTime, nullable=True)
+
+    __table_args__ = (
+        CheckConstraint('stock_actual >= 0', name='chk_product_stock_actual'),
+        CheckConstraint('reserved_stock >= 0', name='chk_product_reserved_stock'),
+        CheckConstraint('stock_actual >= reserved_stock', name='chk_product_availability'),
+    )
+    __mapper_args__ = {
+        "version_id_col": version
+    }
 
 
 class Order(Base):
@@ -82,6 +93,14 @@ class Order(Base):
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     status = Column(String(20), default='draft')  # 'draft', 'submitted', 'processing', 'dispatched'
     rejection_note = Column(Text, nullable=True)  # Manager's note when rejecting an order
+    version = Column(Integer, nullable=False, default=1)
+
+    __table_args__ = (
+        Index('ix_unique_building_draft_order', 'building_id', unique=True, sqlite_where=text("status = 'draft'"), postgresql_where=text("status = 'draft'")),
+    )
+    __mapper_args__ = {
+        "version_id_col": version
+    }
 
     # Relationships
     items = relationship('OrderItem', backref='order', lazy=True, cascade="all, delete-orphan")
@@ -98,6 +117,10 @@ class OrderItem(Base):
     nombre_producto_snapshot = Column(String(100), nullable=True)
     precio_unitario = Column(Float, nullable=True, default=0.0)
 
+    __table_args__ = (
+        CheckConstraint('quantity > 0', name='chk_order_item_quantity'),
+    )
+
     # Relationship to product
     product = relationship('Product')
 
@@ -108,6 +131,11 @@ class DispatchBatch(Base):
     created_by_id = Column(Integer, ForeignKey('user.id'), nullable=False, index=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
     status = Column(String(20), default='pending')  # 'pending', 'dispatched'
+    version = Column(Integer, nullable=False, default=1)
+
+    __mapper_args__ = {
+        "version_id_col": version
+    }
 
     # Relationships
     orders = relationship('Order', secondary=dispatch_batch_orders, lazy='subquery',
@@ -123,6 +151,11 @@ class DispatchBatchItem(Base):
     product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
     total_quantity = Column(Integer, nullable=False)
 
+    __table_args__ = (
+        UniqueConstraint('batch_id', 'product_id', name='uq_dispatch_batch_item_product'),
+        CheckConstraint('total_quantity > 0', name='chk_dispatch_batch_item_quantity'),
+    )
+
     # Relationship to product
     product = relationship('Product')
 
@@ -132,13 +165,16 @@ class InventoryMovement(Base):
     id = Column(Integer, primary_key=True, index=True)
     product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
     quantity = Column(Integer, nullable=False)  # Can be positive or negative
-    movement_type = Column(String(20), nullable=False)  # 'in', 'out'
-    reference_id = Column(Integer, nullable=True, index=True)  # e.g., batch_id
+    movement_type = Column(String(50), nullable=False)  # 'purchase', 'reserve', 'release', 'dispatch', etc.
+    reference_id = Column(Integer, nullable=True, index=True)  # e.g., batch_id or order_id
+    reference_type = Column(String(50), nullable=True) # 'order', 'batch', 'purchase', 'adjustment'
+    building_id = Column(Integer, ForeignKey('building.id'), nullable=True, index=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
     created_by_id = Column(Integer, ForeignKey('user.id'), nullable=False, index=True)
 
     # Relationships
     product = relationship('Product')
+    building = relationship('Building')
     created_by = relationship('User', foreign_keys=[created_by_id])
 
 
@@ -149,6 +185,15 @@ class BuildingInventory(Base):
     product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
     quantity = Column(Integer, nullable=False, default=0)
     last_updated = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    version = Column(Integer, nullable=False, default=1)
+
+    __table_args__ = (
+        UniqueConstraint('building_id', 'product_id', name='uq_building_inventory_product'),
+        CheckConstraint('quantity >= 0', name='chk_building_inventory_quantity'),
+    )
+    __mapper_args__ = {
+        "version_id_col": version
+    }
 
     # Relationships
     building = relationship('Building', backref='inventory_items')
@@ -192,5 +237,9 @@ class PurchaseItem(Base):
     product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
     quantity = Column(Integer, nullable=False)
     unit_price = Column(Float, nullable=True, default=0.0)
+
+    __table_args__ = (
+        CheckConstraint('quantity > 0', name='chk_purchase_item_quantity'),
+    )
 
     product = relationship('Product')

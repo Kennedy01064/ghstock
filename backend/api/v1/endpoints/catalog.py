@@ -9,6 +9,8 @@ from datetime import datetime, timezone
 from backend import models, schemas
 from backend.api import deps
 from backend.services.scraper import ScraperService
+from backend.services.inventory_service import InventoryService
+from backend.services.catalog_import_service import CatalogImportService
 
 router = APIRouter()
 
@@ -79,8 +81,14 @@ def create_product(
     current_user: models.User = Depends(deps.get_current_active_management),
 ) -> Any:
     """Create new product."""
-    product = models.Product(**product_in.model_dump())
+    initial_stock = product_in.stock_actual
+    product_data = product_in.model_dump()
+    product_data['stock_actual'] = 0
+    product = models.Product(**product_data)
     db.add(product)
+    db.flush()
+    if initial_stock > 0:
+        InventoryService.adjust_stock(db=db, product_id=product.id, new_quantity=initial_stock, actor_id=current_user.id, reason='Initial Creation')
     db.commit()
     db.refresh(product)
     return product
@@ -100,9 +108,12 @@ def update_product(
         raise HTTPException(status_code=404, detail="Product not found")
 
     update_data = product_in.model_dump(exclude_unset=True)
+    new_stock = update_data.pop('stock_actual', None)
     for field, value in update_data.items():
         setattr(product, field, value)
-
+    db.flush()
+    if new_stock is not None and new_stock != product.stock_actual:
+        InventoryService.adjust_stock(db=db, product_id=product.id, new_quantity=new_stock, actor_id=current_user.id, reason='Manual Update')
     db.commit()
     db.refresh(product)
     return product
@@ -126,14 +137,17 @@ def toggle_product(
     return product
 
 
-@router.post("/import-csv")
-async def import_csv(
+@router.post("/import-preview", response_model=schemas.catalog_import.ImportPreview)
+async def import_preview(
     *,
     db: Session = Depends(deps.get_db),
     file: UploadFile = File(...),
     current_user: models.User = Depends(deps.get_current_active_management),
 ) -> Any:
-    """Import products from a CSV file. Creates or updates products."""
+    """
+    Step 1: Upload CSV and get a preview of proposed changes.
+    Does NOT modify the database.
+    """
     if not file.filename.lower().endswith(".csv"):
         raise HTTPException(status_code=400, detail="File must be a .csv")
 
@@ -143,162 +157,63 @@ async def import_csv(
     except UnicodeDecodeError:
         decoded_text = file_bytes.decode("cp1252", errors="replace")
 
-    stream = io.StringIO(decoded_text)
-    sample = stream.read(1024)
-    stream.seek(0)
+    rows = CatalogImportService.parse_csv(decoded_text)
+    preview = CatalogImportService.preview_import(
+        db=db,
+        rows=rows,
+        filename=file.filename
+    )
+    return preview
+
+
+@router.post("/import-commit")
+def import_commit(
+    *,
+    db: Session = Depends(deps.get_db),
+    commit_data: schemas.catalog_import.ImportCommitRequest,
+    preview_rows: List[schemas.catalog_import.ImportPreviewRow],
+    filename: str,
+    current_user: models.User = Depends(deps.get_current_active_management),
+) -> Any:
+    """
+    Step 2: Apply the previewed changes to the database.
+    """
+    return CatalogImportService.commit_import(
+        db=db,
+        preview_rows=preview_rows,
+        update_stock=commit_data.update_stock,
+        actor_id=current_user.id,
+        filename=filename
+    )
+
+
+@router.post("/import-csv")
+async def import_csv_legacy(
+    *,
+    db: Session = Depends(deps.get_db),
+    file: UploadFile = File(...),
+    current_user: models.User = Depends(deps.get_current_active_management),
+) -> Any:
+    """
+    Legacy import (Direct write). 
+    Maintained for backward compatibility but calls the new service logic.
+    """
+    file_bytes = await file.read()
     try:
-        dialect = csv.Sniffer().sniff(sample, delimiters=",;")
-    except csv.Error:
-        dialect = csv.excel
+        decoded_text = file_bytes.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        decoded_text = file_bytes.decode("cp1252", errors="replace")
 
-    reader = csv.DictReader(stream, dialect=dialect)
-    created_count = 0
-    updated_count = 0
-    error_rows = []
-
-    new_upload = models.CsvUpload(filename=file.filename)
-    db.add(new_upload)
-    db.flush()
-
-    parsed_rows = []
-    for row_num, row in enumerate(reader, start=2):
-        try:
-            sku = row.get("sku", "").strip()
-            nombre = row.get("nombre", "").strip()
-            unidad = row.get("unidad_medida", "").strip()
-            precio_str = row.get("precio", "0").strip()
-            descripcion = row.get("descripcion", "").strip()
-            categoria = row.get("categoria", "General").strip()
-            imagen_url = row.get("imagen_url", "").strip()
-            stock_str = row.get("stock_actual", "0").strip()
-
-            if not nombre:
-                error_rows.append(f"Fila {row_num}: nombre vacío")
-                continue
-
-            precio = float(precio_str) if precio_str else 0.0
-            stock = int(stock_str) if stock_str else 0
-
-            parsed_rows.append(
-                {
-                    "sku": sku or None,
-                    "name": nombre,
-                    "unit": unidad,
-                    "precio": precio,
-                    "description": descripcion,
-                    "categoria": categoria,
-                    "imagen_url": imagen_url,
-                    "stock_actual": stock,
-                }
-            )
-        except Exception as e:
-            error_rows.append(f"Fila {row_num}: {str(e)}")
-            continue
-
-    filters = []
-    sku_values = {row["sku"] for row in parsed_rows if row["sku"]}
-    name_values = {row["name"] for row in parsed_rows}
-    if sku_values:
-        filters.append(models.Product.sku.in_(sku_values))
-    if name_values:
-        filters.append(models.Product.name.in_(name_values))
-
-    existing_products = db.query(models.Product).filter(or_(*filters)).all() if filters else []
-    existing_by_sku = {product.sku: product for product in existing_products if product.sku}
-    existing_by_name = {product.name: product for product in existing_products}
-    pending_inserts_by_sku = {}
-    pending_inserts_by_name = {}
-    update_mappings = {}
-    insert_mappings = []
-
-    for row in parsed_rows:
-        product = None
-        if row["sku"]:
-            product = existing_by_sku.get(row["sku"]) or pending_inserts_by_sku.get(row["sku"])
-        if not product:
-            product = existing_by_name.get(row["name"]) or pending_inserts_by_name.get(row["name"])
-
-        if isinstance(product, dict):
-            updated_count += 1
-            if row["sku"]:
-                product["sku"] = row["sku"]
-                pending_inserts_by_sku[row["sku"]] = product
-            product["name"] = row["name"]
-            if row["unit"]:
-                product["unit"] = row["unit"]
-            product["precio"] = row["precio"]
-            if row["description"]:
-                product["description"] = row["description"]
-            if row["categoria"]:
-                product["categoria"] = row["categoria"]
-            if row["imagen_url"]:
-                product["imagen_url"] = row["imagen_url"]
-            if row["stock_actual"] > 0:
-                product["stock_actual"] = row["stock_actual"]
-            pending_inserts_by_name[row["name"]] = product
-            continue
-
-        if product:
-            updated_count += 1
-            mapping = update_mappings.get(product.id)
-            if not mapping:
-                mapping = {"id": product.id}
-                update_mappings[product.id] = mapping
-
-            if row["sku"]:
-                mapping["sku"] = row["sku"]
-                existing_by_sku[row["sku"]] = product
-            mapping["name"] = row["name"]
-            existing_by_name[row["name"]] = product
-            if row["unit"]:
-                mapping["unit"] = row["unit"]
-            mapping["precio"] = row["precio"]
-            if row["description"]:
-                mapping["description"] = row["description"]
-            if row["categoria"]:
-                mapping["categoria"] = row["categoria"]
-            if row["imagen_url"]:
-                mapping["imagen_url"] = row["imagen_url"]
-            if row["stock_actual"] > 0:
-                mapping["stock_actual"] = row["stock_actual"]
-            continue
-
-        insert_mapping = {
-            "sku": row["sku"],
-            "name": row["name"],
-            "unit": row["unit"] or "Unidad",
-            "categoria": row["categoria"] or "General",
-            "precio": row["precio"],
-            "description": row["description"] or None,
-            "imagen_url": row["imagen_url"] or "/static/img/default-product.png",
-            "stock_actual": row["stock_actual"],
-            "stock_minimo": 10,
-            "is_active": True,
-            "source_csv_id": new_upload.id,
-            "is_dynamic": False,
-        }
-        insert_mappings.append(insert_mapping)
-        created_count += 1
-        if row["sku"]:
-            pending_inserts_by_sku[row["sku"]] = insert_mapping
-        pending_inserts_by_name[row["name"]] = insert_mapping
-
-    if insert_mappings:
-        db.bulk_insert_mappings(models.Product, insert_mappings)
-    if update_mappings:
-        db.bulk_update_mappings(models.Product, list(update_mappings.values()))
-
-    new_upload.products_created = created_count
-    new_upload.products_updated = updated_count
-    db.commit()
-
-    return {
-        "id": new_upload.id,
-        "filename": new_upload.filename,
-        "products_created": created_count,
-        "products_updated": updated_count,
-        "errors": error_rows[:10],
-    }
+    rows = CatalogImportService.parse_csv(decoded_text)
+    preview = CatalogImportService.preview_import(db, rows, file.filename)
+    
+    return CatalogImportService.commit_import(
+        db=db,
+        preview_rows=preview.preview_rows,
+        update_stock=True,
+        actor_id=current_user.id,
+        filename=file.filename
+    )
 
 
 @router.delete("/uploads/{id}")

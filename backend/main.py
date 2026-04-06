@@ -5,7 +5,6 @@ from backend.api.v1.api import api_router
 from backend.core.config import settings
 from backend.core.logging_middleware import LoggingMiddleware
 from backend.core import exceptions
-from backend.db.bootstrap import bootstrap_database
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -13,6 +12,8 @@ app = FastAPI(
 )
 
 # Exception handlers
+from backend.domain.errors import DomainError
+app.add_exception_handler(DomainError, exceptions.domain_exception_handler)
 app.add_exception_handler(SQLAlchemyError, exceptions.sqlalchemy_exception_handler)
 app.add_exception_handler(Exception, exceptions.generic_exception_handler)
 
@@ -20,10 +21,10 @@ app.add_exception_handler(Exception, exceptions.generic_exception_handler)
 app.add_middleware(LoggingMiddleware)
 
 # Set all CORS enabled origins
-if settings.BACKEND_CORS_ORIGINS:
+if settings.cors_origins_list:
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+        allow_origins=settings.cors_origins_list,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -31,10 +32,6 @@ if settings.BACKEND_CORS_ORIGINS:
 
 app.include_router(api_router, prefix="/api/v1")
 
-
-@app.on_event("startup")
-def initialize_database() -> None:
-    bootstrap_database()
 
 @app.get("/")
 def read_root():

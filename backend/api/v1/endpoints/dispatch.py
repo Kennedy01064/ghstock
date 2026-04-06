@@ -1,11 +1,12 @@
 import io
-from datetime import datetime, timezone
 from typing import Any, List
 from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.responses import StreamingResponse
-from sqlalchemy.orm import Session, selectinload
+from sqlalchemy.orm import Session
 from backend import models, schemas
 from backend.api import deps
+from backend.services.dispatch_service import DispatchService
+from backend.domain.constants import BatchStatus, OrderStatus
 
 router = APIRouter()
 
@@ -16,7 +17,7 @@ def read_pending_orders(
     current_user: models.User = Depends(deps.get_current_active_management),
 ) -> Any:
     """List all submitted orders ready for consolidation."""
-    orders = db.query(models.Order).filter(models.Order.status == "submitted").all()
+    orders = db.query(models.Order).filter(models.Order.status == OrderStatus.SUBMITTED).all()
     return orders
 
 
@@ -28,35 +29,8 @@ def consolidate_orders(
     current_user: models.User = Depends(deps.get_current_active_management),
 ) -> Any:
     """Consolidate multiple submitted orders into a DispatchBatch."""
-    orders = db.query(models.Order).filter(
-        models.Order.id.in_(order_ids),
-        models.Order.status == "submitted"
-    ).all()
-
-    if not orders:
-        raise HTTPException(status_code=400, detail="No valid submitted orders found")
-
-    batch = models.DispatchBatch(created_by_id=current_user.id, status="pending")
-    db.add(batch)
-    db.flush()
-
-    product_totals = {}
-    for order in orders:
-        batch.orders.append(order)
-        order.status = "processing"
-        for item in order.items:
-            product_totals[item.product_id] = product_totals.get(item.product_id, 0) + item.quantity
-
-    for product_id, total in product_totals.items():
-        db.add(models.DispatchBatchItem(
-            batch_id=batch.id,
-            product_id=product_id,
-            total_quantity=total
-        ))
-
-    db.commit()
-    db.refresh(batch)
-    return {"batch_id": batch.id, "orders_count": len(orders)}
+    service = DispatchService(db, current_user)
+    return service.consolidate_orders(order_ids)
 
 
 @router.get("/history", response_model=schemas.dispatch.DispatchHistoryResponse)
@@ -66,11 +40,11 @@ def get_history(
 ) -> Any:
     """Historial: dispatched batches and all non-draft orders."""
     batches = db.query(models.DispatchBatch).filter(
-        models.DispatchBatch.status == "dispatched"
+        models.DispatchBatch.status == BatchStatus.DISPATCHED
     ).order_by(models.DispatchBatch.created_at.desc()).all()
 
     orders = db.query(models.Order).filter(
-        models.Order.status != "draft"
+        models.Order.status != OrderStatus.DRAFT
     ).order_by(models.Order.created_at.desc()).all()
 
     return {"batches": batches, "orders": orders}
@@ -125,62 +99,8 @@ def confirm_dispatch(
     current_user: models.User = Depends(deps.get_current_active_management),
 ) -> Any:
     """Confirm dispatch: validate stock, deduct from central, mark orders dispatched."""
-    batch = db.query(models.DispatchBatch).options(
-        selectinload(models.DispatchBatch.items),
-        selectinload(models.DispatchBatch.orders),
-    ).filter(models.DispatchBatch.id == id).first()
-    if not batch or batch.status != "pending":
-        raise HTTPException(status_code=400, detail="Invalid batch or status")
-
-    product_ids = [item.product_id for item in batch.items]
-    products = db.query(models.Product).filter(
-        models.Product.id.in_(product_ids)
-    ).with_for_update().all() if product_ids else []
-    products_by_id = {product.id: product for product in products}
-
-    stock_errors = []
-    product_updates = []
-    inventory_movements = []
-    for item in batch.items:
-        product = products_by_id.get(item.product_id)
-        if product and product.stock_actual < item.total_quantity:
-            stock_errors.append(
-                f"{product.name}: disponible {product.stock_actual}, requerido {item.total_quantity}"
-            )
-    if stock_errors:
-        raise HTTPException(status_code=400, detail="Stock insuficiente: " + " | ".join(stock_errors))
-
-    for item in batch.items:
-        product = products_by_id.get(item.product_id)
-        if not product:
-            continue
-        new_stock = product.stock_actual - item.total_quantity
-        product_updates.append({"id": product.id, "stock_actual": new_stock})
-        inventory_movements.append(
-            {
-                "product_id": product.id,
-                "quantity": item.total_quantity,
-                "movement_type": "out",
-                "reference_id": batch.id,
-                "created_by_id": current_user.id,
-                "created_at": datetime.now(timezone.utc),
-            }
-        )
-
-    if product_updates:
-        db.bulk_update_mappings(models.Product, product_updates)
-    if inventory_movements:
-        db.bulk_insert_mappings(models.InventoryMovement, inventory_movements)
-
-    batch.status = "dispatched"
-    order_ids = [order.id for order in batch.orders]
-    if order_ids:
-        db.query(models.Order).filter(models.Order.id.in_(order_ids)).update(
-            {models.Order.status: "dispatched"},
-            synchronize_session=False,
-        )
-
-    db.commit()
+    service = DispatchService(db, current_user)
+    service.confirm_dispatch(id)
     return {"message": "Dispatch confirmed and stock updated"}
 
 
@@ -194,35 +114,8 @@ def reject_order(
     current_user: models.User = Depends(deps.get_current_active_management),
 ) -> Any:
     """Return an order from a pending batch back to submitted with a rejection note."""
-    batch = db.query(models.DispatchBatch).filter(models.DispatchBatch.id == id).first()
-    if not batch:
-        raise HTTPException(status_code=404, detail="Batch not found")
-    if batch.status != "pending":
-        raise HTTPException(status_code=400, detail="Can only reject orders from pending batches")
-
-    order = db.query(models.Order).filter(models.Order.id == order_id).first()
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    if order not in batch.orders:
-        raise HTTPException(status_code=400, detail="Order does not belong to this batch")
-
-    order.rejection_note = rejection_note or "El manager rechazó este pedido sin especificar motivo."
-    order.status = "submitted"
-    batch.orders.remove(order)
-
-    db.flush()
-    for bi in list(batch.items):
-        db.delete(bi)
-
-    product_totals = {}
-    for o in batch.orders:
-        for item in o.items:
-            product_totals[item.product_id] = product_totals.get(item.product_id, 0) + item.quantity
-
-    for product_id, total in product_totals.items():
-        db.add(models.DispatchBatchItem(batch_id=batch.id, product_id=product_id, total_quantity=total))
-
-    db.commit()
+    service = DispatchService(db, current_user)
+    service.reject_order(id, order_id, rejection_note)
     return {"message": f"Order #{order_id} returned to admin with rejection note"}
 
 
@@ -364,44 +257,8 @@ def create_purchase(
     current_user: models.User = Depends(deps.get_current_active_management),
 ) -> Any:
     """Create a new purchase and update central stock."""
-    purchase = models.Purchase(
-        supplier=purchase_in.supplier,
-        invoice_number=purchase_in.invoice_number,
-        purchase_date=purchase_in.purchase_date,
-        notes=purchase_in.notes,
-        created_by_id=current_user.id,
-    )
-    db.add(purchase)
-    db.flush()
-
-    total_amount = 0.0
-    for item_in in purchase_in.items:
-        if item_in.quantity <= 0:
-            continue
-        product = db.query(models.Product).filter(models.Product.id == item_in.product_id).first()
-        if not product:
-            continue
-
-        db.add(models.PurchaseItem(
-            purchase_id=purchase.id,
-            product_id=product.id,
-            quantity=item_in.quantity,
-            unit_price=item_in.unit_price,
-        ))
-        product.stock_actual += item_in.quantity
-        db.add(models.InventoryMovement(
-            product_id=product.id,
-            quantity=item_in.quantity,
-            movement_type="in",
-            reference_id=purchase.id,
-            created_by_id=current_user.id,
-        ))
-        total_amount += item_in.quantity * item_in.unit_price
-
-    purchase.total_amount = total_amount
-    db.commit()
-    db.refresh(purchase)
-    return purchase
+    service = DispatchService(db, current_user)
+    return service.create_purchase(purchase_in)
 
 
 @router.get("/purchases/{id}", response_model=schemas.dispatch.PurchaseDetail)

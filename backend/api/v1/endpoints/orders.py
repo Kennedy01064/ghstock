@@ -1,20 +1,12 @@
 from typing import Any, List, Optional
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload, selectinload
 from backend import models, schemas
 from backend.api import deps
+from backend.services.order_service import OrderService
 
 router = APIRouter()
-
-
-def _assert_order_ownership(order: models.Order, current_user: models.User):
-    """Raise 403 if the current user has no right to touch this order."""
-    if current_user.role in ("superadmin", "manager"):
-        return
-    my_building_ids = {b.id for b in current_user.assigned_buildings}
-    if order.building_id not in my_building_ids:
-        raise HTTPException(status_code=403, detail="Not enough privileges for this order")
 
 
 @router.get("/", response_model=List[schemas.order.OrderDetail])
@@ -102,11 +94,8 @@ def read_order(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Get full order details."""
-    order = db.query(models.Order).filter(models.Order.id == id).first()
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    _assert_order_ownership(order, current_user)
-    return order
+    service = OrderService(db, current_user)
+    return service.get_order(id)
 
 
 @router.post("/", response_model=schemas.order.Order)
@@ -117,30 +106,8 @@ def create_order(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Create a new draft order for a building."""
-    if current_user.role not in ("superadmin", "manager"):
-        building = db.query(models.Building).filter(
-            models.Building.id == order_in.building_id,
-            models.Building.admin_id == current_user.id
-        ).first()
-        if not building:
-            raise HTTPException(status_code=403, detail="Not enough privileges for this building")
-
-    existing_draft = db.query(models.Order).filter(
-        models.Order.building_id == order_in.building_id,
-        models.Order.status == "draft"
-    ).first()
-    if existing_draft:
-        return existing_draft
-
-    order = models.Order(
-        building_id=order_in.building_id,
-        created_by_id=current_user.id,
-        status="draft"
-    )
-    db.add(order)
-    db.commit()
-    db.refresh(order)
-    return order
+    service = OrderService(db, current_user)
+    return service.create_order(order_in)
 
 
 @router.post("/{id}/items", response_model=schemas.order.OrderItem)
@@ -151,42 +118,9 @@ def add_order_item(
     item_in: schemas.order.OrderItemCreate,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
-    """Add item to order (draft only). Snapshots product name and price."""
-    order = db.query(models.Order).filter(models.Order.id == id).first()
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    if order.status != "draft":
-        raise HTTPException(status_code=400, detail="Order is not in draft status")
-    _assert_order_ownership(order, current_user)
-
-    product = db.query(models.Product).filter(models.Product.id == item_in.product_id).first()
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
-
-    existing_item = db.query(models.OrderItem).filter(
-        models.OrderItem.order_id == id,
-        models.OrderItem.product_id == item_in.product_id
-    ).first()
-
-    if existing_item:
-        existing_item.quantity += item_in.quantity
-        existing_item.precio_unitario = product.precio or 0.0
-        existing_item.nombre_producto_snapshot = product.name
-        db.commit()
-        db.refresh(existing_item)
-        return existing_item
-
-    new_item = models.OrderItem(
-        order_id=id,
-        product_id=product.id,
-        quantity=item_in.quantity,
-        nombre_producto_snapshot=product.name,
-        precio_unitario=product.precio or 0.0,
-    )
-    db.add(new_item)
-    db.commit()
-    db.refresh(new_item)
-    return new_item
+    """Add item to order (draft only)."""
+    service = OrderService(db, current_user)
+    return service.add_order_item(id, item_in)
 
 
 @router.delete("/{id}/items/{item_id}")
@@ -198,22 +132,8 @@ def remove_order_item(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Remove an item from a draft order."""
-    order = db.query(models.Order).filter(models.Order.id == id).first()
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    if order.status != "draft":
-        raise HTTPException(status_code=400, detail="Order is not in draft status")
-    _assert_order_ownership(order, current_user)
-
-    item = db.query(models.OrderItem).filter(
-        models.OrderItem.id == item_id,
-        models.OrderItem.order_id == id
-    ).first()
-    if not item:
-        raise HTTPException(status_code=404, detail="Item not found")
-
-    db.delete(item)
-    db.commit()
+    service = OrderService(db, current_user)
+    service.remove_order_item(id, item_id)
     return {"message": "Item removed"}
 
 
@@ -227,27 +147,8 @@ def update_order_item(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Update quantity of an existing item in a draft order."""
-    order = db.query(models.Order).filter(models.Order.id == id).first()
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    if order.status != "draft":
-        raise HTTPException(status_code=400, detail="Order is not in draft status")
-    _assert_order_ownership(order, current_user)
-
-    item = db.query(models.OrderItem).filter(
-        models.OrderItem.id == item_id,
-        models.OrderItem.order_id == id
-    ).first()
-    if not item:
-        raise HTTPException(status_code=404, detail="Item not found")
-
-    if item_in.quantity < 1:
-        raise HTTPException(status_code=400, detail="Quantity must be at least 1")
-
-    item.quantity = item_in.quantity
-    db.commit()
-    db.refresh(item)
-    return item
+    service = OrderService(db, current_user)
+    return service.update_order_item(id, item_id, item_in)
 
 
 @router.post("/{id}/submit", response_model=schemas.order.Order)
@@ -258,19 +159,8 @@ def submit_order(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Submit the order (draft → submitted)."""
-    order = db.query(models.Order).filter(models.Order.id == id).with_for_update().first()
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    if order.status != "draft":
-        raise HTTPException(status_code=400, detail="Only draft orders can be submitted")
-    if not order.items:
-        raise HTTPException(status_code=400, detail="Cannot submit empty order")
-    _assert_order_ownership(order, current_user)
-
-    order.status = "submitted"
-    db.commit()
-    db.refresh(order)
-    return order
+    service = OrderService(db, current_user)
+    return service.submit_order(id)
 
 
 @router.post("/{id}/reopen", response_model=schemas.order.Order)
@@ -281,17 +171,8 @@ def reopen_order(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Reopen a submitted order back to draft."""
-    order = db.query(models.Order).filter(models.Order.id == id).with_for_update().first()
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    if order.status != "submitted":
-        raise HTTPException(status_code=400, detail="Only submitted orders can be reopened")
-    _assert_order_ownership(order, current_user)
-
-    order.status = "draft"
-    db.commit()
-    db.refresh(order)
-    return order
+    service = OrderService(db, current_user)
+    return service.reopen_order(id)
 
 
 @router.post("/{id}/cancel", response_model=schemas.order.Order)
@@ -302,17 +183,8 @@ def cancel_order(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Cancel a draft or submitted order."""
-    order = db.query(models.Order).filter(models.Order.id == id).with_for_update().first()
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    if order.status not in ("draft", "submitted"):
-        raise HTTPException(status_code=400, detail="Only draft or submitted orders can be cancelled")
-    _assert_order_ownership(order, current_user)
-
-    order.status = "cancelled"
-    db.commit()
-    db.refresh(order)
-    return order
+    service = OrderService(db, current_user)
+    return service.cancel_order(id)
 
 
 @router.post("/{id}/receive", response_model=schemas.order.Order)
@@ -323,29 +195,5 @@ def receive_order(
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Confirm receipt of a dispatched order and update building inventory."""
-    order = db.query(models.Order).filter(models.Order.id == id).first()
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    if order.status != "dispatched":
-        raise HTTPException(status_code=400, detail="Order is not in dispatched status")
-    _assert_order_ownership(order, current_user)
-
-    order.status = "delivered"
-
-    for item in order.items:
-        local_inv = db.query(models.BuildingInventory).filter_by(
-            building_id=order.building_id,
-            product_id=item.product_id
-        ).first()
-        if local_inv:
-            local_inv.quantity += item.quantity
-        else:
-            db.add(models.BuildingInventory(
-                building_id=order.building_id,
-                product_id=item.product_id,
-                quantity=item.quantity
-            ))
-
-    db.commit()
-    db.refresh(order)
-    return order
+    service = OrderService(db, current_user)
+    return service.receive_order(id)
