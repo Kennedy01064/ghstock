@@ -1,3 +1,4 @@
+import router from "@/router"
 import { computed, ref } from "vue"
 import { defineStore } from "pinia"
 
@@ -107,9 +108,22 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   onUnauthorized.value = () => {
+    const hadToken = Boolean(token.value)
+    
+    // Clear reactive state
     token.value = ""
     user.value = null
-    error.value = "Tu sesión ha expirado. Por favor ingresa nuevamente."
+    
+    if (hadToken) {
+      error.value = "Tu sesión ha expirado. Por favor ingresa nuevamente."
+      
+      const currentRoute = router.currentRoute.value
+      // Avoid redundant redirect if already on login page
+      if (currentRoute?.name !== "login") {
+        const query = currentRoute?.meta?.requiresAuth ? { redirect: currentRoute.fullPath } : {}
+        router.push({ name: "login", query })
+      }
+    }
   }
 
   return {

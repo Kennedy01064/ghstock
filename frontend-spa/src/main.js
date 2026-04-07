@@ -11,6 +11,9 @@ const app = createApp(App)
 const pinia = createPinia()
 
 app.use(pinia)
-await useAuthStore(pinia).initialize()
 app.use(router)
+
+// Initialize store AFTER router to ensure redirects work correctly
+await useAuthStore(pinia).initialize()
+
 app.mount("#app")
