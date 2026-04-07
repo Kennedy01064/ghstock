@@ -172,7 +172,12 @@ async function submitForm() {
     uiStore.success("El producto fue registrado correctamente.", "Catalogo actualizado")
     await router.push({ name: "catalogWarehouse" })
   } catch (error) {
-    submitError.value = error.message
+    if (error.isConflict) {
+      uiStore.error("Ya existe un producto con este SKU o Nombre comercial.", "Conflicto de Catalogo")
+      submitError.value = "Identificador SKU o Nombre ya registrado."
+    } else {
+      submitError.value = error.message
+    }
   }
 }
 </script>

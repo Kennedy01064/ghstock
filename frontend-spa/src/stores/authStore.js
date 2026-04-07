@@ -13,6 +13,7 @@ export const useAuthStore = defineStore("auth", () => {
   const rememberSession = ref(true)
   const isInitializing = ref(false)
   const isLoading = ref(false)
+  const isLoggingOut = ref(false)
   const error = ref("")
 
   const isAuthenticated = computed(() => Boolean(token.value))
@@ -72,6 +73,7 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   async function login({ username, password, remember = true }) {
+    if (isLoading.value) return
     isLoading.value = true
     error.value = ""
 
@@ -100,7 +102,13 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   async function logout() {
-    clearSession()
+    if (isLoggingOut.value) return
+    isLoggingOut.value = true
+    try {
+      clearSession()
+    } finally {
+      isLoggingOut.value = false
+    }
   }
 
   if (getStoredToken() && !token.value) {
@@ -139,6 +147,7 @@ export const useAuthStore = defineStore("auth", () => {
     initialize,
     login,
     logout,
+    isLoggingOut,
     fetchCurrentUser,
     setSession,
     clearSession,

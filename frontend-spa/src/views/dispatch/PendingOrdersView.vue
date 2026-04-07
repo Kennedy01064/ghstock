@@ -11,11 +11,15 @@
       {{ dispatchStore.error }}
     </div>
 
-    <div v-if="dispatchStore.isLoading && !pendingOrders.length" class="card text-text-secondary">
-      Cargando ordenes pendientes...
-    </div>
+    <DashboardSkeleton v-if="dispatchStore.isLoading && !pendingOrders.length" />
+    
+    <EmptyState
+      v-else-if="!dispatchStore.isLoading && !pendingOrders.length"
+      title="Sin ordenes pendientes"
+      description="No hay solicitudes de edificios esperando consolidacion en este momento."
+    />
 
-    <div class="space-y-5">
+    <div v-else class="space-y-5">
       <article v-for="order in pendingOrders" :key="order.id" class="card">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
           <div>
@@ -67,6 +71,8 @@ import { computed, onMounted, ref } from "vue"
 
 import PageHeader from "@/components/page/PageHeader.vue"
 import AppModal from "@/components/ui/AppModal.vue"
+import EmptyState from "@/components/ui/EmptyState.vue"
+import DashboardSkeleton from "@/components/common/DashboardSkeleton.vue"
 import { useDispatchStore } from "@/stores/dispatchStore"
 import { useUiStore } from "@/stores/uiStore"
 import { normalizeOrder } from "@/utils/normalizers"

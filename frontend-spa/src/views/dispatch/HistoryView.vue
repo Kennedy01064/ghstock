@@ -98,8 +98,12 @@
                 </td>
               </tr>
               <tr v-if="!dispatchStore.isLoading && !history.batches.length">
-                <td colspan="5" class="px-8 py-16 text-center">
-                  <p class="text-sm font-black text-white/20 uppercase tracking-widest">Aun no hay lotes despachados.</p>
+                <td colspan="5">
+                  <EmptyState
+                    title="Sin lotes"
+                    description="Aun no hay lotes despachados en el archivo logistico."
+                    class="py-16 bg-transparent border-none shadow-none"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -156,8 +160,12 @@
                 </td>
               </tr>
               <tr v-if="!dispatchStore.isLoading && !history.orders.length">
-                <td colspan="6" class="px-6 py-16 text-center">
-                  <p class="text-sm font-black text-white/20 uppercase tracking-widest">No hay pedidos registrados aun.</p>
+                <td colspan="6">
+                  <EmptyState
+                    title="Sin pedidos"
+                    description="No hay pedidos registrados aun en el historial."
+                    class="py-16 bg-transparent border-none shadow-none"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -171,6 +179,7 @@
 <script setup>
 import { computed, onMounted } from "vue"
 
+import EmptyState from "@/components/ui/EmptyState.vue"
 import { useDispatchStore } from "@/stores/dispatchStore"
 import { formatDate, statusClass } from "@/utils/formatters"
 

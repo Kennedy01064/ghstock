@@ -45,19 +45,18 @@
       </button>
     </li>
 
-    <li v-if="!items.length" class="px-5 py-16 text-center">
-      <div class="w-16 h-16 bg-white/5 border border-white/10 rounded-[2rem] flex items-center justify-center mx-auto mb-4 text-white/10 shadow-inner">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4" />
-        </svg>
-      </div>
-      <p class="text-xs font-black text-white uppercase tracking-[0.2em]">Pedido vacio</p>
-      <p class="text-[10px] text-text-muted mt-1 uppercase font-bold">Agrega productos del catalogo</p>
+    <li v-if="!items.length">
+      <EmptyState
+        title="Pedido vacio"
+        description="Agrega productos del catalogo para completar la solicitud."
+        class="py-16 bg-transparent border-none shadow-none"
+      />
     </li>
   </ul>
 </template>
 
 <script setup>
+import EmptyState from "@/components/ui/EmptyState.vue"
 import { formatCurrency } from "@/utils/formatters"
 
 defineProps({

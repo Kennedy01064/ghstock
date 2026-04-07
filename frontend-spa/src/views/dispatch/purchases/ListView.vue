@@ -90,21 +90,18 @@
             </tr>
 
             <tr v-if="!purchases.length">
-              <td colspan="6" class="px-8 py-32 text-center">
-                <div class="flex flex-col items-center justify-center space-y-6">
-                  <div class="w-20 h-20 rounded-[2.5rem] bg-white/[0.02] border border-white/5 flex items-center justify-center text-white/5">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <div class="space-y-1">
-                    <p class="text-xl font-black text-white uppercase tracking-tight">Sin Adquisiciones</p>
-                    <p class="text-[13px] font-medium text-text-muted italic">Aun no se han registrado compras directas en el sistema logistico.</p>
-                  </div>
-                  <RouterLink :to="{ name: 'dispatchPurchaseCreate' }" class="btn btn-primary !rounded-2xl !py-3 !px-8 text-[11px]">
-                    REGISTRAR PRIMERA COMPRA
-                  </RouterLink>
-                </div>
+              <td colspan="6" class="px-8 py-20">
+                <EmptyState
+                  title="Sin Adquisiciones"
+                  description="Aun no se han registrado compras directas en el sistema logistico."
+                  class="bg-transparent border-none shadow-none"
+                >
+                  <template #action>
+                    <RouterLink :to="{ name: 'dispatchPurchaseCreate' }" class="btn btn-primary !py-3 !px-8 text-[11px]">
+                      REGISTRAR PRIMERA COMPRA
+                    </RouterLink>
+                  </template>
+                </EmptyState>
               </td>
             </tr>
           </tbody>
@@ -117,11 +114,13 @@
 <script setup>
 import { computed, onMounted } from "vue"
 
+import EmptyState from "@/components/ui/EmptyState.vue"
 import { useDispatchStore } from "@/stores/dispatchStore"
 import { formatCurrency, formatDate } from "@/utils/formatters"
+import { normalizePurchase } from "@/utils/normalizers"
 
 const dispatchStore = useDispatchStore()
-const purchases = computed(() => dispatchStore.purchases)
+const purchases = computed(() => dispatchStore.purchases.map(normalizePurchase))
 
 onMounted(() => {
   dispatchStore.fetchPurchases()

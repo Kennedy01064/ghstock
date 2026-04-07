@@ -47,7 +47,18 @@
       {{ catalogStore.error }}
     </div>
 
-    <div class="card !p-0 overflow-hidden border-white/5 bg-white/[0.01] backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
+    <div v-if="catalogStore.isLoading" class="space-y-6">
+      <DashboardSkeleton />
+    </div>
+
+    <div v-else-if="!filteredProducts.length" class="py-12">
+      <EmptyState
+        :title="query.trim() ? 'Sin resultados' : 'Catalogo vacio'"
+        :description="query.trim() ? `No encontramos coincidencias para '${query}'.` : 'No hay productos registrados en el sistema.'"
+      />
+    </div>
+
+    <div v-else class="card !p-0 overflow-hidden border-white/5 bg-white/[0.01] backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
       <WarehouseRows :products="filteredProducts" @toggle="toggleProduct" @sync="syncProduct" />
     </div>
 
@@ -155,6 +166,8 @@ import { computed, onMounted, ref } from "vue"
 
 import WarehouseRows from "@/components/catalog/WarehouseRows.vue"
 import AppModal from "@/components/ui/AppModal.vue"
+import EmptyState from "@/components/ui/EmptyState.vue"
+import DashboardSkeleton from "@/components/common/DashboardSkeleton.vue"
 import { useCatalogStore } from "@/stores/catalogStore"
 import { useUiStore } from "@/stores/uiStore"
 import { defaultProductUrl } from "@/utils/formatters"

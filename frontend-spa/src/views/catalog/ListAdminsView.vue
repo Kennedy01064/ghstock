@@ -27,7 +27,18 @@
       {{ catalogStore.error }}
     </div>
 
-    <div class="card !p-0 overflow-hidden border-white/5 bg-white/[0.02]">
+    <div v-if="catalogStore.isLoading" class="space-y-6">
+      <DashboardSkeleton />
+    </div>
+
+    <div v-else-if="!filteredAdmins.length" class="py-12">
+      <EmptyState
+        :title="query.trim() ? 'Sin resultados' : 'Usuarios no registrados'"
+        :description="query.trim() ? `No encontramos coincidencias para '${query}'.` : 'No hay administradores registrados en el sistema corporativo.'"
+      />
+    </div>
+
+    <div v-else class="card !p-0 overflow-hidden border-white/5 bg-white/[0.02]">
       <div class="overflow-x-auto custom-scrollbar">
         <table class="w-full text-left border-collapse">
           <thead>
@@ -93,20 +104,6 @@
                 </div>
               </td>
             </tr>
-            <tr v-if="!catalogStore.isLoading && !filteredAdmins.length">
-              <td colspan="3" class="px-8 py-24 text-center">
-                <div class="flex flex-col items-center justify-center space-y-4">
-                  <div class="w-16 h-16 bg-white/[0.02] border border-dashed border-white/10 rounded-full flex items-center justify-center text-white/10">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                  </div>
-                  <p class="text-sm font-medium text-text-muted">
-                    {{ query.trim() ? "No se encontraron administradores con ese filtro." : "No se registran administradores en el sistema." }}
-                  </p>
-                </div>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -130,6 +127,8 @@
 import { computed, onMounted, ref } from "vue"
 
 import AppModal from "@/components/ui/AppModal.vue"
+import EmptyState from "@/components/ui/EmptyState.vue"
+import DashboardSkeleton from "@/components/common/DashboardSkeleton.vue"
 import { useCatalogStore } from "@/stores/catalogStore"
 import { useUiStore } from "@/stores/uiStore"
 

@@ -40,26 +40,24 @@
       />
     </div>
 
-    <div v-else class="col-span-full py-24 text-center card border-dashed border-white/10 bg-white/[0.02] flex flex-col items-center justify-center">
-      <div class="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center text-white/5 mb-6">
-        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-        </svg>
-      </div>
-      <h3 class="text-xl font-black text-white uppercase tracking-tight mb-2">Sin Existencias Locales</h3>
-      <p class="text-text-muted text-sm font-medium mb-8 max-w-sm italic">
-        Aun no se han registrado o despachado suministros hacia sus sedes de gestion.
-      </p>
-      <RouterLink :to="{ name: 'ordersAddInventory' }" class="btn btn-primary !rounded-xl !py-4 shadow-xl shadow-amber/10 px-10">
-        INICIAR PRIMER REGISTRO
-      </RouterLink>
-    </div>
+    <EmptyState
+      v-else
+      title="Sin Existencias Locales"
+      description="Aun no se han registrado o despachado suministros hacia sus sedes de gestion."
+    >
+      <template #action>
+        <RouterLink :to="{ name: 'ordersAddInventory' }" class="btn btn-primary !rounded-xl !py-4 shadow-xl shadow-amber/10 px-10">
+          INICIAR PRIMER REGISTRO
+        </RouterLink>
+      </template>
+    </EmptyState>
   </div>
 </template>
 
 <script setup>
 import { computed, onMounted } from "vue"
 
+import EmptyState from "@/components/ui/EmptyState.vue"
 import InventoryCard from "@/components/orders/InventoryCard.vue"
 import { useInventoryStore } from "@/stores/inventoryStore"
 import { useUiStore } from "@/stores/uiStore"
@@ -70,6 +68,7 @@ const uiStore = useUiStore()
 const inventory = computed(() => inventoryStore.items.map(normalizeInventoryItem))
 
 async function consumeInventory({ id, quantity }) {
+// ...
   if (inventoryStore.isConsuming || inventoryStore.isAdjusting) return
   try {
     const updated = await inventoryStore.consumeInventory(id, { quantity: Number(quantity) })

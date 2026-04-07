@@ -24,7 +24,7 @@
 
       <div class="flex flex-col items-end gap-2 px-6 py-4 bg-emerald-500/10 border border-emerald-500/20 rounded-3xl shadow-2xl shadow-emerald-500/5">
         <span class="text-[9px] font-black text-emerald-400 uppercase tracking-[0.3em]">Inversion Total</span>
-        <span class="text-3xl font-black text-white tabular-nums">{{ formatCurrency(purchase.total_amount || 0) }}</span>
+        <span class="text-3xl font-black text-white tabular-nums">{{ formatCurrency(purchase.total || 0) }}</span>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
           <div class="space-y-5">
             <div>
               <p class="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1 opacity-60">Fecha de Operacion</p>
-              <p class="text-base font-black text-white uppercase tracking-tight">{{ formatDate(purchase.purchase_date) }}</p>
+              <p class="text-base font-black text-white uppercase tracking-tight">{{ purchase.purchaseDate }}</p>
             </div>
             <div>
               <p class="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1 opacity-60">Proveedor Emitente</p>
@@ -64,7 +64,7 @@
           </div>
           <div class="pt-4 border-t border-white/[0.03]">
             <p class="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1 opacity-60">Timestamp de Sistema</p>
-            <p class="text-xs font-black text-white/60 tracking-widest">{{ formatDate(purchase.created_at) }}</p>
+            <p class="text-xs font-black text-white/60 tracking-widest">{{ formatDate(purchase.createdAt) }}</p>
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@
             <tr v-for="item in purchase.items" :key="item.id" class="hover:bg-white/[0.01] transition-all group">
               <td class="px-8 py-6">
                 <div class="flex flex-col gap-1">
-                  <p class="text-[13px] font-black text-white uppercase tracking-tight group-hover:text-amber transition-colors">{{ item.product?.name }}</p>
+                  <p class="text-[13px] font-black text-white uppercase tracking-tight group-hover:text-amber transition-colors">{{ item.name }}</p>
                   <p class="text-[10px] font-black text-text-muted uppercase tracking-widest">{{ item.product?.categoria }}</p>
                 </div>
               </td>
@@ -115,10 +115,10 @@
                 <span class="text-base font-black text-white tabular-nums">{{ item.quantity }}</span>
               </td>
               <td class="px-8 py-6 text-right font-black text-text-muted tabular-nums">
-                {{ formatCurrency(item.unit_price || 0) }}
+                {{ formatCurrency(item.price || 0) }}
               </td>
               <td class="px-8 py-6 text-right font-black text-emerald-400 tabular-nums text-base">
-                {{ formatCurrency((item.quantity || 0) * (item.unit_price || 0)) }}
+                {{ formatCurrency((item.quantity || 0) * (item.price || 0)) }}
               </td>
               <td class="px-8 py-6 text-center">
                 <div class="inline-flex items-center gap-3 px-3 py-1.5 rounded-xl border" :class="(item.product?.stock_actual || 0) <= (item.product?.stock_minimo || 0) ? 'bg-red-500/10 border-red-500/20 text-red-400' : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'">
@@ -146,11 +146,12 @@ import { useRoute } from "vue-router"
 
 import { useDispatchStore } from "@/stores/dispatchStore"
 import { formatCurrency, formatDate } from "@/utils/formatters"
+import { normalizePurchase } from "@/utils/normalizers"
 
 const route = useRoute()
 const dispatchStore = useDispatchStore()
 
-const purchase = computed(() => dispatchStore.currentPurchase)
+const purchase = computed(() => (dispatchStore.currentPurchase ? normalizePurchase(dispatchStore.currentPurchase) : null))
 const totalUnits = computed(() => (purchase.value?.items || []).reduce((sum, item) => sum + (item.quantity || 0), 0))
 
 onMounted(() => {

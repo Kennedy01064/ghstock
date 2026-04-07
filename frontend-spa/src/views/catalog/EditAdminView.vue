@@ -123,6 +123,7 @@
 
         <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-white/10">
           <RouterLink :to="{ name: 'catalogAdmins' }" class="btn btn-secondary flex-1">Descartar Cambios</RouterLink>
+          <button type="submit" class="btn btn-primary flex-1 shadow-2xl shadow-amber/10" :disabled="catalogStore.isSubmittingAdmin">
             <svg v-if="!catalogStore.isSubmittingAdmin" class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
             </svg>
@@ -215,7 +216,12 @@ async function submitForm() {
     uiStore.success("El perfil fue actualizado correctamente.", "Usuario sincronizado")
     await router.push({ name: "catalogAdmins" })
   } catch (error) {
-    submitError.value = error.message
+    if (error.isConflict) {
+      uiStore.error("El nombre de usuario ya esta en uso por otro administrador.", "Conflicto de Usuario")
+      submitError.value = "Nombre de usuario ya registrado."
+    } else {
+      submitError.value = error.message
+    }
   }
 }
 

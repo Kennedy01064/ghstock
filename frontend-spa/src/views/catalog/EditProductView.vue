@@ -169,7 +169,11 @@ async function submitForm() {
     uiStore.success("El producto fue actualizado correctamente.", "Catalogo sincronizado")
     await router.push({ name: "catalogWarehouse" })
   } catch (error) {
-    submitError.value = error.message
+    if (error.isConflict) {
+      submitError.value = "Ya existe otro producto con este SKU o Nombre. El cambio fue rechazado."
+    } else {
+      submitError.value = error.message
+    }
   }
 }
 

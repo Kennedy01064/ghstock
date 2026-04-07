@@ -169,7 +169,12 @@ async function submitForm() {
     uiStore.success("La sede fue actualizada correctamente.", "Infraestructura sincronizada")
     await router.push({ name: 'catalogBuildings' })
   } catch (error) {
-    submitError.value = error.message
+    if (error.isConflict) {
+      uiStore.error("Ya existe otra sede con este nombre.", "Conflicto de Nombre")
+      submitError.value = "Nombre de sede duplicado."
+    } else {
+      submitError.value = error.message
+    }
   }
 }
 

@@ -35,6 +35,7 @@ export const useDispatchStore = defineStore("dispatch", () => {
   }
 
   async function consolidateOrders(orderIds) {
+    if (isConsolidating.value) return
     isConsolidating.value = true
     error.value = ""
 
@@ -98,6 +99,7 @@ export const useDispatchStore = defineStore("dispatch", () => {
   }
 
   async function confirmBatch(batchId) {
+    if (isConfirmingBatch.value) return
     isConfirmingBatch.value = true
     error.value = ""
 
@@ -113,6 +115,7 @@ export const useDispatchStore = defineStore("dispatch", () => {
   }
 
   async function rejectOrder(batchId, orderId, rejectionNote = "") {
+    if (isRejectingOrder.value) return
     isRejectingOrder.value = true
     error.value = ""
 
@@ -189,6 +192,7 @@ export const useDispatchStore = defineStore("dispatch", () => {
   }
 
   async function createPurchase(payload) {
+    if (isPurchasing.value) return
     isPurchasing.value = true
     error.value = ""
 

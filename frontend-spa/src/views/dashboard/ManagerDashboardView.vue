@@ -3,9 +3,7 @@
     {{ dashboardStore.error }}
   </div>
 
-  <div v-else-if="dashboardStore.isLoading && !dashboard" class="card text-text-secondary">
-    Cargando dashboard de gestion...
-  </div>
+  <DashboardSkeleton v-else-if="dashboardStore.isLoading && !dashboard" />
 
   <div v-else-if="dashboard" class="max-w-[1320px] mx-auto px-4 sm:px-8 xl:px-10 py-8 space-y-10">
     <div class="relative bg-gradient-to-br from-[#041120] via-[#05142b] to-black rounded-[2rem] p-7 md:p-12 text-white shadow-2xl overflow-hidden border border-white/5">
@@ -166,6 +164,7 @@
 <script setup>
 import { computed, onMounted } from "vue"
 
+import DashboardSkeleton from "@/components/common/DashboardSkeleton.vue"
 import { useAuthStore } from "@/stores/authStore"
 import { useDashboardStore } from "@/stores/dashboardStore"
 import { defaultProductUrl, formatDate, titleCase } from "@/utils/formatters"

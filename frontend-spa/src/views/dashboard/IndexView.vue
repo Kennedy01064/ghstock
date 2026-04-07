@@ -3,9 +3,7 @@
     {{ dashboardStore.error }}
   </div>
 
-  <div v-else-if="dashboardStore.isLoading && !dashboard" class="card text-text-secondary">
-    Cargando indicadores del panel central...
-  </div>
+  <DashboardSkeleton v-else-if="dashboardStore.isLoading && !dashboard" />
 
   <div v-else-if="dashboard" class="space-y-12 pb-24">
     <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-10 border-b border-white/5 pb-10">
@@ -242,6 +240,7 @@
 import { Chart } from "chart.js/auto"
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue"
 
+import DashboardSkeleton from "@/components/common/DashboardSkeleton.vue"
 import { useAuthStore } from "@/stores/authStore"
 import { useDashboardStore } from "@/stores/dashboardStore"
 import { defaultProductUrl, formatDate, logoUrl } from "@/utils/formatters"

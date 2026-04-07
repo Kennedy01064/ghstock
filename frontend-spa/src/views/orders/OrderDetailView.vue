@@ -3,11 +3,10 @@
     {{ ordersStore.error }}
   </div>
 
-  <div v-if="ordersStore.isLoading && !order" class="card text-text-secondary">
-    Cargando orden...
-  </div>
+  <DashboardSkeleton v-else-if="ordersStore.isLoading && !order" />
 
   <div v-else-if="order" class="space-y-8 pb-32">
+    <!-- Rejection Alert -->
     <div v-if="order.rejectionNote" class="rounded-2xl border border-rose-500/30 bg-rose-500/5 p-5 flex items-start gap-4">
       <div class="w-9 h-9 shrink-0 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -21,6 +20,7 @@
       </div>
     </div>
 
+    <!-- ... (Page header card remains same) ... -->
     <div class="card flex flex-col md:flex-row md:items-center justify-between gap-8 border-white/10 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.6)] backdrop-blur-3xl overflow-hidden relative group/header">
       <div class="absolute inset-0 bg-gradient-to-r from-amber/5 to-transparent opacity-0 group-hover/header:opacity-100 transition-opacity duration-700" />
       <div class="flex items-center gap-6 relative z-10">
@@ -49,6 +49,7 @@
 
     <div class="grid gap-8 xl:grid-cols-[minmax(0,0.68fr)_minmax(0,0.32fr)]">
       <section class="space-y-8">
+        <!-- Critical Inventory remains same -->
         <div v-if="order.status === 'draft' && criticalInventory.length" class="p-8 rounded-[2.5rem] bg-red-950/20 border border-red-500/20 shadow-[0_24px_48px_-12px_rgba(153,27,27,0.3)] backdrop-blur-xl">
           <div class="flex items-center gap-5 mb-8">
             <div class="w-12 h-12 rounded-2xl bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-500 shadow-lg animate-pulse">
@@ -112,7 +113,8 @@
               </select>
             </div>
           </div>
-          <div class="p-6 grid gap-4 md:grid-cols-2">
+          
+          <div v-if="filteredProducts.length" class="p-6 grid gap-4 md:grid-cols-2">
             <article v-for="product in filteredProducts" :key="product.id" class="rounded-[24px] border border-white/10 bg-white/[0.03] p-4 flex flex-col gap-4">
               <div class="flex items-center gap-4">
                 <img :src="product.imageUrl" :alt="product.name" class="w-16 h-16 rounded-2xl object-cover border border-white/10 bg-white/5" />
@@ -137,6 +139,14 @@
                 </button>
               </div>
             </article>
+          </div>
+
+          <div v-else class="p-20">
+            <EmptyState
+              title="Sin resultados"
+              description="No encontramos productos que coincidan con tu busqueda o categoria."
+              class="bg-transparent border-none shadow-none"
+            />
           </div>
         </article>
 

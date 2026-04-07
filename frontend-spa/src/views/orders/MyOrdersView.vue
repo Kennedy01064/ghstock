@@ -150,17 +150,17 @@
       </article>
     </div>
 
-    <div v-else class="card border-dashed border-white/10 bg-white/[0.01] py-20 text-center">
-      <div class="w-16 h-16 bg-white/5 rounded-3xl flex items-center justify-center mx-auto mb-5">
-        <svg class="w-8 h-8 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-        </svg>
-      </div>
-      <h3 class="text-lg font-black text-white mb-2">Sin pedidos</h3>
-      <p class="text-text-muted text-sm max-w-xs mx-auto">
-        {{ filters.status || filters.buildingId ? "No hay pedidos con ese filtro." : "Aun no has creado ninguna solicitud." }}
-      </p>
-    </div>
+    <EmptyState
+      v-else
+      :title="filters.status || filters.buildingId ? 'Sin coincidencias' : 'Sin pedidos'"
+      :description="filters.status || filters.buildingId ? 'No hay pedidos con los filtros seleccionados.' : 'Aun no has creado ninguna solicitud de pedido.'"
+    >
+      <template #action>
+        <RouterLink :to="{ name: 'ordersBuildings' }" class="btn btn-primary !py-3 !px-7 font-black text-[11px]">
+          NUEVA SOLICITUD
+        </RouterLink>
+      </template>
+    </EmptyState>
 
     <AppModal
       :open="Boolean(pendingAction)"
@@ -180,6 +180,7 @@
 import { computed, onMounted, reactive, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 
+import EmptyState from "@/components/ui/EmptyState.vue"
 import AppModal from "@/components/ui/AppModal.vue"
 import { useCatalogStore } from "@/stores/catalogStore"
 import { useOrdersStore } from "@/stores/ordersStore"

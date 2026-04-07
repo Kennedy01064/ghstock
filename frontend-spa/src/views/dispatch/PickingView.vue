@@ -52,9 +52,13 @@
     />
   </div>
 
-  <div v-else-if="dispatchStore.isLoading" class="card text-text-secondary">
-    Cargando picking...
-  </div>
+  <DashboardSkeleton v-else-if="dispatchStore.isLoading" />
+  
+  <EmptyState
+    v-else-if="!dispatchStore.isLoading && !items.length"
+    title="Sin items por pickear"
+    description="No hay productos registrados en este batch para preparacion."
+  />
 </template>
 
 <script setup>
@@ -63,6 +67,8 @@ import { useRoute } from "vue-router"
 
 import PageHeader from "@/components/page/PageHeader.vue"
 import AppModal from "@/components/ui/AppModal.vue"
+import EmptyState from "@/components/ui/EmptyState.vue"
+import DashboardSkeleton from "@/components/common/DashboardSkeleton.vue"
 import { useDispatchStore } from "@/stores/dispatchStore"
 import { useUiStore } from "@/stores/uiStore"
 import { normalizePickingResponse } from "@/utils/normalizers"

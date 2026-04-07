@@ -3,9 +3,7 @@
     {{ dispatchStore.error }}
   </div>
 
-  <div v-else-if="dispatchStore.isLoading && !batch" class="card text-text-secondary">
-    Cargando batch...
-  </div>
+  <DashboardSkeleton v-else-if="dispatchStore.isLoading && !batch" />
 
   <div v-else-if="batch" class="max-w-5xl mx-auto space-y-10 pb-32">
     <div class="relative card !p-0 bg-navy-accent/40 border-white/5 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
@@ -72,7 +70,13 @@
                 </div>
               </div>
             </div>
-            <div v-if="!batch.items?.length" class="p-20 text-center text-text-muted italic font-medium">Bandeja de items vacia.</div>
+            <div v-if="!batch.items?.length">
+              <EmptyState
+                title="Bandeja vacia"
+                description="No hay items consolidados en este lote todavia."
+                class="py-20 bg-transparent border-none shadow-none"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -166,6 +170,8 @@
 import { computed, onMounted, reactive } from "vue"
 import { useRoute } from "vue-router"
 
+import EmptyState from "@/components/ui/EmptyState.vue"
+import DashboardSkeleton from "@/components/common/DashboardSkeleton.vue"
 import { useDispatchStore } from "@/stores/dispatchStore"
 import { useUiStore } from "@/stores/uiStore"
 import { defaultProductUrl } from "@/utils/formatters"

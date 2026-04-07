@@ -193,7 +193,11 @@ async function submitForm() {
     uiStore.success("La sede fue registrada correctamente.", "Infraestructura creada")
     await router.push({ name: "catalogBuildings" })
   } catch (error) {
-    submitError.value = error.message
+    if (error.isConflict) {
+      submitError.value = "El nombre de la sede ya existe. Por favor, elige uno diferente."
+    } else {
+      submitError.value = error.message
+    }
   }
 }
 

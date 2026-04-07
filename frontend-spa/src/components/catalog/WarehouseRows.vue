@@ -99,18 +99,11 @@
           </td>
         </tr>
         <tr v-if="!products.length">
-          <td colspan="6" class="px-8 py-32 text-center">
-            <div class="flex flex-col items-center justify-center space-y-6">
-              <div class="w-24 h-24 bg-white/[0.02] border border-dashed border-white/10 rounded-[2.5rem] flex items-center justify-center text-white/5 shadow-inner">
-                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2 2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                </svg>
-              </div>
-              <div class="space-y-1">
-                <p class="text-lg font-black text-white uppercase tracking-widest">Sin Resultados</p>
-                <p class="text-sm font-medium text-text-muted italic">No se detectan productos con los criterios actuales.</p>
-              </div>
-            </div>
+          <td colspan="6" class="px-8 py-20">
+            <EmptyState 
+              title="Sin Productos" 
+              description="No se encontraron artículos en el almacén con los criterios de búsqueda actuales."
+            />
           </td>
         </tr>
       </tbody>
@@ -119,6 +112,8 @@
 </template>
 
 <script setup>
+import EmptyState from "@/components/ui/EmptyState.vue"
+
 defineProps({
   products: { type: Array, default: () => [] },
 })

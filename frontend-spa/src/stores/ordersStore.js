@@ -48,6 +48,7 @@ export const useOrdersStore = defineStore("orders", () => {
   }
 
   async function createOrder(buildingId) {
+    if (isCreatingOrder.value) return
     isCreatingOrder.value = true
     error.value = ""
 
@@ -64,6 +65,7 @@ export const useOrdersStore = defineStore("orders", () => {
   }
 
   async function addItem(orderId, payload) {
+    if (isUpdatingItem.value) return
     isUpdatingItem.value = true
     error.value = ""
 
@@ -79,6 +81,7 @@ export const useOrdersStore = defineStore("orders", () => {
   }
 
   async function removeItem(orderId, itemId) {
+    if (isUpdatingItem.value) return
     isUpdatingItem.value = true
     error.value = ""
 
@@ -94,6 +97,7 @@ export const useOrdersStore = defineStore("orders", () => {
   }
 
   async function updateItem(orderId, itemId, payload) {
+    if (isUpdatingItem.value) return
     isUpdatingItem.value = true
     error.value = ""
 
@@ -116,6 +120,7 @@ export const useOrdersStore = defineStore("orders", () => {
       receive: isReceivingOrder,
     }
     const state = stateMap[action]
+    if (state?.value) return
     if (state) state.value = true
     error.value = ""
 

@@ -201,7 +201,11 @@ async function submitForm() {
     uiStore.success("El usuario fue registrado correctamente.", "Alta completada")
     await router.push({ name: "catalogAdmins" })
   } catch (error) {
-    submitError.value = error.message
+    if (error.isConflict) {
+      submitError.value = `El ID de usuario (@${form.username}) ya está en uso. Por favor, elige uno diferente.`
+    } else {
+      submitError.value = error.message
+    }
   }
 }
 </script>
