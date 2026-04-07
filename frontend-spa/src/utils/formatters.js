@@ -19,6 +19,8 @@ const statusPalette = {
   mantenimiento: "bg-white/5 text-text-muted border-white/10",
   procesado: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
   pendiente: "bg-amber/10 text-amber border-amber/30",
+  partially_dispatched: "bg-blue-500/5 text-blue-300 border-blue-500/20",
+  rejected: "bg-rose-500/10 text-rose-400 border-rose-500/30",
 }
 
 export function statusClass(status) {

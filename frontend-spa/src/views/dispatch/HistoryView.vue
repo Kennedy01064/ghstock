@@ -197,8 +197,10 @@ function statusLabel(status) {
     submitted: "Enviado",
     processing: "En proceso",
     dispatched: "Despachado",
+    partially_dispatched: "Parcia. Despachado",
     delivered: "Entregado",
     cancelled: "Cancelado",
+    rejected: "Rechazado",
   }
 
   return labels[status] ?? status

@@ -81,14 +81,17 @@
               <svg v-else-if="order.status === 'processing'" class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
-              <svg v-else-if="order.status === 'dispatched'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg v-else-if="order.status === 'dispatched' || order.status === 'partially_dispatched'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
               </svg>
               <svg v-else-if="order.status === 'delivered'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
               </svg>
-              <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg v-else-if="order.status === 'rejected' || order.status === 'cancelled'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
             <div class="min-w-0">
@@ -108,10 +111,10 @@
 
           <div class="flex items-center gap-2 shrink-0 flex-wrap justify-end">
             <button
-              v-if="order.status === 'dispatched'"
+              v-if="['dispatched', 'partially_dispatched'].includes(order.status)"
               type="button"
               class="btn btn-primary !py-2.5 !px-5 !text-[10px] !min-h-0 shadow-amber/20"
-              :disabled="ordersStore.submitLoading"
+              :disabled="ordersStore.isReceivingOrder"
               @click="openAction(order.id, 'receive')"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -124,7 +127,7 @@
               v-if="['draft', 'submitted'].includes(order.status)"
               type="button"
               class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] font-black uppercase tracking-widest hover:bg-rose-500/20 transition-all"
-              :disabled="ordersStore.submitLoading"
+              :disabled="ordersStore.isCancellingOrder"
               @click="openAction(order.id, 'cancel')"
             >
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -166,7 +169,7 @@
       :description="pendingAction === 'receive' ? 'El pedido pasara a entregado y se cargara al inventario local.' : 'El pedido sera cancelado y dejara de estar disponible para despacho.'"
       :confirm-label="pendingAction === 'receive' ? 'Confirmar' : 'Cancelar pedido'"
       :confirm-variant="pendingAction === 'receive' ? 'primary' : 'danger'"
-      :loading="ordersStore.submitLoading"
+      :loading="ordersStore.isReceivingOrder || ordersStore.isCancellingOrder"
       @close="closeAction"
       @confirm="confirmAction"
     />
@@ -203,8 +206,10 @@ const statusOptions = [
   { value: "submitted", label: "Enviado" },
   { value: "processing", label: "En proceso" },
   { value: "dispatched", label: "Despachado" },
+  { value: "partially_dispatched", label: "Parcialmente Despachado" },
   { value: "delivered", label: "Entregado" },
   { value: "cancelled", label: "Cancelado" },
+  { value: "rejected", label: "Rechazado" },
 ]
 
 const buildings = computed(() => catalogStore.buildings.map(normalizeBuilding))
@@ -216,8 +221,10 @@ function statusLabel(status) {
     submitted: "Enviado",
     processing: "En proceso",
     dispatched: "Despachado",
+    partially_dispatched: "Parcia. Despachado",
     delivered: "Entregado",
     cancelled: "Cancelado",
+    rejected: "Rechazado",
   }
   return labels[status] ?? status
 }
@@ -228,8 +235,10 @@ function statusBadgeClass(status) {
     submitted: "bg-cyan-400/10 text-cyan-400 border-cyan-400/20",
     processing: "bg-violet-400/10 text-violet-400 border-violet-400/20",
     dispatched: "bg-blue-400/10 text-blue-400 border-blue-400/20",
+    partially_dispatched: "bg-blue-300/10 text-blue-300 border-blue-300/20",
     delivered: "bg-emerald-400/10 text-emerald-400 border-emerald-400/20",
     cancelled: "bg-rose-400/10 text-rose-400 border-rose-400/20",
+    rejected: "bg-rose-500/10 text-rose-400 border-rose-500/20",
   }[status] ?? "bg-white/5 text-white/40 border-white/10"
 }
 
@@ -239,8 +248,10 @@ function statusDotClass(status) {
     submitted: "bg-cyan-400/10 border-cyan-400/20 text-cyan-400",
     processing: "bg-violet-400/10 border-violet-400/20 text-violet-400",
     dispatched: "bg-blue-400/10 border-blue-400/20 text-blue-400",
+    partially_dispatched: "bg-blue-300/10 border-blue-300/20 text-blue-300",
     delivered: "bg-emerald-400/10 border-emerald-400/20 text-emerald-400",
     cancelled: "bg-rose-400/10 border-rose-400/20 text-rose-400",
+    rejected: "bg-rose-500/10 border-rose-500/20 text-rose-400",
   }[status] ?? "bg-white/5 border-white/10 text-white/50"
 }
 

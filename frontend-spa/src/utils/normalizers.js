@@ -99,9 +99,10 @@ export function normalizePickingResponse(picking) {
 export function normalizePurchase(purchase) {
   return {
     ...purchase,
-    createdAt: purchase.created_at ?? purchase.purchase_date,
+    createdAt: purchase.created_at,
+    purchaseDate: formatDate(purchase.purchase_date),
     total: purchase.total_amount ?? 0,
-    status: "recibida",
+    status: "recibida", // Purchases are always "received" in this system
     note: purchase.notes ?? "",
     items: (purchase.items ?? []).map((item) => ({
       ...item,
