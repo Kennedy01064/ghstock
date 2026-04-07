@@ -2,6 +2,7 @@ import { computed, ref } from "vue"
 import { defineStore } from "pinia"
 
 import apiClient from "@/utils/apiClient"
+import { onUnauthorized } from "@/utils/authBus"
 import { clearAuthSession, getStoredToken, persistAuthSession, readAuthSession } from "@/utils/authSession"
 import { dashboardRouteForRole } from "@/utils/roleRoutes"
 
@@ -14,7 +15,8 @@ export const useAuthStore = defineStore("auth", () => {
   const error = ref("")
 
   const isAuthenticated = computed(() => Boolean(token.value))
-  const currentRole = computed(() => user.value?.role ?? "admin")
+  // currentRole is null until /auth/me resolves — prevents false role assumptions during bootstrap.
+  const currentRole = computed(() => user.value?.role ?? null)
   const isManagement = computed(() => ["superadmin", "manager"].includes(currentRole.value))
   const homeRoute = computed(() => dashboardRouteForRole(currentRole.value))
 
@@ -102,6 +104,12 @@ export const useAuthStore = defineStore("auth", () => {
 
   if (getStoredToken() && !token.value) {
     hydrateFromStorage()
+  }
+
+  onUnauthorized.value = () => {
+    token.value = ""
+    user.value = null
+    error.value = "Tu sesión ha expirado. Por favor ingresa nuevamente."
   }
 
   return {

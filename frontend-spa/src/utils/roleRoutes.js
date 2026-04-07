@@ -7,5 +7,6 @@ export function dashboardRouteForRole(role) {
     return { name: "dashboardManager" }
   }
 
+  // Fallback and "superadmin" role lands on the main dashboard view
   return { name: "dashboard" }
 }
