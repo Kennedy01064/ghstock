@@ -199,12 +199,18 @@ class InventoryService:
 
         old_quantity = product.stock_actual
         delta = new_quantity - product.stock_actual
+
+        # Reject the adjustment before mutating anything.
+        # If new_quantity < reserved_stock the DB CHECK constraint would fail anyway,
+        # but we surface the error explicitly here with a clear message.
+        if new_quantity < product.reserved_stock:
+            raise DomainConflictError(
+                f"Cannot adjust stock for product '{product.name}' (SKU: {product.sku}) "
+                f"to {new_quantity}: {product.reserved_stock} units are currently reserved. "
+                f"Release or cancel the reservations before reducing stock below the reserved level."
+            )
+
         product.stock_actual = new_quantity
-        
-        # Ensure consistency: total cannot be less than reserved
-        if product.stock_actual < product.reserved_stock:
-             product.reserved_stock = product.stock_actual
-             logger.warning(f"Stock adjustment for {product.id} forced reservation reduction to maintain integrity.")
 
         InventoryService._create_movement(
             db, product_id, delta, 'adjust', actor_id, None, None, reason[:50]
