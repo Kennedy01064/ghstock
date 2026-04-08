@@ -66,7 +66,7 @@ export function useProductScraper() {
       uiStore.success(`${dynamicPreview.value.name} fue vinculado al catalogo.`, "Importacion completada")
       closeScraper()
     } catch (error) {
-      // Error is usually handled by useApi or the store, but we catch it here to reset isSaving
+      // Error is usually handled by useApi or the store, but we catch it here to reset isSubmitting
       console.error("[Scraper] Save failed:", error)
     } finally {
       isSubmitting.value = false

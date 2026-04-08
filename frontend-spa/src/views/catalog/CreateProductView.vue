@@ -93,15 +93,15 @@
             <RouterLink :to="{ name: 'catalogWarehouse' }" class="btn btn-secondary flex-1 !h-[56px] !rounded-xl">
               <span class="font-bold text-[11px] tracking-widest uppercase">CANCELAR</span>
             </RouterLink>
-            <button type="submit" class="btn btn-primary flex-1 !h-[56px] !rounded-xl shadow-lg shadow-amber/10" :disabled="productStore.isSaving">
-              <svg v-if="!productStore.isSaving" class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button type="submit" class="btn btn-primary flex-1 !h-[56px] !rounded-xl shadow-lg shadow-amber/10" :disabled="productStore.isSubmitting">
+              <svg v-if="!productStore.isSubmitting" class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
               </svg>
               <svg v-else class="w-5 h-5 mr-1 animate-spin" fill="none" stroke="currentColor" viewBox="2 2 20 20">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
               <span class="font-bold text-[11px] tracking-widest uppercase text-navy-deep">
-                {{ productStore.isSaving ? "REGISTRANDO..." : "REGISTRAR PRODUCTO" }}
+                {{ productStore.isSubmitting ? "REGISTRANDO..." : "REGISTRAR PRODUCTO" }}
               </span>
             </button>
           </div>
