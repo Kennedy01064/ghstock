@@ -149,7 +149,7 @@ const product = computed(() => (productStore.currentProduct ? normalizeProduct(p
 const productPreview = computed(() => assetUrl(form.imageUrl, defaultProductUrl))
 
 async function submitForm() {
-  if (productStore.isSaving) return
+  if (productStore.isSubmitting) return
   submitError.value = ""
 
   try {

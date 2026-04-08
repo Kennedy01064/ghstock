@@ -149,7 +149,7 @@
                 </div>
               </div>
               <div class="pt-6 border-t border-white/10">
-                <button type="button" class="btn btn-primary w-full !h-16 !rounded-2xl shadow-2xl shadow-amber/20" :disabled="scraper.isSaving.value" @click="scraper.saveToCatalog(productStore.createProduct)">
+                <button type="button" class="btn btn-primary w-full !h-16 !rounded-2xl shadow-2xl shadow-amber/20" :disabled="scraper.isSubmitting.value" @click="scraper.saveToCatalog(productStore.createProduct)">
                   <span class="tracking-widest font-black text-sm">Vincular al Catalogo Maestro</span>
                 </button>
               </div>

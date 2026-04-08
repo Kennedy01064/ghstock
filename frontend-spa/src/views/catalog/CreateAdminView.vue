@@ -122,8 +122,8 @@
 
         <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-white/10">
           <RouterLink :to="{ name: 'catalogAdmins' }" class="btn btn-secondary flex-1">Cancelar</RouterLink>
-          <button type="submit" class="btn btn-primary flex-1 shadow-2xl shadow-amber/10" :disabled="userStore.isSaving">
-            <svg v-if="!userStore.isSaving" class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button type="submit" class="btn btn-primary flex-1 shadow-2xl shadow-amber/10" :disabled="userStore.isSubmitting">
+            <svg v-if="!userStore.isSubmitting" class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
             </svg>
             <svg v-else class="w-5 h-5 mr-1 animate-spin" fill="none" stroke="currentColor" viewBox="2 2 20 20">
@@ -184,7 +184,7 @@ function selectRole(role) {
 }
 
 async function submitForm() {
-  if (userStore.isSaving) return
+  if (userStore.isSubmitting) return
   submitError.value = ""
 
   if (form.password !== form.confirmPassword) {

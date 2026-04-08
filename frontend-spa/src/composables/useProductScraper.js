@@ -13,7 +13,7 @@ export function useProductScraper() {
   const dynamicUrl = ref("")
   const dynamicPreview = ref(null)
   const isPreviewLoading = ref(false)
-  const isSaving = ref(false)
+  const isSubmitting = ref(false)
 
   const openScraper = () => {
     isDynamicModalOpen.value = true
@@ -24,7 +24,7 @@ export function useProductScraper() {
     dynamicUrl.value = ""
     dynamicPreview.value = null
     isPreviewLoading.value = false
-    isSaving.value = false
+    isSubmitting.value = false
   }
 
   const preview = async () => {
@@ -51,7 +51,7 @@ export function useProductScraper() {
   const saveToCatalog = async (createAction) => {
     if (!dynamicPreview.value) return
     
-    isSaving.value = true
+    isSubmitting.value = true
     try {
       await createAction({
         sku: dynamicPreview.value.sku || null,
@@ -69,7 +69,7 @@ export function useProductScraper() {
       // Error is usually handled by useApi or the store, but we catch it here to reset isSaving
       console.error("[Scraper] Save failed:", error)
     } finally {
-      isSaving.value = false
+      isSubmitting.value = false
     }
   }
 
@@ -78,7 +78,7 @@ export function useProductScraper() {
     dynamicUrl,
     dynamicPreview,
     isPreviewLoading,
-    isSaving,
+    isSubmitting,
     openScraper,
     closeScraper,
     preview,

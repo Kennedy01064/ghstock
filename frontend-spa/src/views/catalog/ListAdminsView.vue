@@ -138,7 +138,7 @@ const query = ref("")
 const pendingAdminId = ref(null)
 
 const filteredAdmins = computed(() => {
-  const admins = userStore.admins ?? []
+  const admins = userStore.users ?? []
   const term = query.value.trim().toLowerCase()
 
   if (!term) {
@@ -151,10 +151,10 @@ const filteredAdmins = computed(() => {
   })
 })
 
-const pendingAdmin = computed(() => userStore.admins.find((admin) => admin.id === pendingAdminId.value) ?? null)
+const pendingAdmin = computed(() => userStore.users.find((admin) => admin.id === pendingAdminId.value) ?? null)
 
 onMounted(() => {
-  userStore.fetchAdmins()
+  userStore.fetchUsers("admin")
 })
 
 function adminInitial(admin) {
@@ -167,7 +167,7 @@ async function confirmDelete() {
   }
 
   try {
-    await userStore.deleteAdmin(pendingAdmin.value.id)
+    await userStore.deleteUser(pendingAdmin.value.id)
     uiStore.success(`Se elimino ${pendingAdmin.value.username}.`, "Administrador eliminado")
     pendingAdminId.value = null
   } catch (error) {

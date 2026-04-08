@@ -177,7 +177,7 @@
           <button v-if="order.status === 'draft'" type="button" class="btn btn-primary w-full" :disabled="ordersStore.isSubmittingOrder" @click="openStatusModal('submit')">
             {{ ordersStore.isSubmittingOrder ? "Enviando..." : "Enviar orden" }}
           </button>
-          <button v-else-if="order.status === 'submitted'" type="button" class="btn btn-secondary w-full" :disabled="ordersStore.isReopeningOrder" @click="openStatusModal('reopen')">
+          <button v-else-if="['submitted', 'rejected'].includes(order.status)" type="button" class="btn btn-secondary w-full" :disabled="ordersStore.isReopeningOrder" @click="openStatusModal('reopen')">
             {{ ordersStore.isReopeningOrder ? "Reabriendo..." : "Reabrir orden" }}
           </button>
           <button v-else-if="order.status === 'dispatched'" type="button" class="btn btn-primary w-full" :disabled="ordersStore.isReceivingOrder" @click="openStatusModal('receive')">

@@ -111,6 +111,19 @@
 
           <div class="flex items-center gap-2 shrink-0 flex-wrap justify-end">
             <button
+              v-if="['submitted', 'rejected'].includes(order.status)"
+              type="button"
+              class="btn btn-secondary !py-2.5 !px-5 !text-[10px] !min-h-0"
+              :disabled="ordersStore.isReopeningOrder"
+              @click="openAction(order.id, 'reopen')"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+              Reabrir para Editar
+            </button>
+
+            <button
               v-if="['dispatched', 'partially_dispatched'].includes(order.status)"
               type="button"
               class="btn btn-primary !py-2.5 !px-5 !text-[10px] !min-h-0 shadow-amber/20"
@@ -236,10 +249,10 @@ function statusBadgeClass(status) {
     submitted: "bg-cyan-400/10 text-cyan-400 border-cyan-400/20",
     processing: "bg-violet-400/10 text-violet-400 border-violet-400/20",
     dispatched: "bg-blue-400/10 text-blue-400 border-blue-400/20",
-    partially_dispatched: "bg-blue-300/10 text-blue-300 border-blue-300/20",
+    partially_dispatched: "bg-blue-500/5 text-blue-300 border-blue-500/20",
     delivered: "bg-emerald-400/10 text-emerald-400 border-emerald-400/20",
     cancelled: "bg-rose-400/10 text-rose-400 border-rose-400/20",
-    rejected: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+    rejected: "bg-rose-500/10 text-rose-400 border-rose-500/30",
   }[status] ?? "bg-white/5 text-white/40 border-white/10"
 }
 
@@ -249,10 +262,10 @@ function statusDotClass(status) {
     submitted: "bg-cyan-400/10 border-cyan-400/20 text-cyan-400",
     processing: "bg-violet-400/10 border-violet-400/20 text-violet-400",
     dispatched: "bg-blue-400/10 border-blue-400/20 text-blue-400",
-    partially_dispatched: "bg-blue-300/10 border-blue-300/20 text-blue-300",
+    partially_dispatched: "bg-blue-500/10 border-blue-500/20 text-blue-300",
     delivered: "bg-emerald-400/10 border-emerald-400/20 text-emerald-400",
     cancelled: "bg-rose-400/10 border-rose-400/20 text-rose-400",
-    rejected: "bg-rose-500/10 border-rose-500/20 text-rose-400",
+    rejected: "bg-rose-500/10 border-rose-500/30 text-rose-400",
   }[status] ?? "bg-white/5 border-white/10 text-white/50"
 }
 
