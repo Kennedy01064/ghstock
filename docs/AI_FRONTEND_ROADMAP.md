@@ -78,7 +78,7 @@ Scope:
 Done when:
 - critical operational screens behave safely under slow network or backend conflicts
 
-### Phase 5 — Mobile Readiness and Contracts
+### Phase 5 — Mobile Readiness and Contracts [DONE]
 Goal:
 make the SPA codebase clean enough that mobile can reuse the backend contract model with minimal friction.
 
