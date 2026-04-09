@@ -10,3 +10,4 @@ python-dotenv
 alembic
 psycopg2-binary
 redis
+gunicorn
