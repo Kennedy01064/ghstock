@@ -51,6 +51,11 @@ jobs:
         cd frontend-spa
         npm install
 
+    - name: Frontend Build
+      run: |
+        cd frontend-spa
+        npm run build
+
     - name: Prepare Database
       run: |
         alembic upgrade head
