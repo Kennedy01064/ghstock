@@ -3,8 +3,8 @@ import { login } from "./helpers/auth"
 
 test.describe("Catalog Management", () => {
   test.beforeEach(async ({ page }) => {
-    // Superadmin has access to create products
-    await login(page, "krojas", "krojas")
+    // Already authenticated via storageState
+    await page.goto("/")
   })
 
   test("should create a new product", async ({ page }) => {

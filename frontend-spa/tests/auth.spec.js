@@ -2,21 +2,24 @@ import { test, expect } from "@playwright/test"
 import { login } from "./helpers/auth"
 
 test.describe("Authentication Flow", () => {
+  // Always start unauthenticated to test login mechanics
+  test.use({ storageState: { cookies: [], origins: [] } });
+
   test("should login successfully as superadmin", async ({ page }) => {
-    // These credentials are based on backend/db/bootstrap.py
+    // These credentials are based on the actual stock_local.db
     await login(page, "krojas", "krojas")
     
     // Verify dashboard access (lands on / for superadmin)
     await expect(page).toHaveURL("/")
-    // Target the profile name in the navbar specifically to avoid strict mode violations
-    await expect(page.getByTestId("navbar-user-name")).toBeVisible()
+    // Target the profile name in the navbar via text or other identifiable element
+    await expect(page.getByText('Kennedy Rojas').first()).toBeVisible()
   })
 
   test("should login successfully as admin", async ({ page }) => {
     await login(page, "eguzman", "eguzman")
     await expect(page).toHaveURL("/dashboard/admin")
     // Use regex to allow for the comma in "Resumen Operativo,"
-    await expect(page.getByText(/Resumen Operativo/)).toBeVisible()
+    await expect(page.getByText(/Resumen Operativo/i)).toBeVisible()
   })
 
   test("should login successfully as manager", async ({ page }) => {

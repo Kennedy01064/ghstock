@@ -3,8 +3,8 @@ import { login } from "./helpers/auth"
 
 test.describe("Orders Flow", () => {
   test.beforeEach(async ({ page }) => {
-    // Admin login (eguzman)
-    await login(page, "eguzman", "eguzman")
+    // Already authenticated via storageState
+    await page.goto("/")
   })
 
   test("should view order history", async ({ page }) => {
