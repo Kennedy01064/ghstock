@@ -21,7 +21,10 @@ def seed_data():
             admin2 = User(username='admin_maria', name='María García', role='admin')
             admin2.set_password('password123')
 
-            db.session.add_all([superadmin, admin1, admin2])
+            manager = User(username='manager_pedro', name='Pedro Gerente', role='manager')
+            manager.set_password('password123')
+
+            db.session.add_all([superadmin, admin1, admin2, manager])
             db.session.commit()
             print("Usuarios creados con contraseñas hasheadas.")
 

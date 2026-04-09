@@ -3,7 +3,7 @@
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
       <div class="space-y-2">
         <span class="eyebrow !text-amber/60">Seguimiento de Solicitudes</span>
-        <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight uppercase">Mis Pedidos</h1>
+        <h1 data-testid="orders-page-title" class="text-3xl md:text-4xl font-black text-white tracking-tight uppercase">Mis Pedidos</h1>
       </div>
       <RouterLink :to="{ name: 'ordersBuildings' }" class="btn btn-primary !py-3 !px-7 self-start sm:self-auto shrink-0">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +50,7 @@
       {{ ordersStore.error }}
     </div>
 
-    <div v-if="orders.length" class="space-y-3">
+    <div v-if="orders.length" class="space-y-3" data-testid="orders-list">
       <article
         v-for="order in orders"
         :key="order.id"

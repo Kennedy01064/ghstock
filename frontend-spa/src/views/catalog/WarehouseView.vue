@@ -6,7 +6,7 @@
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
           <span class="eyebrow tracking-[0.4em] !text-white text-[10px]">Logistica Central</span>
         </div>
-        <h1 class="text-4xl font-black tracking-tight text-white">Almacen Maestro</h1>
+        <h1 data-testid="warehouse-page-title" class="text-4xl font-black tracking-tight text-white">Almacen Maestro</h1>
         <p class="text-text-muted font-medium text-sm max-w-xl">Control volumetrico y gestion tecnica de existencias corporativas con sincronizacion en tiempo real.</p>
       </div>
 
@@ -47,7 +47,7 @@
       {{ productStore.error }}
     </div>
 
-    <div v-if="productStore.isLoading" class="space-y-6">
+    <div v-if="productStore.isLoading" data-testid="warehouse-loading" class="space-y-6">
       <DashboardSkeleton />
     </div>
 

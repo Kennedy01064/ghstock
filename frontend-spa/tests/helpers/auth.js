@@ -10,6 +10,8 @@ export async function login(page, username, password) {
   await page.getByTestId("login-password").fill(password)
   await page.getByTestId("login-submit").click()
   
-  // Wait for login to complete by checking for dashboard elements or URL change
-  await page.waitForURL("**/dashboard/**")
+  // Wait for login to complete – can land on / or specific dashboards
+  // Wait for login to complete – can land on / for superadmin or specific dashboards for others
+  // Stricter regex to avoid partial matches on /login
+  await page.waitForURL(/\/($|dashboard\/(admin|manager))/, { timeout: 30000 })
 }

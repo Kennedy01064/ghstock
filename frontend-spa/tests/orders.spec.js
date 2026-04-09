@@ -3,24 +3,24 @@ import { login } from "./helpers/auth"
 
 test.describe("Orders Flow", () => {
   test.beforeEach(async ({ page }) => {
-    // Admin login (admin_juan)
-    await login(page, "admin_juan", "password123")
+    // Admin login (eguzman)
+    await login(page, "eguzman", "eguzman")
   })
 
   test("should view order history", async ({ page }) => {
-    await page.goto("/orders/history")
+    await page.goto("/orders/my-orders")
     
     // Breadcrumbs or title
-    await expect(page.getByText("Historial Operativo")).toBeVisible()
+    await expect(page.getByTestId("orders-page-title")).toBeVisible()
     
-    // Check if table is present
-    const table = page.locator("table")
-    await expect(table).toBeVisible()
+    // Check if list container is present
+    await expect(page.getByTestId("orders-list")).toBeVisible()
   })
 
   test("should navigate to new order view", async ({ page }) => {
-    await page.goto("/orders/new")
-    await expect(page.getByText("Nueva Orden")).toBeVisible()
-    await expect(page.getByText("Seleccionar Edificio")).toBeVisible()
+    await page.goto("/orders/buildings")
+    const title = page.getByTestId("buildings-page-title")
+    await title.waitFor({ state: "visible", timeout: 10000 })
+    await expect(title).toBeVisible()
   })
 })

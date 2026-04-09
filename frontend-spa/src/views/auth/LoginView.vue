@@ -53,16 +53,11 @@
               <span class="ml-3 text-[10px] font-bold text-text-muted uppercase tracking-widest group-hover/check:text-white transition-colors">Recordar sesion</span>
             </label>
 
-            <div v-if="authStore.error" class="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-[11px] uppercase tracking-[0.18em] text-rose-200">
+            <div v-if="authStore.error" data-testid="login-error" class="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-[11px] uppercase tracking-[0.18em] text-rose-200">
               {{ authStore.error }}
             </div>
 
-            <button
-              data-testid="login-submit"
-              type="submit"
-              class="btn btn-primary w-full !min-h-[56px] !px-6 !tracking-[0.15em] !shadow-xl !shadow-amber/20 active:scale-[0.98] mt-2"
-              :disabled="authStore.isLoading"
-            >
+            <button data-testid="login-submit" type="submit" class="btn btn-primary w-full !min-h-[56px] !px-6 !tracking-[0.15em] !shadow-xl !shadow-amber/20 active:scale-[0.98] mt-2" :disabled="authStore.isLoading">
               {{ authStore.isLoading ? "Validando..." : "Entrar al Sistema" }}
             </button>
           </form>

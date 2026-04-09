@@ -6,7 +6,7 @@
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]" />
           <span class="eyebrow tracking-[0.4em] !text-white text-[10px]">Gestion de Activos</span>
         </div>
-        <h1 class="h2 !text-3xl !tracking-tight">Seleccion de Sede</h1>
+        <h1 data-testid="buildings-page-title" class="h2 !text-3xl !tracking-tight">Seleccion de Sede</h1>
         <p class="text-text-muted font-medium text-sm max-w-xl">
           Identifique la unidad inmobiliaria para iniciar el manifiesto de requerimientos y control de existencias.
         </p>

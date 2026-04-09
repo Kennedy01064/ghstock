@@ -137,7 +137,7 @@
 
           <div class="hidden md:flex items-center gap-4 pl-5 border-l border-white/5">
             <div class="flex flex-col items-start">
-              <span class="text-[13px] font-black text-white leading-none mb-1 tracking-tight">{{ displayName }}</span>
+              <span data-testid="navbar-user-name" class="text-[13px] font-black text-white leading-none mb-1 tracking-tight">{{ displayName }}</span>
               <span class="text-[9px] font-black text-amber tracking-[0.15em] uppercase leading-none opacity-80">{{ displayRole }}</span>
               <span v-if="viewAsAdmin" class="mt-1 text-[8px] font-black text-rose-300 tracking-[0.2em] uppercase leading-none opacity-90">Vista Admin</span>
             </div>
