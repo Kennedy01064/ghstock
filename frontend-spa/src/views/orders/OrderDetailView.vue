@@ -41,7 +41,7 @@
         </div>
         <div class="flex flex-col items-end gap-2">
           <span class="px-5 py-2.5 rounded-xl text-[10px] font-black tracking-[0.3em] uppercase border shadow-2xl transition-all" :class="statusClass(order.status)">
-            {{ order.status }}
+            {{ statusLabel(order.status) }}
           </span>
         </div>
       </div>
@@ -156,7 +156,7 @@
               <h3 class="text-base font-bold text-white">Items de la orden</h3>
               <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-2">Resumen del requerimiento</p>
             </div>
-            <span class="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-[0.18em]" :class="statusClass(order.status)">{{ order.status }}</span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-[0.18em]" :class="statusClass(order.status)">{{ statusLabel(order.status) }}</span>
           </div>
           <OrderItemsList :items="order.items" :editable="order.status === 'draft'" :loading="ordersStore.isUpdatingItem" @remove="removeItem" />
         </article>
@@ -210,11 +210,13 @@ import { useRoute, useRouter } from "vue-router"
 
 import OrderItemsList from "@/components/orders/OrderItemsList.vue"
 import AppModal from "@/components/ui/AppModal.vue"
+import DashboardSkeleton from "@/components/common/DashboardSkeleton.vue"
+import EmptyState from "@/components/ui/EmptyState.vue"
 import { useProductStore } from "@/stores/productStore"
 import { useInventoryStore } from "@/stores/inventoryStore"
 import { useOrdersStore } from "@/stores/ordersStore"
 import { useUiStore } from "@/stores/uiStore"
-import { formatCurrency, statusClass } from "@/utils/formatters"
+import { formatCurrency, statusClass, statusLabel } from "@/utils/formatters"
 import { normalizeInventoryItem, normalizeOrder, normalizeProduct } from "@/utils/normalizers"
 
 const route = useRoute()

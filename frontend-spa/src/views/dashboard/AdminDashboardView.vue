@@ -140,7 +140,7 @@
           <button
             type="button"
             class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-black uppercase tracking-widest hover:bg-blue-500/30 transition-all"
-            :disabled="ordersStore.submitLoading"
+            :disabled="ordersStore.isReceivingOrder"
             @click="receiveOrder(order.id)"
           >
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -202,7 +202,7 @@
               <button
                 type="button"
                 class="w-full flex items-center justify-center gap-3 py-4 rounded-2xl bg-amber hover:bg-amber/90 text-navy-deep text-sm font-black uppercase tracking-widest transition-all shadow-lg shadow-amber/20 hover:shadow-amber/40 hover:-translate-y-1 active:translate-y-0"
-                :disabled="ordersStore.submitLoading"
+                :disabled="ordersStore.isCreatingOrder"
                 @click="createOrder(building.id)"
               >
                 Iniciar Solicitud
@@ -262,7 +262,7 @@
               </td>
               <td class="px-8 py-7">
                 <span class="inline-flex items-center px-4 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest border shadow-sm" :class="statusClass(order.status)">
-                  {{ order.status }}
+                  {{ statusLabel(order.status) }}
                 </span>
               </td>
               <td class="px-8 py-7 text-right">
@@ -306,7 +306,7 @@ import { useAuthStore } from "@/stores/authStore"
 import { useDashboardStore } from "@/stores/dashboardStore"
 import { useOrdersStore } from "@/stores/ordersStore"
 import { useUiStore } from "@/stores/uiStore"
-import { assetUrl, defaultBuildingUrl, formatDate, statusClass, titleCase } from "@/utils/formatters"
+import { assetUrl, defaultBuildingUrl, formatDate, statusClass, statusLabel, titleCase } from "@/utils/formatters"
 
 const authStore = useAuthStore()
 const dashboardStore = useDashboardStore()

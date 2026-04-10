@@ -27,6 +27,24 @@ export function statusClass(status) {
   return statusPalette[status] ?? "bg-white/5 text-text-muted border-white/10"
 }
 
+const statusLabels = {
+  draft: "Borrador",
+  submitted: "Enviado",
+  processing: "En Proceso",
+  dispatched: "Despachado",
+  partially_dispatched: "Parcia. Despachado",
+  delivered: "Entregado",
+  cancelled: "Cancelado",
+  rejected: "Rechazado",
+  pending: "Pendiente",
+  picking: "Picking",
+  completed: "Completado",
+}
+
+export function statusLabel(status) {
+  return statusLabels[status] ?? status
+}
+
 export function formatCurrency(value) {
   return new Intl.NumberFormat("es-PE", {
     style: "currency",
