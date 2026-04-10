@@ -23,9 +23,9 @@ class Settings(BaseSettings):
     REDIS_URL: str = os.getenv("REDIS_URL", DEFAULT_REDIS_URL)
     
     # Supabase Storage Integration
-    SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
-    SUPABASE_SERVICE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY", "")
-    SUPABASE_BUCKET: str = os.getenv("SUPABASE_BUCKET", "stock-media")
+    SUPABASE_URL: str = os.getenv("SUPABASE_URL", "").strip()
+    SUPABASE_SERVICE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY", "").strip()
+    SUPABASE_BUCKET: str = os.getenv("SUPABASE_BUCKET", "stock-media").strip()
 
     # Security & Observability
     AUDIT_LOG_ENABLED: bool = os.getenv("AUDIT_LOG_ENABLED", "true").lower() == "true"
