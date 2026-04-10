@@ -18,7 +18,7 @@
     </div>
 
     <form class="space-y-10" @submit.prevent="submitPurchase">
-      <div class="card bg-navy-accent/40 border-white/5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]">
+      <div class="card bg-navy-accent/40 border-white/5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] relative z-10">
         <div class="flex items-center gap-3 mb-8 px-2">
           <div class="w-1.5 h-6 bg-amber rounded-full" />
           <h2 class="text-lg font-black text-white uppercase tracking-tight">Informacion del Comprobante</h2>

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full" ref="containerRef">
+  <div class="relative w-full" :class="{ 'z-[60]': isOpen }" ref="containerRef">
     <!-- Trigger Button -->
     <div 
       class="relative group cursor-pointer" 
