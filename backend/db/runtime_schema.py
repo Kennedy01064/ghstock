@@ -43,6 +43,7 @@ def ensure_runtime_schema() -> None:
             )
 
         if inspector.has_table("user"):
+            active_literal = "1" if engine.dialect.name == "sqlite" else "TRUE"
             connection.exec_driver_sql(
-                'UPDATE "user" SET is_active = 1 WHERE is_active IS NULL'
+                f'UPDATE "user" SET is_active = {active_literal} WHERE is_active IS NULL'
             )
