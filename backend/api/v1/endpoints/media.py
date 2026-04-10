@@ -12,7 +12,12 @@ router = APIRouter()
 # Initialize Supabase client if credentials are provided
 supabase_client: Client = None
 if settings.SUPABASE_URL and settings.SUPABASE_SERVICE_KEY:
-    supabase_client = create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_KEY)
+    try:
+        supabase_client = create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_KEY)
+        print("✅ Supabase Storage client initialized successfully")
+    except Exception as e:
+        print(f"⚠️ Failed to initialize Supabase client: {str(e)}")
+        supabase_client = None
 
 # Fallback local directory (for development or if Supabase is not configured)
 UPLOAD_DIR = "uploads"
