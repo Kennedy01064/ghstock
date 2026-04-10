@@ -119,7 +119,7 @@ def get_admin_dashboard(
     transit_statuses = ["submitted", "processing", "partially_dispatched", "dispatched"]
     now = datetime.now(timezone.utc)
 
-    if current_user.role == "superadmin":
+    if current_user.role in ("superadmin", "manager"):
         base_buildings = db.query(models.Building).all()
         building_ids = [b.id for b in base_buildings]
         pedidos_activos = db.query(models.Order).filter(

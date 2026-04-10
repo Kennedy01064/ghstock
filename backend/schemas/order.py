@@ -29,7 +29,6 @@ class OrderCreate(OrderBase):
 class Order(OrderBase):
     id: int
     created_by_id: int
-    created_at: datetime
     status: str
     items: List[OrderItem]
     model_config = ConfigDict(from_attributes=True)
