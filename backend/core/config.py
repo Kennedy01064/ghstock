@@ -21,6 +21,11 @@ class Settings(BaseSettings):
     
     SQLALCHEMY_DATABASE_URL: str = os.getenv("DATABASE_URL", DEFAULT_SQLITE_URL)
     REDIS_URL: str = os.getenv("REDIS_URL", DEFAULT_REDIS_URL)
+    
+    # Supabase Storage Integration
+    SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
+    SUPABASE_SERVICE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY", "")
+    SUPABASE_BUCKET: str = os.getenv("SUPABASE_BUCKET", "stock-media")
 
     # Security & Observability
     AUDIT_LOG_ENABLED: bool = os.getenv("AUDIT_LOG_ENABLED", "true").lower() == "true"
