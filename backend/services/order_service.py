@@ -96,6 +96,26 @@ class OrderService:
         if not product:
             raise ResourceNotFoundError("Product not found")
 
+        # --- CATALOG VALIDATION ---
+        # If the building has specialized catalog requirements, check them.
+        # Check if building has ANY catalog entries.
+        catalog_count = self.db.query(models.BuildingProductCatalog).filter(
+            models.BuildingProductCatalog.building_id == order.building_id,
+            models.BuildingProductCatalog.is_active == True
+        ).count()
+        
+        if catalog_count > 0:
+            # Building has a whitelist catalog. Check if this product is in it.
+            in_catalog = self.db.query(models.BuildingProductCatalog).filter(
+                models.BuildingProductCatalog.building_id == order.building_id,
+                models.BuildingProductCatalog.product_id == item_in.product_id,
+                models.BuildingProductCatalog.is_active == True
+            ).first()
+            if not in_catalog:
+                raise UnauthorizedError(
+                    f"El producto '{product.name}' no está autorizado para este edificio."
+                )
+
         existing_item = self.db.query(models.OrderItem).filter(
             models.OrderItem.order_id == order_id,
             models.OrderItem.product_id == item_in.product_id
@@ -194,6 +214,36 @@ class OrderService:
         # Cancel allowed from DRAFT or SUBMITTED
         self._transition_to(order, OrderStatus.CANCELLED, [OrderStatus.DRAFT, OrderStatus.SUBMITTED])
 
+        self._commit_or_conflict()
+        self.db.refresh(order)
+        return order
+
+    def approve_order(self, order_id: int) -> models.Order:
+        """Manager approves the submitted order."""
+        if self.current_user.role not in ("superadmin", "manager"):
+            raise UnauthorizedError("Only managers can approve orders")
+            
+        order = self.db.query(models.Order).filter(models.Order.id == order_id).with_for_update().first()
+        if not order:
+            raise ResourceNotFoundError("Order not found")
+            
+        self._transition_to(order, OrderStatus.APPROVED, [OrderStatus.SUBMITTED])
+        
+        self._commit_or_conflict()
+        self.db.refresh(order)
+        return order
+
+    def reject_order(self, order_id: int) -> models.Order:
+        """Manager rejects the submitted order."""
+        if self.current_user.role not in ("superadmin", "manager"):
+            raise UnauthorizedError("Only managers can reject orders")
+            
+        order = self.db.query(models.Order).filter(models.Order.id == order_id).with_for_update().first()
+        if not order:
+            raise ResourceNotFoundError("Order not found")
+            
+        self._transition_to(order, OrderStatus.REJECTED, [OrderStatus.SUBMITTED])
+        
         self._commit_or_conflict()
         self.db.refresh(order)
         return order

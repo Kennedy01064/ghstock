@@ -197,3 +197,27 @@ def receive_order(
     """Confirm receipt of a dispatched order and update building inventory."""
     service = OrderService(db, current_user)
     return service.receive_order(id)
+
+
+@router.post("/{id}/approve", response_model=schemas.order.Order)
+def approve_order(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: int,
+    current_user: models.User = Depends(deps.get_current_active_management),
+) -> Any:
+    """Approve a submitted order (submitted → approved)."""
+    service = OrderService(db, current_user)
+    return service.approve_order(id)
+
+
+@router.post("/{id}/reject", response_model=schemas.order.Order)
+def reject_order(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: int,
+    current_user: models.User = Depends(deps.get_current_active_management),
+) -> Any:
+    """Reject a submitted order (submitted → rejected)."""
+    service = OrderService(db, current_user)
+    return service.reject_order(id)

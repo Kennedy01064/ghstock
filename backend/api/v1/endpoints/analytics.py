@@ -360,3 +360,41 @@ def get_superadmin_dashboard(
         "lotes_recientes": lotes_recientes,
     }
     return _cache_dashboard(cache_key, schemas.dashboard.SuperadminDashboard, payload)
+
+
+@router.get("/critical-stock", response_model=Any)
+def get_critical_stock_alerts(
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_management),
+) -> Any:
+    """
+    Get detailed stock alerts across all buildings based on the 
+    BuildingProductThreshold model.
+    """
+    alerts = db.query(
+        models.Building.name.label("building_name"),
+        models.Product.name.label("product_name"),
+        models.BuildingInventory.quantity.label("current_stock"),
+        models.BuildingProductThreshold.min_threshold.label("min_threshold")
+    ).join(
+        models.BuildingInventory, models.Building.id == models.BuildingInventory.building_id
+    ).join(
+        models.Product, models.BuildingInventory.product_id == models.Product.id
+    ).join(
+        models.BuildingProductThreshold, 
+        (models.BuildingInventory.building_id == models.BuildingProductThreshold.building_id) & 
+        (models.BuildingInventory.product_id == models.BuildingProductThreshold.product_id)
+    ).filter(
+        models.BuildingInventory.quantity < models.BuildingProductThreshold.min_threshold
+    ).all()
+
+    return [
+        {
+            "building": r.building_name,
+            "product": r.product_name,
+            "stock": r.current_stock,
+            "threshold": r.min_threshold,
+            "deficit": r.min_threshold - r.current_stock
+        }
+        for r in alerts
+    ]

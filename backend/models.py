@@ -295,3 +295,46 @@ class AuditLog(Base):
 
     # Relationship
     user = relationship("User")
+
+
+class BuildingProductThreshold(Base):
+    """Stores the minimum stock level for a product in a specific building."""
+    __tablename__ = "building_product_threshold"
+    id = Column(Integer, primary_key=True, index=True)
+    building_id = Column(Integer, ForeignKey('building.id'), nullable=False, index=True)
+    product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
+    min_threshold = Column(Integer, nullable=False, default=0)
+    
+    __table_args__ = (
+        UniqueConstraint('building_id', 'product_id', name='uq_building_threshold_product'),
+    )
+
+
+class BuildingProductCatalog(Base):
+    """Whitelist of products that a building is allowed to see/order."""
+    __tablename__ = "building_product_catalog"
+    id = Column(Integer, primary_key=True, index=True)
+    building_id = Column(Integer, ForeignKey('building.id'), nullable=False, index=True)
+    product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
+    is_active = Column(Boolean, default=True)
+
+    __table_args__ = (
+        UniqueConstraint('building_id', 'product_id', name='uq_building_catalog_product'),
+    )
+
+
+class StockTransfer(Base):
+    """Explicit record of direct building-to-building stock movement."""
+    __tablename__ = "stock_transfer"
+    id = Column(Integer, primary_key=True, index=True)
+    from_building_id = Column(Integer, ForeignKey('building.id'), nullable=False, index=True)
+    to_building_id = Column(Integer, ForeignKey('building.id'), nullable=False, index=True)
+    product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
+    quantity = Column(Integer, nullable=False)
+    actor_id = Column(Integer, ForeignKey('user.id'), nullable=False, index=True)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
+    notes = Column(Text, nullable=True)
+
+    __table_args__ = (
+        CheckConstraint('quantity > 0', name='chk_stock_transfer_quantity'),
+    )

@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from backend.api.v1.endpoints import (
     analytics, buildings, catalog, dispatch, inventory, 
-    login, operations, orders, purchase, superadmin, users, media
+    login, operations, orders, purchase, superadmin, users, media, transfers
 )
 
 api_router = APIRouter()
@@ -18,3 +18,4 @@ api_router.include_router(purchase.router, prefix="/purchases", tags=["purchases
 api_router.include_router(dispatch.router, prefix="/dispatch", tags=["dispatch"])
 api_router.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
 api_router.include_router(media.router, prefix="/media", tags=["media"])
+api_router.include_router(transfers.router, prefix="/transfers", tags=["transfers"])

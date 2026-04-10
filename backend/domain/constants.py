@@ -1,6 +1,7 @@
 class OrderStatus:
     DRAFT = "draft"
     SUBMITTED = "submitted"
+    APPROVED = "approved"
     PROCESSING = "processing"
     PARTIALLY_DISPATCHED = "partially_dispatched"  # future-ready, accepted by DB constraint
     DISPATCHED = "dispatched"

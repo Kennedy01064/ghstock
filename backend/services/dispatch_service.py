@@ -49,13 +49,17 @@ class DispatchService:
         return True
 
     def consolidate_orders(self, order_ids: List[int]) -> dict:
+        """
+        Groups multiple APPROVED orders into a single dispatch batch.
+        Reserves stock for all items in the batch.
+        """
         orders = self.db.query(models.Order).filter(
             models.Order.id.in_(order_ids),
-            models.Order.status == OrderStatus.SUBMITTED
+            models.Order.status == OrderStatus.APPROVED
         ).all()
 
         if not orders:
-            raise DomainConflictError("No valid submitted orders found")
+            raise DomainConflictError("No valid approved orders found for consolidation")
 
         batch = models.DispatchBatch(created_by_id=self.current_user.id, status=BatchStatus.PENDING)
         self.db.add(batch)
@@ -84,16 +88,16 @@ class DispatchService:
                 total_quantity=total
             ))
 
-        self._commit_or_conflict("Failed to consolidate orders. Data integrity violation (likely insufficient stock).")
-        
-        # Update references now that we have batch.id if needed, 
-        # but the movements already happen in reserve_stock.
-        # We can update the reference_id of the movements created if we want more precision.
+        self._commit_or_conflict("Failed to consolidate orders. Likely insufficient stock for some items.")
         
         self.db.refresh(batch)
         return {"batch_id": batch.id, "orders_count": len(orders)}
 
     def confirm_dispatch(self, batch_id: int):
+        """
+        Confirms that the batch has physically left the warehouse.
+        Converts reserved stock into actual dispatch movements.
+        """
         batch = self.db.query(models.DispatchBatch).options(
             selectinload(models.DispatchBatch.items),
             selectinload(models.DispatchBatch.orders),
@@ -123,12 +127,16 @@ class DispatchService:
 
         self._commit_or_conflict()
 
-    def reject_order(self, batch_id: int, order_id: int, rejection_note: str = ""):
+    def reject_order_from_batch(self, batch_id: int, order_id: int, rejection_note: str = ""):
+        """
+        Removes an order from a pending batch and returns it to APPROVED status.
+        Releases the reserved stock for that order.
+        """
         batch = self.db.query(models.DispatchBatch).filter(models.DispatchBatch.id == batch_id).with_for_update().first()
         if not batch:
             raise ResourceNotFoundError("Batch not found")
         if batch.status != BatchStatus.PENDING:
-            raise DomainConflictError("Can only reject orders from pending batches")
+            raise DomainConflictError("Can only remove orders from pending batches")
 
         order = self.db.query(models.Order).filter(models.Order.id == order_id).first()
         if not order:
@@ -147,11 +155,13 @@ class DispatchService:
                 reference_type='batch_reject'
             )
 
-        order.rejection_note = rejection_note or "El manager rechazó este pedido sin especificar motivo."
-        order.status = OrderStatus.SUBMITTED
+        order.rejection_note = rejection_note or "Desvinculado del lote de despacho."
+        order.status = OrderStatus.APPROVED
         batch.orders.remove(order)
 
         self.db.flush()
+        
+        # Re-generate batch summaries
         for bi in list(batch.items):
             self.db.delete(bi)
 
@@ -164,4 +174,3 @@ class DispatchService:
             self.db.add(models.DispatchBatchItem(batch_id=batch.id, product_id=product_id, total_quantity=total))
 
         self._commit_or_conflict()
-
