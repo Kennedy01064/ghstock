@@ -18,4 +18,3 @@ api_router.include_router(purchase.router, prefix="/purchases", tags=["purchases
 api_router.include_router(dispatch.router, prefix="/dispatch", tags=["dispatch"])
 api_router.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
 api_router.include_router(media.router, prefix="/media", tags=["media"])
- Elias
