@@ -1,4 +1,5 @@
 from typing import Any, List, Optional
+import time
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.orm import Session, selectinload
@@ -268,13 +269,58 @@ def delete_user(
     for building in user.assigned_buildings:
         building.admin_id = None
 
+    # --- HARD PURGE PHASE ---
+    # Recursively delete all records pointing to this user to avoid FK violations
+    # and satisfy the user's request for "total deletion".
+
+    # 1. Audit Logs and Refresh Tokens
+    db.query(models.AuditLog).filter(models.AuditLog.user_id == id).delete()
+    db.query(models.RefreshToken).filter(models.RefreshToken.user_id == id).delete()
+
+    # 2. Inventory Movements
+    db.query(models.InventoryMovement).filter(models.InventoryMovement.created_by_id == id).delete()
+
+    # 3. Consumption Logs
+    db.query(models.ConsumptionLog).filter(models.ConsumptionLog.reported_by_id == id).delete()
+
+    # 4. Purchases (Cascades to PurchaseItems via relationship)
+    purchases = db.query(models.Purchase).filter(models.Purchase.created_by_id == id).all()
+    for p in purchases:
+        db.delete(p)
+
+    # 5. Dispatch Batches and their associations
+    user_batches = db.query(models.DispatchBatch).filter(models.DispatchBatch.created_by_id == id).all()
+    batch_ids = [b.id for b in user_batches]
+    if batch_ids:
+        db.execute(
+            models.dispatch_batch_orders.delete().where(
+                models.dispatch_batch_orders.c.dispatch_batch_id.in_(batch_ids)
+            )
+        )
+        for b in user_batches:
+            db.delete(b)
+
+    # 6. Orders and their associations
+    user_orders = db.query(models.Order).filter(models.Order.created_by_id == id).all()
+    order_ids = [o.id for o in user_orders]
+    if order_ids:
+        # Clear association with batches (if any batch belongs to another user)
+        db.execute(
+            models.dispatch_batch_orders.delete().where(
+                models.dispatch_batch_orders.c.order_id.in_(order_ids)
+            )
+        )
+        for o in user_orders:
+            db.delete(o)
+
+    # 7. Final User Deletion
     db.delete(user)
     db.commit()
 
     _log_user_audit(
         db,
         actor=current_user,
-        action="user.deleted",
+        action="user.deleted_permanent",
         resource_id=id,
         details=f"Deleted {deleted_role} account @{deleted_username}.",
         request=request,
