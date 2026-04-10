@@ -70,6 +70,8 @@ npx playwright test tests/smoke.spec.js
 
 **Roles:** `superadmin` > `admin` > `manager` — enforced at dependency injection layer, not route level.
 
+**Domain errors** (`backend/domain/errors.py`) — Services raise typed exceptions (`ResourceNotFoundError`, `InsufficientStockError`, `DomainConflictError`, `DomainValidationError`, `UnauthorizedError`). These are caught by exception handlers registered in `main.py` and mapped to appropriate HTTP responses. Services always receive `(db: Session, current_user: User)` and may enforce role checks in `__init__`.
+
 ### Frontend (`frontend-spa/src/`)
 
 **Pinia stores** are the single source of truth — 10 stores: `authStore`, `productStore`, `ordersStore`, `dispatchStore`, `buildingStore`, `inventoryStore`, `userStore`, `systemStore`, `dashboardStore`, `uiStore`. Stores initialize asynchronously on app mount (`main.js`).
@@ -82,10 +84,13 @@ npx playwright test tests/smoke.spec.js
 - Use `isSubmitting` flag in stores to prevent double-click submissions.
 - Data from backend → frontend always passes through `src/utils/normalizers.js`.
 - Display formatting (dates, currency, numbers) via `src/utils/formatters.js`.
+- `useApi` composable (`src/composables/useApi.js`) standardizes `isLoading`/`error`/`data` state for one-off async calls outside stores.
 
 ### Order Workflow
 
-Draft → Submit → Processing → Partially Dispatched → Dispatched → Delivered
+Draft → Submit → Approved → Processing → Partially Dispatched → Dispatched → Delivered
+
+Also valid: `REJECTED`, `CANCELLED`. Status constants are in `backend/domain/constants.py` (`OrderStatus`, `BatchStatus`).
 
 - One draft order per building (enforced via DB unique index).
 - `OrderItem.fulfilled_quantity` tracks partial dispatch.
@@ -122,3 +127,19 @@ Production mode enforces non-SQLite DB and 32+ char `SECRET_KEY` at startup.
 **Database schema change:** `alembic revision --autogenerate -m "description"` → review generated migration → `alembic upgrade head` → update models and services as needed.
 
 **New E2E test:** Add `.spec.js` in `frontend-spa/tests/`. Reuse stored auth state from `playwright/.auth/user.json` to skip login.
+
+## Mobile (Android)
+
+Native Android app lives in `mobile-android/` — Kotlin + Jetpack Compose, MVVM + Clean Architecture, Koin DI, Retrofit networking, Room for local cache. Package: `com.gh.stock`. API contract is documented in `docs/MOBILE_API_CONTRACT.md`. Design tokens (colors, typography) in `docs/MOBILE_IDENTITY.md`.
+
+## Deployment
+
+Deployed on Railway via `railway.toml` + `nixpacks.toml`. On start, migrations run automatically before the server starts (`alembic upgrade head && uvicorn ...`). The `/health` endpoint is the Railway healthcheck. Frontend is built separately and served as a static SPA — configure the web server to redirect all unknown routes to `index.html`.
+
+## Reference Docs (`docs/`)
+
+The `docs/` folder contains AI planning phase documents and living references:
+- `API_CONTRACTS.md` — canonical endpoint list per domain
+- `KNOWN_RISKS.md` — known production risks and mitigations
+- `DEPLOYMENT_CHECKLIST.md` — step-by-step production deploy guide
+- `ARCHITECTURAL_HANDOVER.md` — frontend migration history and residual risks

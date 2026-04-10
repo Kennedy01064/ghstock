@@ -332,7 +332,7 @@ const metrics = computed(() => [
     cardClass: "hover:border-white/10",
   },
   {
-    label: "In Transit",
+    label: "En Transito",
     value: dashboard.value?.pedidos_en_transito ?? 0,
     valueClass: "text-rose-400",
     cardClass: "hover:border-rose-500/20 col-span-2 lg:col-span-1",
@@ -422,7 +422,8 @@ async function receiveOrder(orderId) {
 
 async function checkApiStatus() {
   try {
-    const response = await fetch("http://127.0.0.1:8000/health")
+    const baseUrl = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000").replace(/\/api\/v1\/?$/, "")
+    const response = await fetch(`${baseUrl}/health`)
     apiStatus.value = response.ok ? "ON" : "OFF"
   } catch (error) {
     apiStatus.value = "OFF"

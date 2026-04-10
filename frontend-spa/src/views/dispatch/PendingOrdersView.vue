@@ -36,7 +36,7 @@
       </article>
     </div>
 
-    <div class="card flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div v-if="pendingOrders.length" class="card flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
         <span class="section-label">Seleccion actual</span>
         <p class="text-white font-black text-xl">{{ selectedOrderIds.length }} orden(es)</p>

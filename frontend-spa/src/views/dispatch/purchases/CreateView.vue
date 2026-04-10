@@ -33,8 +33,10 @@
             <label class="eyebrow !text-text-muted">N° de Factura / Guia</label>
             <input v-model="form.invoiceNumber" type="text" :disabled="dispatchStore.isPurchasing" placeholder="Ej: F001-00123" class="input-field font-bold uppercase tracking-widest text-[11px] placeholder:text-white/10">
           </div>
+          <div class="space-y-3">
             <label class="eyebrow !text-text-muted">Fecha de Operacion <span class="text-amber">*</span></label>
             <PremiumDateTimePicker v-model="form.purchaseDate" type="date" :disabled="dispatchStore.isPurchasing" />
+          </div>
           <div class="md:col-span-3 space-y-3">
             <label class="eyebrow !text-text-muted">Observaciones Internas</label>
             <textarea v-model="form.notes" rows="2" :disabled="dispatchStore.isPurchasing" placeholder="Detalles relevantes de la transaccion..." class="input-field min-h-[80px] py-4 placeholder:text-white/10" />
@@ -129,8 +131,8 @@
             </button>
           </div>
 
-          <div class="p-10 space-y-6">
-            <div class="relative group">
+          <div class="p-10 flex flex-col gap-6 flex-1 min-h-0 overflow-hidden">
+            <div class="relative group shrink-0">
               <input v-model="selectorQuery" type="text" placeholder="Filtrar por nombre o categoria..." class="input-field pl-14 font-bold tracking-widest text-[11px] bg-black/20 border-white/5 focus:bg-black/40 transition-all">
               <div class="absolute left-6 top-1/2 -translate-y-1/2 text-white/10 group-focus-within:text-amber transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,7 +141,7 @@
               </div>
             </div>
 
-            <div class="space-y-3 overflow-y-auto pr-4 custom-scrollbar">
+            <div class="flex-1 min-h-0 space-y-3 overflow-y-auto pr-4 custom-scrollbar">
               <div v-for="product in filteredProducts" :key="product.id" class="group/item relative overflow-hidden flex items-center justify-between p-5 bg-white/[0.02] border border-white/5 rounded-[1.5rem] hover:bg-amber/5 hover:border-amber/30 cursor-pointer transition-all">
                 <div class="flex items-center gap-4">
                   <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-[10px] font-black text-amber border border-white/5 group-hover/item:border-amber/40 group-hover/item:bg-amber group-hover/item:text-navy-deep transition-all">
