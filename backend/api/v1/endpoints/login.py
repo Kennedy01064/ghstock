@@ -43,8 +43,8 @@ def login_access_token(
         user.password_hash = security.get_password_hash(form_data.password)
         db.add(user)
         db.commit()
-    
-        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = security.create_access_token(
         user.id, expires_delta=access_token_expires
     )
