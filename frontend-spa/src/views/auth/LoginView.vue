@@ -103,6 +103,16 @@ async function handleLogin() {
       remember: form.remember,
     })
 
+    // Tell Chrome/browser to offer saving the credentials
+    if (window.PasswordCredential) {
+      const cred = new window.PasswordCredential({
+        id: form.username,
+        password: form.password,
+        name: user.name || user.username,
+      })
+      navigator.credentials.store(cred)
+    }
+
     uiStore.success(`Sesion iniciada como ${user.name || user.username}.`, "Acceso concedido")
 
     const redirect = typeof route.query.redirect === "string" ? route.query.redirect : null
