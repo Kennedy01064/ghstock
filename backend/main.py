@@ -47,10 +47,22 @@ def read_root():
 
 @app.get("/health")
 def health_check():
-    from backend.api.v1.endpoints.media import supabase_client
+    from supabase import create_client, Client
+    # Initialize Supabase client if credentials are provided
+    supabase_client: Client = None
+    supabase_error: str = None
+    if settings.SUPABASE_URL and settings.SUPABASE_SERVICE_KEY:
+        try:
+            supabase_client = create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_KEY)
+            print("✅ Supabase Storage client initialized successfully")
+        except Exception as e:
+            supabase_error = str(e)
+            print(f"⚠️ Failed to initialize Supabase client: {supabase_error}")
+            supabase_client = None
     return {
         "status": "healthy",
         "supabase_configured": supabase_client is not None,
+        "supabase_error": supabase_error,
         "url_len": len(settings.SUPABASE_URL),
         "key_len": len(settings.SUPABASE_SERVICE_KEY),
         "bucket": settings.SUPABASE_BUCKET,
