@@ -45,4 +45,3 @@ async def upload_file(
         raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
         
     return {"url": f"/static/uploads/{filename}", "filename": filename}
- Elias

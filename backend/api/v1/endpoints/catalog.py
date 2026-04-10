@@ -290,4 +290,3 @@ async def sync_product(
     db.commit()
     db.refresh(product)
     return product
- Elias

@@ -41,7 +41,6 @@ def list_inventory(
     total = query.count()
     response.headers["X-Total-Count"] = str(total)
     return query.order_by(models.BuildingInventory.last_updated.desc()).offset(skip).limit(limit).all()
- Elias
 
 
 @router.post("/transfer")
@@ -166,7 +165,6 @@ def get_movement_history(
     response.headers["X-Total-Count"] = str(total)
     
     return query.order_by(models.InventoryMovement.created_at.desc()).offset(skip).limit(limit).all()
- Elias
 
 
 @router.get("/{id}", response_model=schemas.inventory.BuildingInventoryItem)
