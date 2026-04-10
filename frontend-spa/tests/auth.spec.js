@@ -25,8 +25,7 @@ test.describe("Authentication Flow", () => {
   test("should login successfully as manager", async ({ page }) => {
     await login(page, "mgomez", "mgomez")
     await expect(page).toHaveURL("/dashboard/manager")
-    // Use regex for flexibility and ensure we wait for the actual content
-    await expect(page.getByText(/Operaciones de Almacen/i)).toBeVisible()
+    await expect(page.getByText(/Tablero Logístico/i).first()).toBeVisible()
   })
 
   test("should show error on invalid credentials", async ({ page }) => {
