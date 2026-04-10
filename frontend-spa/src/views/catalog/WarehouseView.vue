@@ -1,17 +1,17 @@
 <template>
   <div class="max-w-[1320px] mx-auto space-y-12 pb-32 px-4">
-    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-10 border-b border-white/5 pb-10">
-      <div class="space-y-4">
+    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6 border-b border-white/5 pb-8">
+      <div class="space-y-3">
         <div class="flex items-center gap-3">
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
           <span class="eyebrow tracking-[0.4em] !text-white text-[10px]">Logistica Central</span>
         </div>
-        <h1 data-testid="warehouse-page-title" class="text-4xl font-black tracking-tight text-white">Almacen Maestro</h1>
+        <h1 data-testid="warehouse-page-title" class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white">Almacen Maestro</h1>
         <p class="text-text-muted font-medium text-sm max-w-xl">Control volumetrico y gestion tecnica de existencias corporativas con sincronizacion en tiempo real.</p>
       </div>
 
-      <div class="flex flex-col md:flex-row items-center gap-4 w-full xl:w-auto">
-        <div class="relative w-full md:w-96 group">
+      <div class="flex flex-col gap-3 w-full xl:w-auto">
+        <div class="relative w-full group">
           <input v-model="query" type="text" placeholder="Filtrar por SKU o Nombre..." class="input-field !pl-12 shadow-xl transition-all" />
           <div class="absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-amber text-text-muted">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,21 +20,21 @@
           </div>
         </div>
 
-        <div class="flex items-center gap-3 w-full xl:w-auto">
-          <button type="button" class="btn btn-secondary !rounded-xl px-6 !h-[52px] group/web" @click="scraper.openScraper">
-            <svg class="w-5 h-5 transition-transform group-hover/web:rotate-180 duration-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" class="btn btn-secondary !rounded-xl px-4 !h-[44px] flex-1 sm:flex-none group/web" @click="scraper.openScraper">
+            <svg class="w-4 h-4 transition-transform group-hover/web:rotate-180 duration-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
             </svg>
             <span class="font-bold text-[11px] tracking-widest uppercase">Web Scraping</span>
           </button>
-          <RouterLink :to="{ name: 'catalogUploadCsv' }" class="btn btn-secondary !rounded-xl px-5 !h-[52px]">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <RouterLink :to="{ name: 'catalogUploadCsv' }" class="btn btn-secondary !rounded-xl px-4 !h-[44px] flex-1 sm:flex-none">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
             <span class="font-bold text-[11px] tracking-widest uppercase">CSV</span>
           </RouterLink>
-          <RouterLink :to="{ name: 'catalogProductCreate' }" class="btn btn-primary !rounded-xl px-6 !h-[52px] shadow-lg shadow-amber/10">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <RouterLink :to="{ name: 'catalogProductCreate' }" class="btn btn-primary !rounded-xl px-4 !h-[44px] flex-1 sm:flex-none shadow-lg shadow-amber/10">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4" />
             </svg>
             <span class="font-bold text-[11px] tracking-widest uppercase text-navy-deep">Anadir Item</span>

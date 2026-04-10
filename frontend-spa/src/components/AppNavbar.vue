@@ -185,7 +185,7 @@
 
           <button
             type="button"
-            class="lg:hidden flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-white/[0.04] text-white/70"
+            class="lg:hidden flex items-center justify-center w-12 h-12 rounded-full border border-white/10 bg-white/[0.04] text-white/70"
             @click="mobileMenuOpen = !mobileMenuOpen"
           >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

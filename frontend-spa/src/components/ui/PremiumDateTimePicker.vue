@@ -70,12 +70,12 @@
             </div>
 
             <!-- Days Grid -->
-            <div class="grid grid-cols-7 gap-0.5">
+            <div class="grid grid-cols-7 gap-1">
               <button
                 v-for="date in calendarDays"
                 :key="date.id"
                 type="button"
-                class="relative aspect-square flex items-center justify-center rounded-lg text-[10px] font-bold transition-all"
+                class="relative aspect-square flex items-center justify-center rounded-xl text-xs sm:text-[10px] font-bold transition-all"
                 :class="[
                   date.isCurrentMonth ? 'text-white' : 'text-white/20',
                   date.isSelected ? 'bg-amber !text-navy-deep shadow-lg shadow-amber/40 scale-105 !font-black' : 'hover:bg-white/5',
@@ -84,7 +84,7 @@
                 @click="selectDay(date)"
               >
                 {{ date.day }}
-                <span v-if="date.isToday && !date.isSelected" class="absolute bottom-0.5 w-1 h-1 bg-amber rounded-full"></span>
+                <span v-if="date.isToday && !date.isSelected" class="absolute bottom-1 w-1 h-1 bg-amber rounded-full"></span>
               </button>
             </div>
           </div>
@@ -124,9 +124,9 @@
               </div>
 
               <!-- Quick Time Suggestions -->
-              <div class="grid grid-cols-2 gap-1.5 w-full mt-1">
-                <button type="button" @click="time.hours = 12; time.minutes = 0; updateTime()" class="py-1 px-1.5 rounded-lg bg-white/5 text-[7px] font-black text-text-muted uppercase hover:bg-white/10 transition-all tracking-tighter">Mediodía</button>
-                <button type="button" @click="time.hours = 23; time.minutes = 59; updateTime()" class="py-1 px-1.5 rounded-lg bg-white/5 text-[7px] font-black text-text-muted uppercase hover:bg-white/10 transition-all tracking-tighter">Cierre</button>
+              <div class="grid grid-cols-2 gap-2 w-full mt-2">
+                <button type="button" @click="time.hours = 12; time.minutes = 0; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-white/5 text-[8px] sm:text-[7px] font-black text-text-muted uppercase hover:bg-white/10 transition-all tracking-tighter">Mediodía</button>
+                <button type="button" @click="time.hours = 23; time.minutes = 59; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-white/5 text-[8px] sm:text-[7px] font-black text-text-muted uppercase hover:bg-white/10 transition-all tracking-tighter">Cierre</button>
               </div>
             </div>
           </div>

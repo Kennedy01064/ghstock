@@ -1,6 +1,6 @@
 <template>
-  <div class="selection:bg-amber selection:text-navy-deep">
-    <table class="w-full text-left border-collapse table-fixed">
+  <div class="overflow-x-auto selection:bg-amber selection:text-navy-deep">
+    <table class="w-full min-w-[640px] text-left border-collapse table-fixed">
       <colgroup>
         <col class="w-[40%]" />
         <col class="w-[8%]" />
