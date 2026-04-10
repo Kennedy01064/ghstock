@@ -47,5 +47,9 @@ def read_root():
 
 @app.get("/health")
 def health_check():
-    return {"status": "healthy"}
-
+    from backend.api.v1.endpoints.media import supabase_client
+    return {
+        "status": "healthy",
+        "supabase_configured": supabase_client is not None,
+        "environment": settings.ENVIRONMENT
+    }
