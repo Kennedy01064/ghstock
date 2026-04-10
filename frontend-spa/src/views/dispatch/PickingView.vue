@@ -13,7 +13,7 @@
       {{ dispatchStore.error }}
     </div>
 
-    <div class="card !p-0 overflow-hidden">
+    <div class="card !p-0 overflow-hidden overflow-x-auto">
       <table class="w-full text-left">
         <thead class="bg-white/[0.03] text-text-muted font-bold text-[10px] uppercase tracking-[0.2em]">
           <tr>

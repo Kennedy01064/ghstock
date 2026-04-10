@@ -21,7 +21,7 @@
 
     <form class="space-y-8" @submit.prevent="submitForm">
       <div class="card bg-navy-accent/40 border-white/5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div class="space-y-3">
             <label class="eyebrow !text-text-muted">Sede de Recepcion <span class="text-amber">*</span></label>
             <template v-if="authStore.isManagement">

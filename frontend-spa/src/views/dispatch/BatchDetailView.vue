@@ -17,7 +17,7 @@
             <div class="flex items-baseline gap-4">
               <h1 class="text-6xl font-black tracking-tighter text-white italic">#{{ batch.id }}</h1>
               <span class="px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border" :class="batch.status === 'dispatched' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber/10 text-amber border-amber/20 shadow-[0_0_20px_rgba(242,173,61,0.1)]'">
-                {{ batch.status }}
+                {{ batch.status === 'dispatched' ? 'Despachado' : batch.status === 'cancelled' ? 'Cancelado' : 'Pendiente' }}
               </span>
             </div>
             <p class="text-text-muted font-black text-xs uppercase tracking-widest flex items-center gap-2">
