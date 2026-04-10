@@ -133,7 +133,7 @@
 
           <div class="p-10 flex flex-col gap-6 flex-1 min-h-0 overflow-hidden">
             <div class="relative group shrink-0">
-              <input v-model="selectorQuery" type="text" placeholder="Filtrar por nombre o categoria..." class="input-field pl-14 font-bold tracking-widest text-[11px] bg-black/20 border-white/5 focus:bg-black/40 transition-all">
+              <input v-model="selectorQuery" type="text" placeholder="Filtrar por nombre o categoria..." class="input-field pl-14 font-bold tracking-widest text-[11px] !bg-navy-deep/80 !border-white/15 focus:!bg-navy-deep focus:!border-amber/40 transition-all">
               <div class="absolute left-6 top-1/2 -translate-y-1/2 text-white/10 group-focus-within:text-amber transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
