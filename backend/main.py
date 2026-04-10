@@ -51,5 +51,8 @@ def health_check():
     return {
         "status": "healthy",
         "supabase_configured": supabase_client is not None,
+        "url_len": len(settings.SUPABASE_URL),
+        "key_len": len(settings.SUPABASE_SERVICE_KEY),
+        "bucket": settings.SUPABASE_BUCKET,
         "environment": settings.ENVIRONMENT
     }
