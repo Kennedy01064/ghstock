@@ -99,15 +99,59 @@
         </div>
 
         <div class="space-y-4">
-          <label class="label-premium">Fachada / URL visual</label>
-          <input v-model="form.imageUrl" type="text" placeholder="/static/uploads/frontis.png o https://..." class="input-field">
+          <label class="label-premium">Fachada / Imagen del Edificio</label>
+
+          <!-- Mode toggle -->
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
+              :class="imageMode === 'url' ? 'bg-amber text-navy-deep' : 'bg-white/5 text-text-muted hover:bg-white/10'"
+              @click="imageMode = 'url'"
+            >Enlace URL</button>
+            <button
+              type="button"
+              class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
+              :class="imageMode === 'file' ? 'bg-amber text-navy-deep' : 'bg-white/5 text-text-muted hover:bg-white/10'"
+              @click="imageMode = 'file'"
+            >Subir Archivo</button>
+          </div>
+
+          <!-- URL input -->
+          <input v-if="imageMode === 'url'" v-model="form.imageUrl" type="text" placeholder="https://... o /static/uploads/frontis.png" class="input-field">
+
+          <!-- File upload -->
+          <div v-else>
+            <label
+              class="flex flex-col items-center justify-center w-full h-32 rounded-2xl border-2 border-dashed border-white/10 bg-white/[0.02] hover:border-amber/30 hover:bg-amber/5 transition-all cursor-pointer"
+              :class="isUploading ? 'pointer-events-none opacity-60' : ''"
+            >
+              <div v-if="isUploading" class="flex flex-col items-center gap-2">
+                <svg class="w-6 h-6 text-amber animate-spin" fill="none" stroke="currentColor" viewBox="2 2 20 20">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span class="text-[10px] font-black uppercase tracking-widest text-amber">Subiendo...</span>
+              </div>
+              <div v-else class="flex flex-col items-center gap-2">
+                <svg class="w-8 h-8 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span class="text-[10px] font-black uppercase tracking-widest text-text-muted">Haz clic o arrastra una imagen</span>
+                <span class="text-[9px] text-text-muted/60">JPG, PNG o WEBP</span>
+              </div>
+              <input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="handleFileUpload">
+            </label>
+            <p v-if="uploadError" class="text-[10px] text-rose-400 mt-2 font-bold">{{ uploadError }}</p>
+          </div>
+
+          <!-- Preview -->
           <div v-if="buildingPreview" class="flex items-center gap-6 p-4 rounded-2xl bg-white/[0.03] border border-white/10 w-fit group/img">
             <div class="relative h-24 w-24 rounded-xl overflow-hidden shadow-lg border border-white/10">
               <img :src="buildingPreview" alt="Preview" class="h-full w-full object-cover transition-transform group-hover/img:scale-110">
             </div>
             <div class="space-y-1">
               <p class="text-xs font-black text-white uppercase tracking-widest">Vista previa</p>
-              <p class="text-[10px] font-medium text-text-muted">La API actual recibe una ruta o URL de imagen.</p>
+              <p class="text-[10px] font-medium text-text-muted">Imagen vinculada al edificio.</p>
             </div>
           </div>
         </div>
@@ -148,6 +192,7 @@ import { useUserStore } from "@/stores/userStore"
 import { useUiStore } from "@/stores/uiStore"
 import { assetUrl, defaultBuildingUrl } from "@/utils/formatters"
 import { normalizeUser } from "@/utils/normalizers"
+import mediaApi from "@/api/media.api"
 
 const router = useRouter()
 const buildingStore = useBuildingStore()
@@ -156,6 +201,9 @@ const uiStore = useUiStore()
 
 const adminMenuOpen = ref(false)
 const submitError = ref("")
+const imageMode = ref("url")
+const isUploading = ref(false)
+const uploadError = ref("")
 const form = reactive({
   name: "",
   address: "",
@@ -178,6 +226,21 @@ const buildingPreview = computed(() => assetUrl(form.imageUrl, defaultBuildingUr
 function selectAdmin(value) {
   form.adminId = value ? String(value) : ""
   adminMenuOpen.value = false
+}
+
+async function handleFileUpload(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+  uploadError.value = ""
+  isUploading.value = true
+  try {
+    const { data } = await mediaApi.uploadImage(file)
+    form.imageUrl = data.url
+  } catch {
+    uploadError.value = "No se pudo subir la imagen. Intenta de nuevo."
+  } finally {
+    isUploading.value = false
+  }
 }
 
 async function submitForm() {
