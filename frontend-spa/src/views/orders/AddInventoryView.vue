@@ -60,7 +60,7 @@
                 type="number"
                 min="1"
                 required
-                class="input-field pl-12 font-black text-amber text-lg tracking-widest focus:text-white transition-all shadow-inner bg-white/5"
+                class="input-field !pl-12 font-black text-amber text-lg tracking-widest focus:text-white transition-all shadow-inner bg-white/5"
               >
               <div class="absolute left-4 top-1/2 -translate-y-1/2 text-amber/40 group-focus-within:text-amber transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
