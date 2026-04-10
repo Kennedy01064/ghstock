@@ -66,5 +66,6 @@ def health_check():
         "url_len": len(settings.SUPABASE_URL),
         "key_len": len(settings.SUPABASE_SERVICE_KEY),
         "bucket": settings.SUPABASE_BUCKET,
-        "environment": settings.ENVIRONMENT
+        "environment": settings.ENVIRONMENT,
+        "version_tag": "v2.0.debug.strip_applied_1223"
     }
