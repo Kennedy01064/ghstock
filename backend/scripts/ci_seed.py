@@ -18,6 +18,8 @@ def seed_data():
         # 1. Create Users
         users_data = [
             ("krojas", "Kennedy Rojas", "superadmin", "krojas"),
+            ("eguzman", "Eduardo Guzman", "admin", "eguzman"),
+            ("mgomez", "Maria Gomez", "manager", "mgomez"),
         ]
 
         for username, name, role, password in users_data:
