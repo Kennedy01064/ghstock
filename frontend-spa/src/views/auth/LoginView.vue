@@ -21,7 +21,7 @@
             <p class="text-[10px] font-medium text-text-muted mt-2 uppercase tracking-widest">Ingrese sus credenciales de servicio</p>
           </div>
 
-          <form ref="loginFormEl" class="px-8 py-6 space-y-5" action="/auth/login" method="post" @submit.prevent="handleLogin">
+          <form class="px-8 py-6 space-y-5" action="/auth/login" method="post" @submit.prevent="handleLogin">
             <div v-if="systemStore.isLocked" class="rounded-2xl border border-amber/20 bg-amber/10 px-4 py-4 text-[11px] uppercase tracking-[0.18em] text-amber">
               Solo el superadmin puede ingresar en este momento. Contacte al desarrollador.
             </div>
@@ -91,7 +91,6 @@ const authStore = useAuthStore()
 const systemStore = useSystemStore()
 const uiStore = useUiStore()
 const showPassword = ref(false)
-const loginFormEl = ref(null)
 const form = reactive({ username: "", password: "", remember: true })
 const institutionalName = computed(() => systemStore.publicStatus?.institutional_name || "Grupo Hernandez")
 const institutionalLogo = computed(() => assetUrl(systemStore.publicStatus?.institutional_logo_url, logoUrl))
@@ -104,10 +103,19 @@ async function handleLogin() {
       remember: form.remember,
     })
 
-    // Tell Chrome to offer saving credentials using the form element
-    if (window.PasswordCredential && loginFormEl.value) {
-      const cred = new window.PasswordCredential(loginFormEl.value)
-      navigator.credentials.store(cred)
+    // Tell Chrome to offer saving credentials — await so it completes
+    // before the form unmounts on navigation
+    if (window.PasswordCredential) {
+      try {
+        const cred = new window.PasswordCredential({
+          id: form.username,
+          password: form.password,
+          name: user.name || user.username,
+        })
+        await navigator.credentials.store(cred)
+      } catch (credErr) {
+        console.warn("Credential store failed:", credErr)
+      }
     }
 
     uiStore.success(`Sesion iniciada como ${user.name || user.username}.`, "Acceso concedido")
