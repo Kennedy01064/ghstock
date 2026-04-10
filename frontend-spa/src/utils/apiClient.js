@@ -1,7 +1,7 @@
 import axios from "axios"
 
 import { emitLockdown, emitUnauthorized } from "@/utils/authBus"
-import { clearAuthSession, getStoredToken } from "@/utils/authSession"
+import { clearAuthSession, getStoredToken, getStoredRefreshToken, persistAuthSession, getStoredUser } from "@/utils/authSession"
 
 export const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api/v1"
 
@@ -23,10 +23,61 @@ apiClient.interceptors.request.use((config) => {
   return config
 })
 
+let isRefreshing = false
+let pendingQueue = []
+
+function processQueue(error, token = null) {
+  pendingQueue.forEach(({ resolve, reject }) => {
+    if (error) reject(error)
+    else resolve(token)
+  })
+  pendingQueue = []
+}
+
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
+  async (error) => {
+    const originalRequest = error.config
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      const refreshToken = getStoredRefreshToken()
+
+      if (refreshToken) {
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            pendingQueue.push({ resolve, reject })
+          }).then((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`
+            return apiClient(originalRequest)
+          })
+        }
+
+        originalRequest._retry = true
+        isRefreshing = true
+
+        try {
+          const resp = await axios.post(
+            `${apiBaseUrl}/auth/refresh`,
+            { refresh_token: refreshToken },
+            { headers: { "Content-Type": "application/json" } },
+          )
+          const newToken = resp.data.access_token
+          const newRefresh = resp.data.refresh_token ?? refreshToken
+          const user = getStoredUser()
+          persistAuthSession(newToken, user, true, newRefresh)
+          processQueue(null, newToken)
+          originalRequest.headers.Authorization = `Bearer ${newToken}`
+          return apiClient(originalRequest)
+        } catch (refreshError) {
+          processQueue(refreshError, null)
+          clearAuthSession()
+          emitUnauthorized()
+          return Promise.reject(refreshError)
+        } finally {
+          isRefreshing = false
+        }
+      }
+
       clearAuthSession()
       emitUnauthorized()
     }

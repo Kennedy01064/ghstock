@@ -27,7 +27,7 @@ export function readAuthSession() {
   return localSession ?? sessionSession ?? { token: "", user: null }
 }
 
-export function persistAuthSession(token, user, remember = true) {
+export function persistAuthSession(token, user, remember = true, refreshToken = "") {
   clearAuthSession()
 
   const storage = getBrowserStorage(remember ? "local" : "session")
@@ -40,6 +40,7 @@ export function persistAuthSession(token, user, remember = true) {
     STORAGE_KEY,
     JSON.stringify({
       token,
+      refreshToken,
       user,
     }),
   )
@@ -52,6 +53,10 @@ export function clearAuthSession() {
 
 export function getStoredToken() {
   return readAuthSession().token ?? ""
+}
+
+export function getStoredRefreshToken() {
+  return readAuthSession().refreshToken ?? ""
 }
 
 export function getStoredUser() {

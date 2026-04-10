@@ -4,7 +4,7 @@ import { defineStore } from "pinia"
 
 import apiClient from "@/utils/apiClient"
 import { onLockdown, onUnauthorized } from "@/utils/authBus"
-import { clearAuthSession, getStoredToken, persistAuthSession, readAuthSession } from "@/utils/authSession"
+import { clearAuthSession, getStoredToken, getStoredRefreshToken, persistAuthSession, readAuthSession } from "@/utils/authSession"
 import { dashboardRouteForRole } from "@/utils/roleRoutes"
 
 export const useAuthStore = defineStore("auth", () => {
@@ -29,11 +29,11 @@ export const useAuthStore = defineStore("auth", () => {
     rememberSession.value = Boolean(window.localStorage.getItem("stock-spa-auth"))
   }
 
-  function setSession(sessionToken, sessionUser, remember = true) {
+  function setSession(sessionToken, sessionUser, remember = true, refreshToken = "") {
     token.value = sessionToken ?? ""
     user.value = sessionUser ?? null
     rememberSession.value = remember
-    persistAuthSession(token.value, user.value, rememberSession.value)
+    persistAuthSession(token.value, user.value, rememberSession.value, refreshToken)
   }
 
   function clearSession() {
@@ -46,7 +46,7 @@ export const useAuthStore = defineStore("auth", () => {
   async function fetchCurrentUser() {
     const { data } = await apiClient.get("/auth/me")
     user.value = data
-    persistAuthSession(token.value, user.value, rememberSession.value)
+    persistAuthSession(token.value, user.value, rememberSession.value, getStoredRefreshToken())
     return data
   }
 
@@ -94,7 +94,7 @@ export const useAuthStore = defineStore("auth", () => {
         },
       })
 
-      setSession(data.access_token, null, remember)
+      setSession(data.access_token, null, remember, data.refresh_token ?? "")
       const currentUser = await fetchCurrentUser()
 
       return currentUser

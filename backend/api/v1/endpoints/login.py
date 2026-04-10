@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from backend import models, schemas
@@ -13,7 +13,6 @@ router = APIRouter()
 
 @router.post("/login", response_model=schemas.user.Token, dependencies=[Depends(check_login_rate_limit)])
 def login_access_token(
-    request: Request,
     db: Session = Depends(deps.get_db),
     form_data: OAuth2PasswordRequestForm = Depends()
 ) -> Any:
@@ -23,7 +22,7 @@ def login_access_token(
     user = db.query(models.User).filter(models.User.username == form_data.username).first()
     if not user or not security.verify_password(form_data.password, user.password_hash):
         raise HTTPException(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS if False else status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
         )
 
