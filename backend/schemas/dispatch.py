@@ -24,7 +24,7 @@ class DispatchBatchSummary(BaseModel):
 
 class DispatchBatchDetail(BaseModel):
     id: int
-    created_by: User
+    created_by: Optional[User] = None
     created_at: datetime
     status: str
     orders: List[OrderDetail]
@@ -64,7 +64,7 @@ class PurchaseDetail(BaseModel):
     notes: Optional[str] = None
     created_by_id: int
     created_at: datetime
-    created_by: User
+    created_by: Optional[User] = None
     items: List[PurchaseItemDetail]
     model_config = ConfigDict(from_attributes=True)
 

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Text, ForeignKey, Table, Date, UniqueConstraint, CheckConstraint, Index, text
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Text, ForeignKey, Table, Date, UniqueConstraint, CheckConstraint, Index, text, TIMESTAMP, func
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 from backend.db.session import Base
@@ -17,11 +17,25 @@ class User(Base):
     password_hash = Column(String(256), nullable=False)
     role = Column(String(20), nullable=False, default='admin')  # 'superadmin', 'admin', 'manager'
 
+    is_active = Column(Boolean, default=True)
+ 
     # Reverse relationship for assigned buildings
     assigned_buildings = relationship('Building', backref='admin', lazy=True)
 
     def __repr__(self):
         return f'<User {self.username} ({self.role})>'
+
+class RefreshToken(Base):
+    __tablename__ = "refresh_token"
+    id = Column(Integer, primary_key=True, index=True)
+    token = Column(String(255), unique=True, index=True, nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False, index=True)
+    expires_at = Column(DateTime, nullable=False)
+    is_revoked = Column(Boolean, default=False)
+    created_at = Column(DateTime, server_default=func.now())
+
+    user = relationship("User", backref="refresh_tokens")
+
 
 
 class Building(Base):
@@ -56,6 +70,7 @@ class Product(Base):
     __tablename__ = "product"
     id = Column(Integer, primary_key=True, index=True)
     sku = Column(String(50), unique=True, nullable=True, index=True)
+    barcode = Column(String(100), unique=True, nullable=True, index=True)
     name = Column(String(100), nullable=False, index=True)
     categoria = Column(String(100), nullable=True, default='General')
     description = Column(Text, nullable=True)
@@ -256,3 +271,27 @@ class PurchaseItem(Base):
     )
 
     product = relationship('Product')
+
+class SystemSetting(Base):
+    __tablename__ = "system_setting"
+    id = Column(Integer, primary_key=True, index=True)
+    lockdown_enabled = Column(Boolean, default=False)
+    institutional_name = Column(String(255), default="Stock Management System")
+    institutional_logo_url = Column(String(512), nullable=True)
+    order_submission_deadline_at = Column(DateTime, nullable=True)
+    order_submission_deadline_note = Column(Text, nullable=True)
+    last_updated = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+
+class AuditLog(Base):
+    __tablename__ = "audit_log"
+    id = Column(Integer, primary_key=True, index=True)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=True, index=True)
+    action = Column(String(100), nullable=False)
+    resource_type = Column(String(50), nullable=True)
+    resource_id = Column(String(100), nullable=True)
+    details = Column(Text, nullable=True)
+    ip_address = Column(String(45), nullable=True)
+
+    # Relationship
+    user = relationship("User")

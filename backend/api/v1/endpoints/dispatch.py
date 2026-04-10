@@ -1,4 +1,6 @@
 import io
+import os
+from datetime import datetime
 from typing import Any, List
 from fastapi import APIRouter, Body, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
@@ -8,9 +10,76 @@ from backend.api import deps
 from backend.services.dispatch_service import DispatchService
 from backend.services.purchase_service import PurchaseService
 from backend.domain.constants import BatchStatus, OrderStatus
+from xml.sax.saxutils import escape as xml_escape
 
 router = APIRouter()
 
+def get_pdf_header_elements(title: str, batch: models.DispatchBatch, current_user: models.User, styles):
+    from reportlab.lib import colors
+    from reportlab.platypus import Table, TableStyle, Paragraph, Spacer, Image
+    from reportlab.lib.styles import ParagraphStyle
+    from reportlab.lib.enums import TA_RIGHT, TA_CENTER
+    
+    right_align_style = ParagraphStyle(name="RightAlign", parent=styles["Normal"], alignment=TA_RIGHT)
+    title_style = ParagraphStyle(name="TitleStyle", parent=styles["Heading1"], alignment=TA_CENTER, textColor=colors.HexColor("#0f172a"))
+    
+    logo_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../../../frontend-spa/public/static/img/logo_trans.png")
+    
+    if os.path.exists(logo_path):
+        # We specify width and height in the constructor to ensure it fits in the table cell
+        img = Image(logo_path, width=50, height=50)
+        img.hAlign = 'LEFT'
+        left_header = img
+    else:
+        left_header = Paragraph("<b>GRUPO HERNÁNDEZ</b>", styles["Normal"])
+        
+    company_info = """
+    <b>GRUPO HERNÁNDEZ S.A.C.</b><br/>
+    RUC: 20543219876<br/>
+    Lima - Perú<br/>
+    """
+    right_header = Paragraph(company_info, right_align_style)
+    
+    header_table = Table([[left_header, right_header]], colWidths=[270, 270])
+    header_table.setStyle(TableStyle([
+        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+        ('ALIGN', (0,0), (0,0), 'LEFT'),
+        ('ALIGN', (1,0), (1,0), 'RIGHT'),
+    ]))
+    
+    elements = [
+        header_table,
+        Spacer(1, 15),
+        Paragraph(title, title_style),
+        Spacer(1, 15),
+    ]
+    
+    # Meta info table
+    status_str = getattr(batch.status, 'value', str(batch.status)).upper()
+    generator = current_user.name or current_user.username
+    
+    meta_info_data = [
+        [
+            Paragraph("<b>Lote de Despacho:</b>", styles["Normal"]), Paragraph(f"#{batch.id}", styles["Normal"]), 
+            Paragraph("<b>Fecha de Emisión:</b>", styles["Normal"]), Paragraph(datetime.now().strftime("%d/%m/%Y %H:%M"), styles["Normal"])
+        ],
+        [
+            Paragraph("<b>Estado:</b>", styles["Normal"]), Paragraph(status_str, styles["Normal"]), 
+            Paragraph("<b>Generado por:</b>", styles["Normal"]), Paragraph(generator, styles["Normal"])
+        ],
+    ]
+    
+    meta_table = Table(meta_info_data, colWidths=[100, 170, 100, 170])
+    meta_table.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#f8fafc")),
+        ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#e2e8f0")),
+        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+        ('PADDING', (0,0), (-1,-1), 6),
+    ]))
+    
+    elements.extend([meta_table, Spacer(1, 20)])
+    
+    return elements
 
 @router.get("/pending-orders", response_model=List[schemas.order.OrderDetail])
 def read_pending_orders(
@@ -140,17 +209,16 @@ def export_batch_consolidated(
     output = io.BytesIO()
     doc = SimpleDocTemplate(output, pagesize=letter)
     styles = getSampleStyleSheet()
-    elements = [
-        Paragraph(f"Consolidado de Productos - Lote #{id}", styles["Heading1"]),
-        Spacer(1, 12),
-    ]
+    
+    elements = get_pdf_header_elements(f"Consolidado de Productos - Lote #{id}", batch, current_user, styles)
 
     data = [["SKU", "Producto", "Unidad", "Cantidad Total"]]
     for item in batch.items:
+        p_name = item.product.name if item.product else "Producto Desconocido"
         data.append([
-            item.product.sku or "N/A",
-            Paragraph(item.product.name, styles["Normal"]),
-            item.product.unit,
+            (item.product.sku if item.product else "N/A") or "N/A",
+            Paragraph(xml_escape(p_name), styles["Normal"]),
+            (item.product.unit if item.product else "u") or "u",
             str(item.total_quantity),
         ])
 
@@ -189,6 +257,8 @@ def export_batch_buildings(
     from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
     from reportlab.lib.styles import getSampleStyleSheet
 
+    from collections import defaultdict
+
     batch = db.query(models.DispatchBatch).filter(models.DispatchBatch.id == id).first()
     if not batch:
         raise HTTPException(status_code=404, detail="Batch not found")
@@ -196,41 +266,95 @@ def export_batch_buildings(
     output = io.BytesIO()
     doc = SimpleDocTemplate(output, pagesize=letter)
     styles = getSampleStyleSheet()
-    elements = [
-        Paragraph(f"Distribución por Edificios - Lote #{id}", styles["Heading1"]),
-        Spacer(1, 12),
-    ]
+    
+    elements = get_pdf_header_elements(f"Distribución por Edificios - Lote #{id}", batch, current_user, styles)
 
     data = [["Edificio", "SKU", "Producto", "Unidad", "Cant.", "Precio", "Total"]]
+    # Group items by building name
+    building_groups = defaultdict(list)
     for order in batch.orders:
-        building_name = order.building.name
-        for item in order.items:
-            price = item.precio_unitario if item.precio_unitario is not None else item.product.precio
+        b_name = order.building.name if order.building else "Sin Edificio"
+        building_groups[b_name].extend(order.items)
+
+    grand_total = 0
+
+    for b_name, items in sorted(building_groups.items()):
+        b_display_name = b_name if b_name else "Sin Edificio"
+        # Agregar un título para el edificio
+        elements.append(Paragraph(f"Edificio: {xml_escape(b_display_name)}", styles["Heading2"]))
+        elements.append(Spacer(1, 6))
+
+        # Tabla individual para el edificio
+        data = [["SKU", "Producto", "Unidad", "Cant.", "Precio", "Total"]]
+        building_subtotal = 0
+        
+        # Agrupar items por producto dentro del edificio para evitar duplicados si hay múltiples órdenes
+        aggregated = {}
+        for item in items:
+            if not item.product:
+                continue
             name = item.nombre_producto_snapshot or item.product.name
-            total = item.quantity * price
+            # Fallback for price: snapshot -> product -> 0
+            price = item.precio_unitario if item.precio_unitario is not None else (item.product.precio if item.product.precio is not None else 0)
+            key = (item.product.sku, name, item.product.unit, price)
+            if key not in aggregated:
+                aggregated[key] = 0
+            aggregated[key] += item.quantity
+            
+        for (sku, name, unit, price), quantity in aggregated.items():
+            total = quantity * price
+            building_subtotal += total
+            
             data.append([
-                Paragraph(building_name, styles["Normal"]),
-                item.product.sku or "N/A",
-                Paragraph(name, styles["Normal"]),
-                item.product.unit,
-                str(item.quantity),
+                sku or "N/A",
+                Paragraph(xml_escape(name), styles["Normal"]),
+                unit or "u",
+                str(quantity),
                 f"S/{price:.2f}",
                 f"S/{total:.2f}",
             ])
+            
+        # Añadir subtotal
+        data.append([
+            "SUBTOTAL",
+            "", "", "", "",
+            f"S/{building_subtotal:.2f}"
+        ])
+        grand_total += building_subtotal
 
-    table = Table(data, colWidths=[100, 50, 180, 50, 40, 50, 60])
-    table.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), colors.steelblue),
+        # Crear tabla y estilos
+        table = Table(data, colWidths=[70, 210, 60, 50, 60, 70])
+        table.setStyle(TableStyle([
+            ("BACKGROUND", (0, 0), (-1, 0), colors.steelblue),
+            ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
+            ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+            ("ALIGN", (1, 1), (1, -1), "LEFT"),
+            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("BOTTOMPADDING", (0, 0), (-1, 0), 6),
+            ("GRID", (0, 0), (-1, -1), 1, colors.black),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            # Estilos del subtotal (última fila)
+            ("BACKGROUND", (0, -1), (-1, -1), colors.lightgrey),
+            ("FONTNAME", (0, -1), (-1, -1), "Helvetica-Bold"),
+            ("SPAN", (0, -1), (4, -1)),
+            ("ALIGN", (0, -1), (0, -1), "RIGHT"),
+        ]))
+        elements.append(table)
+        elements.append(Spacer(1, 15))
+
+    # Add Grand Total at the end
+    grand_data = [["TOTAL GENERAL (TODOS LOS EDIFICIOS)", f"S/{grand_total:.2f}"]]
+    grand_table = Table(grand_data, colWidths=[450, 70])
+    grand_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.grey),
         ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
-        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-        ("ALIGN", (0, 1), (0, -1), "LEFT"),
-        ("ALIGN", (2, 1), (2, -1), "LEFT"),
         ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-        ("BOTTOMPADDING", (0, 0), (-1, 0), 6),
+        ("ALIGN", (0, 0), (0, 0), "RIGHT"),
+        ("ALIGN", (1, 0), (1, 0), "CENTER"),
         ("GRID", (0, 0), (-1, -1), 1, colors.black),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("BOTTOMPADDING", (0, 0), (-1, 0), 6),
     ]))
-    elements.append(table)
+    elements.append(grand_table)
     doc.build(elements)
     output.seek(0)
 
@@ -241,67 +365,3 @@ def export_batch_buildings(
     )
 
 
-@router.get("/purchases/", response_model=List[schemas.dispatch.PurchaseDetail])
-def list_purchases(
-    db: Session = Depends(deps.get_db),
-    current_user: models.User = Depends(deps.get_current_active_management),
-    skip: int = 0,
-    limit: int = 100,
-) -> Any:
-    """List purchases. Paginated: use skip and limit query parameters."""
-    return (
-        db.query(models.Purchase)
-        .order_by(models.Purchase.purchase_date.desc())
-        .offset(skip)
-        .limit(limit)
-        .all()
-    )
-
-
-@router.post("/purchases/", response_model=schemas.dispatch.PurchaseDetail)
-def create_purchase(
-    *,
-    request: Request,
-    db: Session = Depends(deps.get_db),
-    purchase_in: schemas.dispatch.PurchaseCreate,
-    current_user: models.User = Depends(deps.get_current_active_management),
-) -> Any:
-    """Create a new purchase and update central stock."""
-    # Note: delegates to PurchaseService for atomic stock intake and audit logging.
-    # Public contract (URL, request/response shape) is unchanged.
-    request_id = getattr(request.state, "request_id", "unknown")
-    # Map schemas.dispatch.PurchaseCreate → schemas.purchase.PurchaseCreate
-    purchase_create = schemas.purchase.PurchaseCreate(
-        supplier=purchase_in.supplier,
-        invoice_number=purchase_in.invoice_number,
-        purchase_date=purchase_in.purchase_date,
-        notes=purchase_in.notes,
-        items=[
-            schemas.purchase.PurchaseItemCreate(
-                product_id=item.product_id,
-                quantity=item.quantity,
-                unit_price=item.unit_price,
-            )
-            for item in purchase_in.items
-        ]
-    )
-    return PurchaseService.create_purchase(
-        db=db,
-        purchase_in=purchase_create,
-        actor_id=current_user.id,
-        request_id=request_id,
-    )
-
-
-@router.get("/purchases/{id}", response_model=schemas.dispatch.PurchaseDetail)
-def get_purchase(
-    *,
-    db: Session = Depends(deps.get_db),
-    id: int,
-    current_user: models.User = Depends(deps.get_current_active_management),
-) -> Any:
-    """Get purchase detail."""
-    purchase = db.query(models.Purchase).filter(models.Purchase.id == id).first()
-    if not purchase:
-        raise HTTPException(status_code=404, detail="Purchase not found")
-    return purchase

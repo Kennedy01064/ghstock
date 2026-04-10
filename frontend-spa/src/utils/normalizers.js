@@ -18,7 +18,7 @@ export function normalizeUser(user) {
     ...user,
     buildingCount: assignedBuildings.length,
     assignedBuildings,
-    status: "activo",
+    status: user.is_active === false ? "suspendido" : "activo",
   }
 }
 

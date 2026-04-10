@@ -13,6 +13,7 @@ class PurchaseService:
         db: Session,
         purchase_in: schemas.purchase.PurchaseCreate,
         actor_id: int,
+        building_id: Optional[int] = None,
         request_id: Optional[str] = None
     ) -> models.Purchase:
         """
@@ -65,6 +66,7 @@ class PurchaseService:
                     quantity=item_in.quantity,
                     movement_type='purchase',
                     actor_id=actor_id,
+                    building_id=building_id,
                     reference_id=purchase.id,
                     reference_type='purchase'
                 )

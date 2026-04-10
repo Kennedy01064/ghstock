@@ -3,9 +3,9 @@
     <div class="w-full max-w-sm animate-in fade-in zoom-in duration-700">
       <div class="text-center mb-5 flex flex-col items-center group">
         <span class="flex h-20 w-20 items-center justify-center mb-4 rounded-full border border-white/10 bg-white/[0.03] shadow-2xl transition-transform group-hover:scale-105 duration-500">
-          <img :src="logoUrl" alt="Grupo Hernandez" class="h-12 w-12 object-contain drop-shadow-2xl" />
+          <img :src="institutionalLogo" :alt="institutionalName" class="h-12 w-12 object-contain drop-shadow-2xl" />
         </span>
-        <h1 class="text-2xl font-display font-black text-white tracking-[-0.05em] leading-none mb-1 uppercase">Grupo Hernandez</h1>
+        <h1 class="text-2xl font-display font-black text-white tracking-[-0.05em] leading-none mb-1 uppercase">{{ institutionalName }}</h1>
         <div class="flex items-center gap-3">
           <div class="h-px w-8 bg-amber/30"></div>
           <p class="text-[0.65rem] font-black text-amber uppercase tracking-[0.3em]">Gestion de Inventario</p>
@@ -22,6 +22,10 @@
           </div>
 
           <form class="px-8 py-6 space-y-5" @submit.prevent="handleLogin">
+            <div v-if="systemStore.isLocked" class="rounded-2xl border border-amber/20 bg-amber/10 px-4 py-4 text-[11px] uppercase tracking-[0.18em] text-amber">
+              Solo el superadmin puede ingresar en este momento. Contacte al desarrollador.
+            </div>
+
             <div class="space-y-1">
               <label class="label-premium">Identificador Unico</label>
               <div class="relative group/input">
@@ -63,7 +67,7 @@
           </form>
 
           <div class="px-8 pb-6 text-center">
-            <p class="text-[9px] text-white/20 font-black uppercase tracking-[0.2em]">Acceso Restringido ? Grupo Hernandez S.A.C.</p>
+            <p class="text-[9px] text-white/20 font-black uppercase tracking-[0.2em]">Acceso Restringido ? {{ institutionalName }}</p>
           </div>
         </div>
       </div>
@@ -72,20 +76,24 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue"
+import { computed, onMounted, reactive, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 
 import { useAuthStore } from "@/stores/authStore"
+import { useSystemStore } from "@/stores/systemStore"
 import { useUiStore } from "@/stores/uiStore"
-import { logoUrl } from "@/utils/formatters"
+import { assetUrl, logoUrl } from "@/utils/formatters"
 import { dashboardRouteForRole } from "@/utils/roleRoutes"
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const systemStore = useSystemStore()
 const uiStore = useUiStore()
 const showPassword = ref(false)
 const form = reactive({ username: "", password: "", remember: true })
+const institutionalName = computed(() => systemStore.publicStatus?.institutional_name || "Grupo Hernandez")
+const institutionalLogo = computed(() => assetUrl(systemStore.publicStatus?.institutional_logo_url, logoUrl))
 
 async function handleLogin() {
   try {
@@ -109,4 +117,10 @@ async function handleLogin() {
     uiStore.error(error.message, "Acceso denegado")
   }
 }
+
+onMounted(() => {
+  if (!systemStore.publicStatus) {
+    systemStore.fetchPublicStatus()
+  }
+})
 </script>

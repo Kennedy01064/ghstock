@@ -11,11 +11,11 @@ export const useUserStore = defineStore("users", () => {
   const isDeleting = ref(false)
   const error = ref("")
 
-  async function fetchUsers(role = "") {
+  async function fetchUsers(role = "", options = {}) {
     isLoading.value = true
     error.value = ""
     try {
-      const { data } = await usersApi.list(role)
+      const { data } = await usersApi.list(role, options)
       users.value = data
       return data
     } catch (err) {
@@ -93,6 +93,23 @@ export const useUserStore = defineStore("users", () => {
     }
   }
 
+  async function toggleUserActive(id) {
+    if (isSubmitting.value) return
+    isSubmitting.value = true
+    error.value = ""
+    try {
+      const { data } = await usersApi.toggleActive(id)
+      currentUser.value = data
+      users.value = users.value.map((user) => (user.id === data.id ? data : user))
+      return data
+    } catch (err) {
+      error.value = err.message
+      throw err
+    } finally {
+      isSubmitting.value = false
+    }
+  }
+
   return {
     users,
     currentUser,
@@ -104,6 +121,7 @@ export const useUserStore = defineStore("users", () => {
     fetchUser,
     createUser,
     updateUser,
+    toggleUserActive,
     deleteUser
   }
 })

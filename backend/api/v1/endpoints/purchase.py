@@ -25,6 +25,7 @@ def create_purchase(
         db=db,
         purchase_in=purchase_in,
         actor_id=current_user.id,
+        building_id=None,
         request_id=request_id
     )
 

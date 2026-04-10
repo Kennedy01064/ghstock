@@ -140,7 +140,7 @@ const form = reactive({
 
 const building = computed(() => (buildingStore.currentBuilding ? normalizeBuilding(buildingStore.currentBuilding) : null))
 const adminOptions = computed(() =>
-  userStore.users.map(normalizeUser).filter((admin) => admin.role === "admin"),
+  userStore.users.map(normalizeUser).filter((admin) => admin.role === "admin" && admin.is_active !== false),
 )
 const selectedAdminLabel = computed(() => {
   if (!form.adminId) {
@@ -181,7 +181,7 @@ async function submitForm() {
 }
 
 onMounted(async () => {
-  await Promise.all([userStore.fetchUsers("admin"), buildingStore.fetchBuilding(route.params.buildingId)])
+  await Promise.all([userStore.fetchUsers("admin", { includeInactive: false }), buildingStore.fetchBuilding(route.params.buildingId)])
 
   if (building.value) {
     form.name = building.value.name

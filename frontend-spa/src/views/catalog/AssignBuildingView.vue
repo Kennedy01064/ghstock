@@ -70,7 +70,9 @@ const selectedAdminId = ref(null)
 const selectedBuildingIds = ref([])
 const query = ref("")
 
-const admins = computed(() => userStore.users.map(normalizeUser).filter((admin) => admin.role === "admin"))
+const admins = computed(() =>
+  userStore.users.map(normalizeUser).filter((admin) => admin.role === "admin" && admin.is_active !== false),
+)
 const buildings = computed(() => buildingStore.buildings.map(normalizeBuilding))
 const filteredBuildings = computed(() => {
   if (!query.value.trim()) {
@@ -90,14 +92,14 @@ async function handleAssign() {
     const result = await buildingStore.assignToAdmin(selectedAdminId.value, selectedBuildingIds.value)
     uiStore.success(result.message, "Asignacion actualizada")
     selectedBuildingIds.value = []
-    await Promise.all([buildingStore.fetchBuildings(), userStore.fetchUsers("admin")])
+    await Promise.all([buildingStore.fetchBuildings(), userStore.fetchUsers("admin", { includeInactive: false })])
   } catch (error) {
     uiStore.error(error.message, "No se pudo asignar edificios")
   }
 }
 
 onMounted(async () => {
-  await Promise.all([userStore.fetchUsers("admin"), buildingStore.fetchBuildings()])
+  await Promise.all([userStore.fetchUsers("admin", { includeInactive: false }), buildingStore.fetchBuildings()])
   selectedAdminId.value = admins.value[0]?.id ?? null
 })
 </script>

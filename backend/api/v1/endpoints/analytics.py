@@ -68,40 +68,81 @@ def _cache_dashboard(cache_key: str, schema: type[BaseModel], payload: Any) -> A
     return serialized_payload
 
 
+def _normalize_setting_datetime(value: datetime | None) -> datetime | None:
+    if value is None:
+        return None
+    if value.tzinfo is None:
+        return value.replace(tzinfo=timezone.utc)
+    return value.astimezone(timezone.utc)
+
+
+def _settings_cache_version(settings_row: models.SystemSetting) -> str:
+    timestamp = _normalize_setting_datetime(settings_row.last_updated)
+    if timestamp is None:
+        return "0"
+    return str(int(timestamp.timestamp()))
+
+
+def _build_submission_deadline_payload(
+    *,
+    settings_row: models.SystemSetting,
+    now: datetime,
+    pending_orders_count: int,
+) -> dict[str, Any] | None:
+    deadline_at = _normalize_setting_datetime(settings_row.order_submission_deadline_at)
+    if deadline_at is None:
+        return None
+
+    return {
+        "deadline_at": deadline_at,
+        "note": settings_row.order_submission_deadline_note,
+        "state": "overdue" if deadline_at < now else "upcoming",
+        "pending_orders_count": pending_orders_count,
+    }
+
+
 @router.get("/admin", response_model=schemas.dashboard.AdminDashboard)
 def get_admin_dashboard(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Operations dashboard for Building Admins."""
-    cache_key = f"analytics:admin:{current_user.role}:{current_user.id}"
+    settings_row = deps.get_system_setting(db)
+    cache_key = (
+        f"analytics:admin:{current_user.role}:{current_user.id}:settings:{_settings_cache_version(settings_row)}"
+    )
     cached_payload = _get_cached_dashboard(cache_key)
     if cached_payload is not None:
         return cached_payload
 
-    active_statuses = ["submitted", "processing", "dispatched"]
+    active_statuses = ["draft", "submitted", "processing", "partially_dispatched"]
+    transit_statuses = ["submitted", "processing", "partially_dispatched", "dispatched"]
+    now = datetime.now(timezone.utc)
 
     if current_user.role == "superadmin":
         base_buildings = db.query(models.Building).all()
         building_ids = [b.id for b in base_buildings]
         pedidos_activos = db.query(models.Order).filter(
-            models.Order.status.in_(["draft", "submitted", "processing"])
+            models.Order.status.in_(active_statuses)
         ).count()
         pedidos_en_transito = db.query(models.Order).filter(
-            models.Order.status.in_(["submitted", "processing"])
+            models.Order.status.in_(transit_statuses)
         ).count()
         historial_pedidos = db.query(models.Order).order_by(models.Order.created_at.desc()).limit(10).all()
         pedidos_despachados = db.query(models.Order).filter_by(status="dispatched").order_by(models.Order.created_at.desc()).all()
+        pending_orders_count = db.query(models.Order).filter(
+            models.Order.status == "draft"
+        ).count()
     else:
         base_buildings = db.query(models.Building).filter(models.Building.admin_id == current_user.id).all()
         building_ids = [b.id for b in base_buildings]
         pedidos_activos = db.query(models.Order).filter(
             models.Order.building_id.in_(building_ids),
-            models.Order.status.in_(["draft", "submitted", "processing"])
+            models.Order.status.in_(active_statuses)
         ).count()
         pedidos_en_transito = db.query(models.Order).filter(
             models.Order.building_id.in_(building_ids),
-            models.Order.status.in_(["submitted", "processing"])
+            models.Order.status.in_(transit_statuses)
         ).count()
         historial_pedidos = db.query(models.Order).filter(
             models.Order.building_id.in_(building_ids)
@@ -110,6 +151,10 @@ def get_admin_dashboard(
             models.Order.building_id.in_(building_ids),
             models.Order.status == "dispatched"
         ).order_by(models.Order.created_at.desc()).all()
+        pending_orders_count = db.query(models.Order).filter(
+            models.Order.building_id.in_(building_ids),
+            models.Order.status == "draft",
+        ).count()
 
     # Fix N+1: Use a single aggregated query for counts
     active_counts = db.query(
@@ -139,6 +184,11 @@ def get_admin_dashboard(
         "pedidos_en_transito": pedidos_en_transito,
         "historial_pedidos": historial_pedidos,
         "pedidos_despachados": pedidos_despachados,
+        "submission_deadline": _build_submission_deadline_payload(
+            settings_row=settings_row,
+            now=now,
+            pending_orders_count=pending_orders_count,
+        ),
     }
     return _cache_dashboard(cache_key, schemas.dashboard.AdminDashboard, payload)
 
@@ -149,25 +199,71 @@ def get_manager_dashboard(
     current_user: models.User = Depends(deps.get_current_active_management),
 ) -> Any:
     """Warehouse operations dashboard."""
-    cache_key = "analytics:manager"
+    settings_row = deps.get_system_setting(db)
+    cache_key = f"analytics:manager:v3:settings:{_settings_cache_version(settings_row)}"
     cached_payload = _get_cached_dashboard(cache_key)
     if cached_payload is not None:
         return cached_payload
 
+    now = datetime.now(timezone.utc)
+    first_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
     pedidos_submitted = db.query(models.Order).filter_by(status="submitted").count()
+    pending_orders_count = db.query(models.Order).filter_by(status="draft").count()
+    total_edificios_activos = db.query(func.count(func.distinct(models.Order.building_id))).scalar() or 0
+    costo_despachado_mes = db.query(
+        func.coalesce(func.sum(models.DispatchBatchItem.total_quantity * models.Product.precio), 0)
+    ).join(
+        models.Product, models.DispatchBatchItem.product_id == models.Product.id
+    ).join(
+        models.DispatchBatch, models.DispatchBatchItem.batch_id == models.DispatchBatch.id
+    ).filter(
+        models.DispatchBatch.status == "dispatched",
+        models.DispatchBatch.created_at >= first_of_month
+    ).scalar() or 0
+    total_productos = db.query(models.Product).filter_by(is_active=True).count()
     lotes_pendientes = db.query(models.DispatchBatch).filter_by(status="pending").all()
     alertas_stock = db.query(models.Product).filter(
         models.Product.stock_actual <= models.Product.stock_minimo,
         models.Product.is_active == True
     ).order_by(models.Product.stock_actual.asc()).limit(8).all()
-    
     compras_recientes = db.query(models.Purchase).order_by(models.Purchase.purchase_date.desc()).limit(5).all()
+
+    pedidos_por_edificio_raw = db.query(
+        models.Building.name.label("building_name"),
+        func.count(models.Order.id).label("total_pedidos")
+    ).join(
+        models.Order, models.Building.id == models.Order.building_id
+    ).group_by(models.Building.name).order_by(func.count(models.Order.id).desc()).all()
+
+    top_productos = db.query(
+        models.Product.name.label("product_name"),
+        func.sum(models.OrderItem.quantity).label("total_solicitado")
+    ).join(
+        models.OrderItem, models.Product.id == models.OrderItem.product_id
+    ).group_by(models.Product.name).order_by(func.sum(models.OrderItem.quantity).desc()).limit(5).all()
 
     payload = {
         "pedidos_submitted": pedidos_submitted,
+        "total_edificios_activos": total_edificios_activos,
+        "costo_despachado_mes": costo_despachado_mes,
+        "total_productos": total_productos,
         "lotes_pendientes": lotes_pendientes,
         "alertas_stock": alertas_stock,
         "compras_recientes": compras_recientes,
+        "pedidos_por_edificio": [
+            {"building_name": row.building_name, "total_pedidos": row.total_pedidos}
+            for row in pedidos_por_edificio_raw
+        ],
+        "chart_edificios_labels": [row.building_name for row in pedidos_por_edificio_raw],
+        "chart_edificios_data": [row.total_pedidos for row in pedidos_por_edificio_raw],
+        "chart_productos_labels": [row.product_name for row in top_productos],
+        "chart_productos_data": [int(row.total_solicitado) for row in top_productos],
+        "submission_deadline": _build_submission_deadline_payload(
+            settings_row=settings_row,
+            now=now,
+            pending_orders_count=pending_orders_count,
+        ),
     }
     return _cache_dashboard(cache_key, schemas.dashboard.ManagerDashboard, payload)
 
@@ -181,7 +277,8 @@ def get_superadmin_dashboard(
     if current_user.role != "superadmin":
         raise HTTPException(status_code=403, detail="Not enough privileges")
 
-    cache_key = "analytics:superadmin"
+    settings_row = deps.get_system_setting(db)
+    cache_key = f"analytics:superadmin:settings:{_settings_cache_version(settings_row)}"
     cached_payload = _get_cached_dashboard(cache_key)
     if cached_payload is not None:
         return cached_payload

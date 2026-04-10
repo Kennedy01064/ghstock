@@ -1,5 +1,5 @@
 from typing import Any, List, Optional
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.orm import Session
 from backend import models, schemas
 from backend.api import deps
@@ -8,21 +8,21 @@ from backend.domain.errors import DomainError
 
 router = APIRouter()
 
-
 def _assert_building_access(building_id: int, current_user: models.User):
     if current_user.role in ("superadmin", "manager"):
         return
     my_building_ids = {b.id for b in current_user.assigned_buildings}
     if building_id not in my_building_ids:
         raise HTTPException(status_code=403, detail=f"No access to building {building_id}")
-
-
 @router.get("/", response_model=List[schemas.inventory.BuildingInventoryItem])
 def list_inventory(
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_active_user),
     building_id: int | None = None,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=500),
+    response: Response,
 ) -> Any:
     """List building inventory items visible to the current user."""
     query = db.query(models.BuildingInventory)
@@ -38,7 +38,10 @@ def list_inventory(
         else:
             query = query.filter(models.BuildingInventory.building_id.in_(my_building_ids))
 
-    return query.order_by(models.BuildingInventory.last_updated.desc()).all()
+    total = query.count()
+    response.headers["X-Total-Count"] = str(total)
+    return query.order_by(models.BuildingInventory.last_updated.desc()).offset(skip).limit(limit).all()
+ Elias
 
 
 @router.post("/transfer")
@@ -127,54 +130,43 @@ def get_movement_history(
     building_id: Optional[int] = None,
     product_id: Optional[int] = None,
     movement_type: Optional[str] = None,
+    skip: int = Query(0, ge=0),
     limit: int = Query(100, le=500),
     current_user: models.User = Depends(deps.get_current_active_user),
+    response: Response,
 ) -> Any:
-    """Get inventory movement history with filtering.
-
-    Access rules:
-    - superadmin / manager: can query any building or all buildings globally.
-    - admin: always scoped to their assigned buildings. If building_id is provided,
-      it must be one of their assigned buildings. If not provided, the response
-      covers only their assigned buildings.
-    """
-    if current_user.role in ("superadmin", "manager"):
+    """Get inventory movement history with filtering."""
+    
+    # Define query to get total count
+    query = db.query(models.InventoryMovement)
+    
+    if current_user.role not in ("superadmin", "manager"):
+        # Non-privileged role: strict scope to assigned buildings only.
+        my_building_ids = [b.id for b in current_user.assigned_buildings]
+        if building_id is not None:
+            if building_id not in my_building_ids:
+                raise HTTPException(status_code=403, detail=f"No access to building {building_id}")
+            query = query.filter(models.InventoryMovement.building_id == building_id)
+        else:
+            if not my_building_ids:
+                response.headers["X-Total-Count"] = "0"
+                return []
+            query = query.filter(models.InventoryMovement.building_id.in_(my_building_ids))
+    else:
+        # superadmin / manager
         if building_id:
-            _assert_building_access(building_id, current_user)
-        return BuildingInventoryService.get_history(
-            db=db,
-            building_id=building_id,
-            product_id=product_id,
-            movement_type=movement_type,
-            limit=limit
-        )
+            query = query.filter(models.InventoryMovement.building_id == building_id)
 
-    # Non-privileged role: strict scope to assigned buildings only.
-    my_building_ids = [b.id for b in current_user.assigned_buildings]
-
-    if building_id is not None:
-        if building_id not in my_building_ids:
-            raise HTTPException(status_code=403, detail=f"No access to building {building_id}")
-        return BuildingInventoryService.get_history(
-            db=db,
-            building_id=building_id,
-            product_id=product_id,
-            movement_type=movement_type,
-            limit=limit
-        )
-
-    # No building_id provided: return movements for all assigned buildings combined.
-    if not my_building_ids:
-        return []
-
-    query = db.query(models.InventoryMovement).filter(
-        models.InventoryMovement.building_id.in_(my_building_ids)
-    )
     if product_id:
         query = query.filter(models.InventoryMovement.product_id == product_id)
     if movement_type:
         query = query.filter(models.InventoryMovement.movement_type == movement_type)
-    return query.order_by(models.InventoryMovement.created_at.desc()).limit(limit).all()
+
+    total = query.count()
+    response.headers["X-Total-Count"] = str(total)
+    
+    return query.order_by(models.InventoryMovement.created_at.desc()).offset(skip).limit(limit).all()
+ Elias
 
 
 @router.get("/{id}", response_model=schemas.inventory.BuildingInventoryItem)

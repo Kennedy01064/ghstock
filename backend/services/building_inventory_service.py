@@ -285,7 +285,8 @@ class BuildingInventoryService:
         building_id: Optional[int] = None,
         product_id: Optional[int] = None,
         movement_type: Optional[str] = None,
-        limit: int = 100
+        limit: int = 100,
+        skip: int = 0
     ) -> List[models.InventoryMovement]:
         """
         Query building/central movement history.
@@ -298,4 +299,4 @@ class BuildingInventoryService:
         if movement_type:
             query = query.filter(models.InventoryMovement.movement_type == movement_type)
         
-        return query.order_by(models.InventoryMovement.created_at.desc()).limit(limit).all()
+        return query.order_by(models.InventoryMovement.created_at.desc()).offset(skip).limit(limit).all()

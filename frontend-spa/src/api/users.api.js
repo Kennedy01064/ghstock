@@ -5,9 +5,17 @@ export default {
     return apiClient.get("/users/me")
   },
 
-  list(role = "") {
+  list(role = "", options = {}) {
+    const params = {}
+    if (role) {
+      params.role = role
+    }
+    if (options.includeInactive) {
+      params.include_inactive = true
+    }
+
     return apiClient.get("/users/", {
-      params: role ? { role } : {},
+      params,
     })
   },
 
@@ -20,7 +28,16 @@ export default {
   },
 
   update(id, payload, queryParams = {}) {
-    return apiClient.put(`/users/${id}`, payload, { params: queryParams })
+    return apiClient.put(`/users/${id}`, payload, {
+      params: queryParams,
+      paramsSerializer: {
+        indexes: null,
+      },
+    })
+  },
+
+  toggleActive(id) {
+    return apiClient.patch(`/users/${id}/toggle-active`)
   },
 
   delete(id) {

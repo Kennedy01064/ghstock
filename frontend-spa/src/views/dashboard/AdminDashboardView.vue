@@ -57,6 +57,60 @@
       </div>
     </div>
 
+    <div
+      v-if="submissionDeadline"
+      class="rounded-[2rem] border p-6 md:p-8 shadow-[0_0_40px_rgba(4,17,32,0.18)]"
+      :class="submissionDeadline.state === 'overdue' ? 'border-rose-500/30 bg-rose-500/10' : 'border-cyan-400/20 bg-cyan-400/5'"
+    >
+      <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+        <div class="flex items-start gap-4">
+          <div
+            class="w-11 h-11 rounded-2xl border flex items-center justify-center shrink-0"
+            :class="submissionDeadline.state === 'overdue' ? 'border-rose-400/30 bg-rose-500/15 text-rose-200' : 'border-cyan-400/30 bg-cyan-400/10 text-cyan-100'"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-3">
+              <h3 class="text-lg font-black text-white uppercase tracking-[0.12em]">Alerta de cierre operativo</h3>
+              <span class="inline-flex items-center rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em]" :class="submissionDeadline.state === 'overdue' ? 'border-rose-400/30 bg-rose-500/10 text-rose-100' : 'border-cyan-400/30 bg-cyan-400/10 text-cyan-100'">
+                {{ submissionDeadline.state === "overdue" ? "Vencida" : "Programada" }}
+              </span>
+            </div>
+
+            <p class="text-sm leading-7 text-text-secondary">
+              {{ submissionDeadline.state === "overdue" ? "La fecha limite para enviar listas ya vencio." : "Existe una fecha limite activa para el envio de listas." }}
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 text-sm font-bold">
+              <span class="text-white">{{ formatDateTime(submissionDeadline.deadline_at) }}</span>
+              <span :class="submissionDeadline.state === 'overdue' ? 'text-rose-200' : 'text-cyan-100'">
+                {{ deadlineRelativeCopy(submissionDeadline.deadline_at, submissionDeadline.state) }}
+              </span>
+            </div>
+
+            <p v-if="submissionDeadline.note" class="text-sm leading-7 text-text-secondary">
+              {{ submissionDeadline.note }}
+            </p>
+          </div>
+        </div>
+
+        <div class="w-full max-w-[280px] rounded-[28px] border border-white/10 bg-black/10 px-5 py-5 space-y-3 shrink-0">
+          <p class="text-[10px] font-black uppercase tracking-[0.24em] text-text-muted">Listas pendientes</p>
+          <p class="text-4xl font-black text-white">{{ submissionDeadline.pending_orders_count }}</p>
+          <p class="text-xs leading-6 text-text-secondary">
+            {{ submissionDeadline.pending_orders_count === 0 ? "No tienes borradores pendientes por enviar." : submissionDeadline.pending_orders_count === 1 ? "Mantienes 1 lista en borrador pendiente de envio." : `Mantienes ${submissionDeadline.pending_orders_count} listas en borrador pendientes de envio.` }}
+          </p>
+          <RouterLink :to="{ name: 'ordersMyOrders' }" class="btn btn-secondary w-full !py-3 !text-[10px]">
+            Revisar mis pedidos
+          </RouterLink>
+        </div>
+      </div>
+    </div>
+
     <div v-if="dashboard.pedidos_despachados?.length" class="rounded-[2rem] border border-blue-500/30 bg-blue-500/5 p-6 md:p-8 shadow-[0_0_40px_rgba(59,130,246,0.05)]">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div class="flex items-center gap-4">
@@ -262,6 +316,7 @@ const router = useRouter()
 const apiStatus = ref("...")
 
 const dashboard = computed(() => dashboardStore.adminDashboard)
+const submissionDeadline = computed(() => dashboard.value?.submission_deadline ?? null)
 const displayName = computed(() => titleCase(authStore.user?.name || authStore.user?.username || "Usuario"))
 const metrics = computed(() => [
   {
@@ -307,6 +362,42 @@ async function reloadDashboard() {
 
 function buildingImage(building) {
   return assetUrl(building.imagen_frontis, defaultBuildingUrl)
+}
+
+function formatDateTime(value) {
+  if (!value) {
+    return "-"
+  }
+
+  return new Intl.DateTimeFormat("es-PE", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(value))
+}
+
+function deadlineRelativeCopy(value, state) {
+  if (!value) {
+    return ""
+  }
+
+  const diffMs = new Date(value).getTime() - Date.now()
+  const diffHours = Math.round(Math.abs(diffMs) / 36e5)
+
+  if (state === "overdue") {
+    if (diffHours < 1) {
+      return "El cierre ya expiro."
+    }
+    return `El cierre expiro hace ${diffHours} hora${diffHours === 1 ? "" : "s"}.`
+  }
+
+  if (diffHours < 1) {
+    return "El cierre ocurre en menos de una hora."
+  }
+
+  return `El cierre ocurre en ${diffHours} hora${diffHours === 1 ? "" : "s"}.`
 }
 
 async function createOrder(buildingId) {

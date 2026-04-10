@@ -1,6 +1,6 @@
 import axios from "axios"
 
-import { emitUnauthorized } from "@/utils/authBus"
+import { emitLockdown, emitUnauthorized } from "@/utils/authBus"
 import { clearAuthSession, getStoredToken } from "@/utils/authSession"
 
 export const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api/v1"
@@ -29,6 +29,10 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       clearAuthSession()
       emitUnauthorized()
+    }
+    if (error.response?.status === 423) {
+      clearAuthSession()
+      emitLockdown(typeof error.response?.data?.detail === "string" ? error.response.data.detail : "")
     }
 
     const isTimeout = error.code === "ECONNABORTED" || error.message.includes("timeout")

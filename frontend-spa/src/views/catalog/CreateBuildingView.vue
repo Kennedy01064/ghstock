@@ -165,7 +165,7 @@ const form = reactive({
 })
 
 const adminOptions = computed(() =>
-  userStore.users.map(normalizeUser).filter((admin) => admin.role === "admin"),
+  userStore.users.map(normalizeUser).filter((admin) => admin.role === "admin" && admin.is_active !== false),
 )
 const selectedAdminLabel = computed(() => {
   if (!form.adminId) {
@@ -204,6 +204,6 @@ async function submitForm() {
 }
 
 onMounted(() => {
-  userStore.fetchUsers("admin")
+  userStore.fetchUsers("admin", { includeInactive: false })
 })
 </script>

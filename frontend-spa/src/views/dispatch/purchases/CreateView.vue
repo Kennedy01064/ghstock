@@ -33,10 +33,8 @@
             <label class="eyebrow !text-text-muted">N° de Factura / Guia</label>
             <input v-model="form.invoiceNumber" type="text" :disabled="dispatchStore.isPurchasing" placeholder="Ej: F001-00123" class="input-field font-bold uppercase tracking-widest text-[11px] placeholder:text-white/10">
           </div>
-          <div class="space-y-3">
             <label class="eyebrow !text-text-muted">Fecha de Operacion <span class="text-amber">*</span></label>
-            <input v-model="form.purchaseDate" type="date" required :disabled="dispatchStore.isPurchasing" class="input-field font-bold text-amber">
-          </div>
+            <PremiumDateTimePicker v-model="form.purchaseDate" type="date" :disabled="dispatchStore.isPurchasing" />
           <div class="md:col-span-3 space-y-3">
             <label class="eyebrow !text-text-muted">Observaciones Internas</label>
             <textarea v-model="form.notes" rows="2" :disabled="dispatchStore.isPurchasing" placeholder="Detalles relevantes de la transaccion..." class="input-field min-h-[80px] py-4 placeholder:text-white/10" />
@@ -173,6 +171,7 @@ import { useProductStore } from "@/stores/productStore"
 import { useDispatchStore } from "@/stores/dispatchStore"
 import { useUiStore } from "@/stores/uiStore"
 import { normalizeProduct } from "@/utils/normalizers"
+import PremiumDateTimePicker from "@/components/ui/PremiumDateTimePicker.vue"
 
 const router = useRouter()
 const productStore = useProductStore()

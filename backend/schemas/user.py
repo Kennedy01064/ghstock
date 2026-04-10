@@ -5,6 +5,7 @@ class UserBase(BaseModel):
     username: str
     name: Optional[str] = None
     role: str = "admin"
+    is_active: bool = True
 
 class UserCreate(UserBase):
     password: str
@@ -14,6 +15,7 @@ class UserUpdate(BaseModel):
     password: Optional[str] = None
     role: Optional[str] = None
     username: Optional[str] = None
+    is_active: Optional[bool] = None
 
 class User(UserBase):
     id: int
@@ -31,6 +33,7 @@ UserWithBuildings.model_rebuild()
 
 class Token(BaseModel):
     access_token: str
+    refresh_token: str
     token_type: str
 
 class TokenData(BaseModel):

@@ -153,6 +153,27 @@ body {
     color: rgba(248, 245, 239, 0.15);
 }
 
+/* Premium Datetime Picker Overrides */
+.custom-datetime-input::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+    z-index: 20;
+}
+
+.custom-datetime-input {
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
 .select-field {
     width: 100%;
     padding: 1rem 3rem 1rem 1.25rem;

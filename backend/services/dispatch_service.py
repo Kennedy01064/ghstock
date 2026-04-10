@@ -75,7 +75,7 @@ class DispatchService:
                 product_id=product_id,
                 quantity=total,
                 actor_id=self.current_user.id,
-                reference_id=None, # Will update after batch.id is solid or just use batch.id if flushed
+                reference_id=batch.id,
                 reference_type='batch_reserve'
             )
             self.db.add(models.DispatchBatchItem(
@@ -113,6 +113,7 @@ class DispatchService:
                 product_id=item.product_id,
                 quantity=item.total_quantity,
                 actor_id=self.current_user.id,
+                building_id=None,
                 reference_id=batch.id,
                 reference_type='batch'
             )

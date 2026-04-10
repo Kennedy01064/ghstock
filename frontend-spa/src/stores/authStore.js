@@ -3,7 +3,7 @@ import { computed, ref } from "vue"
 import { defineStore } from "pinia"
 
 import apiClient from "@/utils/apiClient"
-import { onUnauthorized } from "@/utils/authBus"
+import { onLockdown, onUnauthorized } from "@/utils/authBus"
 import { clearAuthSession, getStoredToken, persistAuthSession, readAuthSession } from "@/utils/authSession"
 import { dashboardRouteForRole } from "@/utils/roleRoutes"
 
@@ -65,8 +65,14 @@ export const useAuthStore = defineStore("auth", () => {
       }
 
       await fetchCurrentUser()
-    } catch {
-      clearSession()
+    } catch (requestError) {
+      if (requestError?.status === 423) {
+        token.value = ""
+        user.value = null
+        clearAuthSession()
+      } else {
+        clearSession()
+      }
     } finally {
       isInitializing.value = false
     }
@@ -129,6 +135,22 @@ export const useAuthStore = defineStore("auth", () => {
       // Avoid redundant redirect if already on login page
       if (currentRoute?.name !== "login") {
         const query = currentRoute?.meta?.requiresAuth ? { redirect: currentRoute.fullPath } : {}
+        router.push({ name: "login", query })
+      }
+    }
+  }
+
+  onLockdown.value = (message = "Sistema bloqueado. Contacte al desarrollador.") => {
+    const hadToken = Boolean(token.value)
+
+    token.value = ""
+    user.value = null
+    error.value = message
+
+    if (hadToken) {
+      const currentRoute = router.currentRoute.value
+      if (currentRoute?.name !== "login") {
+        const query = { locked: "1" }
         router.push({ name: "login", query })
       }
     }

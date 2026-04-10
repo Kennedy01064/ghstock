@@ -297,7 +297,7 @@ const navItems = computed(() => [
   { to: { name: "catalogAssignBuilding" }, iconPath: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4", label: "Asignar Edif." },
   { to: { name: "catalogBuildingCreate" }, iconPath: "M12 4v16m8-8H4", label: "Nuevo Edificio" },
   { to: { name: "catalogAdminCreate" }, iconPath: "M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0z", label: "Nuevo Admin" },
-  { to: { name: "ordersBuildings" }, iconPath: "M3 3h2l.4 2M7 13h10l4-8H5.4", label: "Ver Pedidos" },
+  { to: { name: "superadminControl" }, iconPath: "M12 8a4 4 0 00-4 4v3a2 2 0 002 2h4a2 2 0 002-2v-3a4 4 0 00-4-4zm0 0V5m0 14v-2m7-5h-2M7 12H5", label: "Control SA" },
 ])
 
 onMounted(() => {

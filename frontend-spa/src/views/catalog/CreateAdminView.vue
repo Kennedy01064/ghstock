@@ -87,7 +87,7 @@
                     <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
                     <span class="text-sm font-black text-white group-hover:text-amber transition-all">Perfil Directivo</span>
                   </div>
-                  <p class="text-[10px] font-medium text-text-muted mt-1 ml-4.5">Control total del catalogo, infraestructura y auditoria de personal.</p>
+                  <p class="text-[10px] font-medium text-text-muted mt-1 ml-4.5">Gestion integral de catalogo, edificios y alta de cuentas administrativas.</p>
                 </button>
               </li>
             </ul>
@@ -210,4 +210,3 @@ async function submitForm() {
   }
 }
 </script>
-

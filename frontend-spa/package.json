@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:e2e": "playwright test",
+    "test:e2e": "echo \"WARNING: Make sure to run 'python -m uvicorn backend.main:app --port 8000' in another terminal before running tests.\" && playwright test",
     "test:e2e:ui": "playwright test --ui"
   },
   "devDependencies": {

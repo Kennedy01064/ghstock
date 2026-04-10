@@ -71,6 +71,22 @@
             >
               Edificios
             </RouterLink>
+            <RouterLink
+              v-if="showManagementNavigation"
+              :to="{ name: 'catalogAdmins' }"
+              class="relative inline-flex items-center py-2 text-[0.88rem] font-semibold tracking-[-0.01em] transition duration-200"
+              :class="desktopLinkClass('catalogAdmins', 'text-amber-soft hover:text-amber')"
+            >
+              Usuarios
+            </RouterLink>
+            <RouterLink
+              v-if="currentUser.role === 'superadmin'"
+              :to="{ name: 'superadminControl' }"
+              class="relative inline-flex items-center py-2 text-[0.88rem] font-semibold tracking-[-0.01em] transition duration-200"
+              :class="desktopLinkClass('superadminControl', 'text-rose-300 hover:text-rose-200')"
+            >
+              Control SA
+            </RouterLink>
             <a
               v-if="showApiDocs"
               :href="apiDocsUrl"
@@ -115,6 +131,14 @@
         </nav>
 
         <div class="flex items-center gap-4">
+          <div
+            v-if="currentUser.role === 'superadmin' && systemStore.publicStatus"
+            class="hidden xl:flex items-center gap-2 rounded-full border px-3 py-2 text-[9px] font-black uppercase tracking-[0.18em]"
+            :class="systemStore.isLocked ? 'border-rose-400/20 bg-rose-500/10 text-rose-300' : 'border-emerald-400/20 bg-emerald-500/10 text-emerald-300'"
+          >
+            <span class="h-1.5 w-1.5 rounded-full" :class="systemStore.isLocked ? 'bg-rose-300' : 'bg-emerald-300'"></span>
+            {{ systemStore.isLocked ? "Bloqueo activo" : "Sistema activo" }}
+          </div>
           <button
             v-if="showRoleToggle"
             type="button"
@@ -218,7 +242,13 @@
             </svg>
             Edificios
           </RouterLink>
-          <RouterLink :to="{ name: 'catalogAdmins' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-amber-soft hover:text-amber hover:bg-white/10 transition-colors">
+          <RouterLink v-if="currentUser.role === 'superadmin'" :to="{ name: 'superadminControl' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-rose-300 hover:text-rose-200 hover:bg-white/10 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8a4 4 0 00-4 4v3a2 2 0 002 2h4a2 2 0 002-2v-3a4 4 0 00-4-4zm0 0V5m0 14v-2m7-5h-2M7 12H5" />
+            </svg>
+            Control SA
+          </RouterLink>
+          <RouterLink v-if="showManagementNavigation" :to="{ name: 'catalogAdmins' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-amber-soft hover:text-amber hover:bg-white/10 transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
@@ -281,6 +311,7 @@ import { computed, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 
 import { useAuthStore } from "@/stores/authStore"
+import { useSystemStore } from "@/stores/systemStore"
 import { useUiStore } from "@/stores/uiStore"
 import { logoUrl, titleCase } from "@/utils/formatters"
 import { dashboardRouteForRole } from "@/utils/roleRoutes"
@@ -289,6 +320,7 @@ const apiDocsUrl = import.meta.env.VITE_API_DOCS_URL ?? "http://127.0.0.1:8000/d
 const adminViewStorageKey = "gh_view_as_admin"
 
 const authStore = useAuthStore()
+const systemStore = useSystemStore()
 const uiStore = useUiStore()
 const route = useRoute()
 const router = useRouter()
@@ -376,7 +408,9 @@ function isActiveRoute(name) {
     dispatchHistory: ["dispatchHistory"],
     dispatchPurchases: ["dispatchPurchases", "dispatchPurchaseCreate", "dispatchPurchaseDetail"],
     catalogWarehouse: ["catalogWarehouse", "catalogProductCreate", "catalogProductEdit", "catalogUploadCsv"],
-    catalogBuildings: ["catalogBuildings", "catalogBuildingCreate", "catalogBuildingEdit", "catalogAssignBuilding", "catalogAdmins", "catalogAdminCreate", "catalogAdminEdit"],
+    catalogBuildings: ["catalogBuildings", "catalogBuildingCreate", "catalogBuildingEdit", "catalogAssignBuilding"],
+    catalogAdmins: ["catalogAdmins", "catalogAdminCreate", "catalogAdminEdit"],
+    superadminControl: ["superadminControl"],
     ordersMyOrders: ["ordersMyOrders", "ordersOrderDetail"],
     ordersMyInventory: ["ordersMyInventory", "ordersAddInventory"],
     ordersConsumption: ["ordersConsumption"],

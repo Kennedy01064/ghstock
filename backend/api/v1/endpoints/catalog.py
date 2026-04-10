@@ -39,7 +39,8 @@ def read_all_products(
     if q:
         query = query.filter(
             (models.Product.name.ilike(f"%{q}%")) | 
-            (models.Product.sku.ilike(f"%{q}%"))
+            (models.Product.sku.ilike(f"%{q}%")) |
+            (models.Product.barcode == q)
         )
     products = query.order_by(models.Product.name).offset(skip).limit(limit).all()
     return products
@@ -88,7 +89,7 @@ def create_product(
     db.add(product)
     db.flush()
     if initial_stock > 0:
-        InventoryService.adjust_stock(db=db, product_id=product.id, new_quantity=initial_stock, actor_id=current_user.id, reason='Initial Creation')
+        InventoryService.adjust_stock(db=db, product_id=product.id, new_quantity=initial_stock, actor_id=current_user.id, building_id=None, reason='Initial Creation')
     db.commit()
     db.refresh(product)
     return product
@@ -113,7 +114,7 @@ def update_product(
         setattr(product, field, value)
     db.flush()
     if new_stock is not None and new_stock != product.stock_actual:
-        InventoryService.adjust_stock(db=db, product_id=product.id, new_quantity=new_stock, actor_id=current_user.id, reason='Manual Update')
+        InventoryService.adjust_stock(db=db, product_id=product.id, new_quantity=new_stock, actor_id=current_user.id, building_id=None, reason='Manual Update')
     db.commit()
     db.refresh(product)
     return product
@@ -289,3 +290,4 @@ async def sync_product(
     db.commit()
     db.refresh(product)
     return product
+ Elias

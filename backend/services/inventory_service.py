@@ -61,8 +61,17 @@ class InventoryService:
             )
 
         product.reserved_stock += quantity
-        InventoryService._create_movement(
-            db, product_id, -quantity, 'reserve', actor_id, None, reference_id, reference_type
+        
+        audit_service.log_event(
+            operation="RESERVE_STOCK",
+            actor_id=actor_id,
+            request_id=None,
+            payload={
+                "product_id": product_id,
+                "sku": product.sku,
+                "quantity": quantity,
+                "reference_id": reference_id
+            }
         )
         return product
 
@@ -94,8 +103,16 @@ class InventoryService:
 
         product.reserved_stock -= quantity
 
-        InventoryService._create_movement(
-            db, product_id, quantity, 'release', actor_id, None, reference_id, reference_type
+        audit_service.log_event(
+            operation="RELEASE_STOCK",
+            actor_id=actor_id,
+            request_id=None,
+            payload={
+                "product_id": product_id,
+                "sku": product.sku,
+                "quantity": quantity,
+                "reference_id": reference_id
+            }
         )
         return product
 
@@ -105,6 +122,7 @@ class InventoryService:
         product_id: int,
         quantity: int,
         actor_id: int,
+        building_id: Optional[int] = None,
         reference_id: Optional[int] = None,
         reference_type: Optional[str] = 'batch',
         request_id: Optional[str] = None
@@ -136,7 +154,7 @@ class InventoryService:
         product.reserved_stock -= quantity
 
         InventoryService._create_movement(
-            db, product_id, -quantity, 'dispatch', actor_id, None, reference_id, reference_type
+            db, product_id, -quantity, 'dispatch', actor_id, building_id, reference_id, reference_type
         )
 
         # Audit Logging
@@ -160,6 +178,7 @@ class InventoryService:
         product_id: int,
         quantity: int,
         actor_id: int,
+        building_id: Optional[int] = None,
         reference_id: Optional[int] = None
     ):
         """
@@ -174,7 +193,7 @@ class InventoryService:
 
         product.stock_actual += quantity
         InventoryService._create_movement(
-            db, product_id, quantity, 'purchase', actor_id, None, reference_id, 'purchase'
+            db, product_id, quantity, 'purchase', actor_id, building_id, reference_id, 'purchase'
         )
         return product
 
@@ -184,6 +203,7 @@ class InventoryService:
         product_id: int,
         new_quantity: int,
         actor_id: int,
+        building_id: Optional[int] = None,
         reason: str = "Manual Adjustment",
         request_id: Optional[str] = None
     ):
@@ -213,7 +233,7 @@ class InventoryService:
         product.stock_actual = new_quantity
 
         InventoryService._create_movement(
-            db, product_id, delta, 'adjust', actor_id, None, None, reason[:50]
+            db, product_id, delta, 'adjust', actor_id, building_id, None, reason[:50]
         )
 
         # Audit Logging

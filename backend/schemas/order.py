@@ -36,7 +36,7 @@ class Order(OrderBase):
 
 class OrderDetail(Order):
     building: Building
-    created_by: User
+    created_by: Optional[User] = None
     rejection_note: Optional[str] = None
 
 class OrderItemUpdate(BaseModel):
