@@ -21,7 +21,7 @@
             <p class="text-[10px] font-medium text-text-muted mt-2 uppercase tracking-widest">Ingrese sus credenciales de servicio</p>
           </div>
 
-          <form class="px-8 py-6 space-y-5" @submit.prevent="handleLogin">
+          <form class="px-8 py-6 space-y-5" action="/auth/login" method="post" @submit.prevent="handleLogin">
             <div v-if="systemStore.isLocked" class="rounded-2xl border border-amber/20 bg-amber/10 px-4 py-4 text-[11px] uppercase tracking-[0.18em] text-amber">
               Solo el superadmin puede ingresar en este momento. Contacte al desarrollador.
             </div>
