@@ -1,7 +1,9 @@
 package com.gh.stock.data.remote
 
+import com.gh.stock.data.local.TokenDataStore
 import com.gh.stock.data.remote.services.AuthApiService
 import com.gh.stock.data.remote.services.CatalogApiService
+import com.gh.stock.data.remote.services.OperationsApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -10,10 +12,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
-/**
- * Singleton para configurar y proveer el cliente de Retrofit.
- * Optimizado para rendimiento en gama baja evitando múltiples instancias de configuración.
- */
 object ApiClient {
 
     private const val BASE_URL = "https://ghstock-production.up.railway.app/api/v1/"
@@ -28,31 +26,51 @@ object ApiClient {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    private val okHttpClient = OkHttpClient.Builder()
+    // Cliente sin auth — solo para el endpoint de login
+    private val publicClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .connectTimeout(15, TimeUnit.SECONDS)
         .readTimeout(15, TimeUnit.SECONDS)
         .writeTimeout(15, TimeUnit.SECONDS)
         .build()
 
-    private val retrofit: Retrofit by lazy {
+    // Cliente con auth — para todos los endpoints protegidos
+    private var _authenticatedClient: OkHttpClient? = null
+
+    fun initAuthClient(tokenDataStore: TokenDataStore) {
+        _authenticatedClient = OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(tokenDataStore))
+            .addInterceptor(loggingInterceptor)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .build()
+    }
+
+    private fun buildRetrofit(client: OkHttpClient): Retrofit {
         val contentType = "application/json".toMediaType()
-        Retrofit.Builder()
+        return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient)
+            .client(client)
             .addConverterFactory(json.asConverterFactory(contentType))
             .build()
     }
 
+    // Retrofit publico (login)
+    private val publicRetrofit: Retrofit by lazy { buildRetrofit(publicClient) }
+
+    // Retrofit autenticado (lazy — se construye tras initAuthClient)
+    private val authRetrofit: Retrofit get() = buildRetrofit(
+        _authenticatedClient ?: publicClient
+    )
+
     val authService: AuthApiService by lazy {
-        retrofit.create(AuthApiService::class.java)
+        publicRetrofit.create(AuthApiService::class.java)
     }
 
-    val catalogService: CatalogApiService by lazy {
-        retrofit.create(CatalogApiService::class.java)
-    }
+    val catalogService: CatalogApiService get() =
+        authRetrofit.create(CatalogApiService::class.java)
 
-    val operationsService: com.gh.stock.data.remote.services.OperationsApiService by lazy {
-        retrofit.create(com.gh.stock.data.remote.services.OperationsApiService::class.java)
-    }
+    val operationsService: OperationsApiService get() =
+        authRetrofit.create(OperationsApiService::class.java)
 }

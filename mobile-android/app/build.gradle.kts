@@ -60,5 +60,11 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
 
+    // Token storage
+    implementation(libs.datastore.preferences)
+
+    // Navigation
+    implementation(libs.navigation.compose)
+
     debugImplementation(libs.androidx.ui.tooling)
 }
