@@ -1,6 +1,7 @@
 package com.gh.stock.data.remote
 
 import com.gh.stock.data.remote.services.AuthApiService
+import com.gh.stock.data.remote.services.CatalogApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -45,6 +46,10 @@ object ApiClient {
 
     val authService: AuthApiService by lazy {
         retrofit.create(AuthApiService::class.java)
+    }
+
+    val catalogService: CatalogApiService by lazy {
+        retrofit.create(CatalogApiService::class.java)
     }
 
     val operationsService: com.gh.stock.data.remote.services.OperationsApiService by lazy {

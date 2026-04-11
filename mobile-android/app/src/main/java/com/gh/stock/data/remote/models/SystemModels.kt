@@ -21,3 +21,10 @@ data class PendingTasksStatusDto(
     val has_pending_orders: Boolean,
     val pending_count: Int
 )
+
+@Serializable
+data class OrderSubmissionDeadlineUpdateDto(
+    val deadline_at: String? = null,
+    val note: String? = null,
+    val is_active: Boolean = true
+)

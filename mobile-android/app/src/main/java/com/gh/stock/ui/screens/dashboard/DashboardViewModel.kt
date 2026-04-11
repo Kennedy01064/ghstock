@@ -18,7 +18,7 @@ data class DashboardUiState(
 )
 
 class DashboardViewModel(
-    private val repository: NotificationRepository = NotificationRepository()
+    private val repository: NotificationRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DashboardUiState())
