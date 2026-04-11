@@ -48,7 +48,7 @@
     </div>
 
     <div class="grid gap-8 xl:grid-cols-[minmax(0,0.68fr)_minmax(0,0.32fr)]">
-      <section class="space-y-8">
+      <section class="space-y-8 xl:order-none order-last">
         <!-- Critical Inventory remains same -->
         <div v-if="order.status === 'draft' && criticalInventory.length" class="p-8 rounded-[2.5rem] bg-red-950/20 border border-red-500/20 shadow-[0_24px_48px_-12px_rgba(153,27,27,0.3)] backdrop-blur-xl">
           <div class="flex items-center gap-5 mb-8">
@@ -92,15 +92,15 @@
         </div>
 
         <article class="card !p-0 overflow-hidden" v-if="order.status === 'draft'">
-          <div class="px-8 py-6 border-b border-white/5 bg-white/[0.02] space-y-5">
-            <div class="flex items-center justify-between gap-4">
+          <div class="px-4 md:px-8 py-5 border-b border-white/5 bg-white/[0.02] space-y-4">
+            <div class="flex items-center justify-between gap-3">
               <div>
                 <h3 class="text-base font-bold text-white">Catalogo disponible</h3>
-                <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-2">Agregar productos a la orden</p>
+                <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-1">Agregar productos a la orden</p>
               </div>
-              <span class="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black text-amber uppercase tracking-widest">{{ filteredProducts.length }} articulos</span>
+              <span class="shrink-0 px-3 py-1.5 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black text-amber uppercase tracking-widest">{{ filteredProducts.length }} items</span>
             </div>
-            <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
+            <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_200px]">
               <div class="relative">
                 <input v-model="catalogSearch" type="text" placeholder="Localizar producto o codigo de insumo..." class="input-field !pl-12">
                 <svg class="w-4 h-4 text-text-muted absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@
             </div>
           </div>
           
-          <div v-if="filteredProducts.length" class="p-6 grid gap-4 md:grid-cols-2">
+          <div v-if="filteredProducts.length" class="p-3 sm:p-6 grid gap-3 sm:gap-4 md:grid-cols-2 max-h-[520px] overflow-y-auto custom-scrollbar">
             <article v-for="product in filteredProducts" :key="product.id" class="rounded-[24px] border border-white/10 bg-white/[0.03] p-4 flex flex-col gap-4">
               <div class="flex items-center gap-4">
                 <img :src="product.imageUrl" :alt="product.name" class="w-16 h-16 rounded-2xl object-cover border border-white/10 bg-white/5" />
@@ -151,10 +151,10 @@
         </article>
 
         <article class="card !p-0 overflow-hidden">
-          <div class="px-8 py-6 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
+          <div class="px-4 md:px-8 py-5 border-b border-white/5 bg-white/[0.02] flex items-center justify-between gap-3">
             <div>
               <h3 class="text-base font-bold text-white">Items de la orden</h3>
-              <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-2">Resumen del requerimiento</p>
+              <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-1">Resumen del requerimiento</p>
             </div>
             <span class="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-[0.18em]" :class="statusClass(order.status)">{{ statusLabel(order.status) }}</span>
           </div>
@@ -162,7 +162,7 @@
         </article>
       </section>
 
-      <aside class="space-y-8">
+      <aside class="space-y-8 xl:order-none order-first">
         <article class="card">
           <span class="section-label">Resumen</span>
           <div class="space-y-3 text-sm text-text-secondary">
