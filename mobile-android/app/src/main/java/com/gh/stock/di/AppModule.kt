@@ -26,5 +26,5 @@ val appModule = module {
 
     // --- ViewModels ---
     viewModel { LoginViewModel(get()) }
-    viewModel { DashboardViewModel(get()) }
+    viewModel { DashboardViewModel(get(), get()) }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gh.stock.data.remote.NetworkResult
 import com.gh.stock.data.remote.models.OrderSubmissionDeadlineSettingDto
+import com.gh.stock.data.repository.AuthRepository
 import com.gh.stock.data.repository.NotificationRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +19,8 @@ data class DashboardUiState(
 )
 
 class DashboardViewModel(
-    private val repository: NotificationRepository
+    private val notificationRepository: NotificationRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DashboardUiState())
@@ -30,29 +32,29 @@ class DashboardViewModel(
 
     fun refreshDashboard() {
         viewModelScope.launch {
-            repository.getActiveDeadline().collect { result ->
+            notificationRepository.getActiveDeadline().collect { result ->
                 when (result) {
                     is NetworkResult.Loading -> _uiState.value = _uiState.value.copy(isLoading = true)
-                    is NetworkResult.Success -> {
-                        val deadline = result.data
-                        checkTaskCompletion(deadline)
-                    }
-                    is NetworkResult.Error -> {
-                        _uiState.value = _uiState.value.copy(
-                            isLoading = false,
-                            errorMessage = result.message
-                        )
-                    }
+                    is NetworkResult.Success -> checkTaskCompletion(result.data)
+                    is NetworkResult.Error -> _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        errorMessage = result.message
+                    )
                 }
             }
         }
     }
 
+    fun logout() {
+        viewModelScope.launch {
+            authRepository.logout()
+        }
+    }
+
     private suspend fun checkTaskCompletion(deadline: OrderSubmissionDeadlineSettingDto?) {
-        repository.isTaskPending().collect { isPending ->
+        notificationRepository.isTaskPending().collect { isPending ->
             _uiState.value = _uiState.value.copy(
                 deadline = deadline,
-                // Mostrar alerta solo si hay deadline activo Y hay tareas pendientes
                 showDeadlineAlert = deadline?.order_submission_deadline_at != null && isPending,
                 isLoading = false
             )
