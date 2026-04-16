@@ -22,7 +22,7 @@
           <p class="label-premium !mb-0">Fecha Operativa</p>
           <p class="text-slate-900 font-black text-sm tracking-widest tabular-nums uppercase">{{ formatDate(new Date()) }}</p>
         </div>
-        <div class="w-[1px] h-10 bg-slate-50"></div>
+        <div class="w-[1px] h-10 bg-slate-200"></div>
         <div class="w-10 h-10 bg-amber/10 rounded-xl flex items-center justify-center border border-amber/20 shadow-lg shadow-amber/10">
           <svg class="w-5 h-5 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -58,13 +58,13 @@
           </div>
           <div class="space-y-1">
             <div v-if="metric.prefix" class="flex items-baseline gap-1">
-              <span class="text-xl font-bold text-amber/40 tabular-nums">{{ metric.prefix }}</span>
+              <span class="text-xl font-bold text-amber/70 tabular-nums">{{ metric.prefix }}</span>
               <p class="text-5xl font-black text-slate-900 tracking-tighter">{{ metric.value }}</p>
             </div>
             <p v-else class="text-5xl font-black text-slate-900 tracking-tighter">{{ metric.value }}</p>
             <div class="flex items-center gap-2" :class="metric.dot ? '' : 'pt-1'">
               <span v-if="metric.dot" class="w-1.5 h-1.5 rounded-full bg-amber animate-pulse"></span>
-              <span class="eyebrow !text-text-muted/60">{{ metric.label }}</span>
+              <span class="eyebrow !text-slate-500">{{ metric.label }}</span>
             </div>
           </div>
         </div>
@@ -355,7 +355,7 @@ const metrics = computed(() => [
   {
     label: "Pedidos en Espera",
     value: dashboard.value?.pedidos_submitted ?? 0,
-    iconWrapClass: "bg-amber/5 group-hover:bg-amber/10 border-amber/10 group-hover:border-amber/30",
+    iconWrapClass: "bg-amber/15 group-hover:bg-amber/20 border-amber/25 group-hover:border-amber/40",
     iconClass: "text-amber",
     iconPath: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
     dot: true,
@@ -365,7 +365,7 @@ const metrics = computed(() => [
     label: "Edificios Operativos",
     value: dashboard.value?.total_edificios_activos ?? 0,
     iconWrapClass: "bg-slate-50 group-hover:bg-slate-50 border-slate-200 group-hover:border-slate-300",
-    iconClass: "text-slate-900/50 group-hover:text-slate-900/80 transition-colors",
+    iconClass: "text-slate-500 group-hover:text-slate-700 transition-colors",
     iconPath: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
   },
@@ -373,8 +373,8 @@ const metrics = computed(() => [
     label: "Flujo Mensual",
     value: formatDecimal(dashboard.value?.costo_despachado_mes ?? 0),
     prefix: "S/",
-    iconWrapClass: "bg-emerald-500/5 group-hover:bg-emerald-500/10 border-emerald-500/10 group-hover:border-emerald-500/30",
-    iconClass: "text-emerald-400",
+    iconWrapClass: "bg-emerald-500/15 group-hover:bg-emerald-500/20 border-emerald-500/25 group-hover:border-emerald-500/40",
+    iconClass: "text-emerald-600",
     iconPath: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
     cardClass: "border-emerald-500/10 hover:shadow-[0_30px_60px_-15px_rgba(16,185,129,0.08)]",
   },
@@ -382,7 +382,7 @@ const metrics = computed(() => [
     label: "Catálogo Activo",
     value: dashboard.value?.total_productos ?? 0,
     iconWrapClass: "bg-slate-50 group-hover:bg-slate-50 border-slate-200 group-hover:border-slate-300",
-    iconClass: "text-slate-900/50 group-hover:text-slate-900/80 transition-colors",
+    iconClass: "text-slate-500 group-hover:text-slate-700 transition-colors",
     iconPath: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
   },
@@ -549,7 +549,7 @@ function renderCharts() {
   const doughnutCtx = doughnutChartRef.value.getContext("2d")
   const gradient = barCtx.createLinearGradient(0, 0, 0, 300)
   gradient.addColorStop(0, "#F2AD3D")
-  gradient.addColorStop(1, "rgba(242, 173, 61, 0.1)")
+  gradient.addColorStop(1, "rgba(242, 173, 61, 0.35)")
 
   barChart = new Chart(barCtx, {
     type: "bar",
@@ -584,11 +584,11 @@ function renderCharts() {
       scales: {
         y: {
           beginAtZero: true,
-          ticks: { stepSize: 1, color: "#94a3b8" },
-          grid: { color: "#f1f5f9", drawBorder: false },
+          ticks: { stepSize: 1, color: "#64748b" },
+          grid: { color: "#e2e8f0", drawBorder: false },
         },
         x: {
-          ticks: { color: "#475569" },
+          ticks: { color: "#334155" },
           grid: { display: false },
         },
       },
@@ -618,7 +618,7 @@ function renderCharts() {
           position: "bottom",
           labels: {
             padding: 24,
-            color: "#475569",
+            color: "#334155",
             usePointStyle: true,
             pointStyle: "circle",
             boxWidth: 10,
