@@ -11,8 +11,8 @@ test.describe("Authentication Flow", () => {
     
     // Verify dashboard access (lands on / for superadmin)
     await expect(page).toHaveURL("/")
-    // Target the profile name in the navbar via text or other identifiable element
-    await expect(page.getByText('Kennedy Rojas').first()).toBeVisible()
+    // Target the profile name in the navbar via testId
+    await expect(page.getByTestId('navbar-user-name')).toBeVisible()
   })
 
   test("should login successfully as admin", async ({ page }) => {

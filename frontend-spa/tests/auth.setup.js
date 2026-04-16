@@ -15,7 +15,7 @@ setup('authenticate as superadmin', async ({ page }) => {
   await page.waitForURL(/\/($|dashboard\/(admin|manager))/, { timeout: 30000 });
   
   // Verify session is active - checking for user name in the navbar
-  await expect(page.getByText('Kennedy Rojas').first()).toBeVisible();
+  await expect(page.getByTestId('navbar-user-name')).toBeVisible();
 
   // End of setup: result is a JSON file with cookies and local storage
   await page.context().storageState({ path: authFile });

@@ -76,8 +76,8 @@ jobs:
     - name: Run Playwright Tests (Smoke & Auth)
       run: |
         cd frontend-spa
-        # Agregamos auth.setup.js para que el storageState y el archivo user.json se creen correctamente
-        npx playwright test tests/auth.setup.js tests/smoke.spec.js tests/auth.spec.js
+        # Usamos el proyecto chromium para que gestione automáticamente la dependencia del setup
+        npx playwright test --project=chromium
 
     - name: Upload Test Results
       if: always()

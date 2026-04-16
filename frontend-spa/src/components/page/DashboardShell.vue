@@ -20,7 +20,7 @@
       </article>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[400px]">
       <article v-for="panel in primaryPanels" :key="panel.title" class="card !p-0 overflow-hidden">
         <div class="px-8 py-6 border-b border-slate-100 bg-slate-50/50">
           <h3 class="text-base font-bold text-slate-900">{{ panel.title }}</h3>
