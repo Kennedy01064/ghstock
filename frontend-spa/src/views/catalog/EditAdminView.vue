@@ -18,7 +18,7 @@
           <h1 class="h2">Modificar usuario</h1>
           <p class="text-text-muted font-medium">Parámetros de acceso para <span class="text-slate-900">@{{ account.username }}</span></p>
         </div>
-        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner" :class="isProtectedAccount ? 'text-rose-300 border-rose-400/20 bg-rose-500/10' : 'text-amber'">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 shadow-inner" :class="isProtectedAccount ? 'text-rose-300 border-rose-400/20 bg-rose-500/10' : 'text-amber'">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path v-if="isProtectedAccount" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -69,9 +69,9 @@
                 </svg>
               </button>
 
-              <ul v-if="roleMenuOpen && !isProtectedAccount" class="absolute z-50 w-full mt-3 bg-white border border-white/[0.12] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
+              <ul v-if="roleMenuOpen && !isProtectedAccount" class="absolute z-50 w-full mt-3 bg-white border border-slate-200 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
                 <li>
-                  <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/[0.04] transition-colors border-b border-white/[0.07] group" @click="selectRole('admin')">
+                  <button type="button" class="w-full text-left px-5 py-4 hover:bg-slate-50 transition-colors border-b border-slate-200 group" @click="selectRole('admin')">
                     <div class="flex items-center gap-3">
                       <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
                       <span class="text-sm font-black text-slate-900 group-hover:text-amber transition-all">Perfil operativo</span>
@@ -80,7 +80,7 @@
                   </button>
                 </li>
                 <li>
-                  <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/[0.04] transition-colors group" @click="selectRole('manager')">
+                  <button type="button" class="w-full text-left px-5 py-4 hover:bg-slate-50 transition-colors group" @click="selectRole('manager')">
                     <div class="flex items-center gap-3">
                       <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
                       <span class="text-sm font-black text-slate-900 group-hover:text-amber transition-all">Perfil directivo</span>
@@ -137,28 +137,28 @@
           </div>
 
           <div class="relative group">
-            <input v-model="searchBuildings" type="text" placeholder="Filtrar sedes..." class="input-field !py-2.5 !pl-10 !text-xs font-bold bg-white/[0.02]" :disabled="isProtectedAccount">
+            <input v-model="searchBuildings" type="text" placeholder="Filtrar sedes..." class="input-field !py-2.5 !pl-10 !text-xs font-bold bg-slate-50" :disabled="isProtectedAccount">
             <svg class="w-4 h-4 text-text-muted absolute left-3.5 top-1/2 -translate-y-1/2 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar p-1">
-            <label v-for="building in visibleBuildings" :key="building.id" class="relative flex items-center gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07] cursor-pointer hover:bg-white/[0.06] hover:border-white/[0.12] transition-all group/item">
-              <input v-model="selectedBuildingIds" type="checkbox" :value="building.id" class="w-5 h-5 rounded-lg border-white/[0.12] bg-slate-100 text-amber focus:ring-amber/40 focus:ring-offset-navy-deep transition-all cursor-pointer" :disabled="isProtectedAccount">
+            <label v-for="building in visibleBuildings" :key="building.id" class="relative flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-slate-50 hover:border-slate-200 transition-all group/item">
+              <input v-model="selectedBuildingIds" type="checkbox" :value="building.id" class="w-5 h-5 rounded-lg border-slate-200 bg-slate-100 text-amber focus:ring-amber/40 focus:ring-offset-navy-deep transition-all cursor-pointer" :disabled="isProtectedAccount">
               <div class="min-w-0">
                 <p class="text-[13px] font-black text-slate-900 truncate">{{ building.name }}</p>
                 <p class="text-[10px] font-medium text-text-muted truncate mt-0.5">{{ building.address || "Sede sin dirección fiscal" }}</p>
               </div>
             </label>
 
-            <div v-if="!visibleBuildings.length" class="col-span-full py-10 text-center border border-dashed border-white/[0.12] rounded-2xl bg-white/[0.01]">
+            <div v-if="!visibleBuildings.length" class="col-span-full py-10 text-center border border-dashed border-slate-200 rounded-2xl bg-slate-50">
               <p class="text-xs font-medium text-text-muted">No se detectan sedes para ese filtro.</p>
             </div>
           </div>
         </div>
 
-        <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-white/[0.12]">
+        <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-slate-200">
           <RouterLink :to="{ name: 'catalogAdmins' }" class="btn btn-secondary flex-1">Descartar cambios</RouterLink>
           <button type="submit" class="btn btn-primary flex-1 shadow-2xl shadow-amber/10" :disabled="userStore.isSubmitting || isProtectedAccount">
             <svg v-if="!userStore.isSubmitting" class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

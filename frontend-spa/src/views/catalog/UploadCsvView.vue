@@ -1,12 +1,12 @@
 <template>
   <div class="max-w-[1320px] mx-auto space-y-12 pb-32 px-4">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.07] pb-10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-10">
       <div class="space-y-2">
         <span class="eyebrow">Catalogo Maestro</span>
         <h1 class="text-4xl font-black tracking-tight text-slate-900">Importacion de Productos</h1>
         <p class="text-text-muted font-medium">Gestion centralizada de inventario via CSV</p>
       </div>
-      <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner">
+      <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 shadow-inner">
         <svg class="w-7 h-7 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
         </svg>
@@ -15,7 +15,7 @@
 
     <div class="max-w-3xl">
       <div class="card overflow-hidden !p-0">
-        <div class="bg-white/[0.02] px-10 py-8 border-b border-white/[0.07]">
+        <div class="bg-slate-50 px-10 py-8 border-b border-slate-200">
           <div class="flex items-center space-x-6">
             <div class="bg-amber/10 border border-amber/10 rounded-2xl p-4 shadow-inner">
               <svg class="w-7 h-7 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,8 +32,8 @@
         <form class="p-10 space-y-10" @submit.prevent="handleUpload">
           <div class="relative">
             <label for="csv_file" class="block cursor-pointer group">
-              <div class="border-2 border-dashed border-white/[0.07] rounded-2xl p-16 text-center group-hover:border-amber/40 group-hover:bg-white/[0.01] transition-all duration-700">
-                <div class="mx-auto h-20 w-20 bg-white/[0.04] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 border border-white/[0.12]">
+              <div class="border-2 border-dashed border-slate-200 rounded-2xl p-16 text-center group-hover:border-amber/40 group-hover:bg-slate-50 transition-all duration-700">
+                <div class="mx-auto h-20 w-20 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 border border-slate-200">
                   <svg class="h-8 w-8 text-text-muted group-hover:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                   </svg>
@@ -55,7 +55,7 @@
               <div>
                 <p class="text-xs font-black text-amber uppercase tracking-[0.15em] mb-3">Estructura Requerida del Archivo</p>
                 <div class="relative group">
-                  <code class="text-[12px] font-bold text-amber-soft block bg-slate-100/50 rounded-xl px-4 py-3 border border-white/[0.07] shadow-inner overflow-x-auto whitespace-nowrap custom-scrollbar group-hover:border-amber/20 transition-colors">sku,nombre,unidad_medida,precio,descripcion,imagen_url,stock_actual</code>
+                  <code class="text-[12px] font-bold text-amber-soft block bg-slate-100/50 rounded-xl px-4 py-3 border border-slate-200 shadow-inner overflow-x-auto whitespace-nowrap custom-scrollbar group-hover:border-amber/20 transition-colors">sku,nombre,unidad_medida,precio,descripcion,imagen_url,stock_actual</code>
                 </div>
                 <p class="text-[11px] font-medium text-text-muted mt-3 italic leading-relaxed">
                   Si el <strong class="text-slate-900/80 font-bold">SKU</strong> ya existe, los datos se sincronizaran automaticamente. De lo contrario, se creara una nueva entrada en el Catalogo Maestro.
@@ -84,10 +84,10 @@
         <span class="pill">{{ productStore.csvUploads.length }} Cargas</span>
       </div>
 
-      <div class="card !p-0 overflow-hidden divide-y divide-white/5 border-white/[0.07] bg-white/[0.01]">
-        <div v-for="upload in productStore.csvUploads" :key="upload.id" class="p-5 flex items-center justify-between hover:bg-white/[0.03] transition-colors group">
+      <div class="card !p-0 overflow-hidden divide-y divide-slate-100 border-slate-200 bg-slate-50">
+        <div v-for="upload in productStore.csvUploads" :key="upload.id" class="p-5 flex items-center justify-between hover:bg-slate-50 transition-colors group">
           <div class="flex items-center gap-5 min-w-0">
-            <div class="bg-white/[0.04] border border-white/[0.12] rounded-2xl p-3.5 shrink-0 shadow-sm transition-transform group-hover:scale-105">
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 shrink-0 shadow-sm transition-transform group-hover:scale-105">
               <svg class="w-6 h-6 text-text-muted group-hover:text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
@@ -96,9 +96,9 @@
               <p class="text-[15px] font-bold text-slate-900 truncate pr-4">{{ upload.filename }}</p>
               <div class="flex flex-wrap items-center gap-3 mt-1.5 opacity-60">
                 <span class="text-[11px] font-black uppercase tracking-widest text-text-muted">{{ formatUploadDate(upload.uploaded_at) }}</span>
-                <span class="w-1 h-1 rounded-full bg-white/20"></span>
+                <span class="w-1 h-1 rounded-full bg-slate-100"></span>
                 <span class="text-[11px] font-bold text-emerald-400 capitalize">+{{ upload.products_created }} Creados</span>
-                <span class="w-1 h-1 rounded-full bg-white/20"></span>
+                <span class="w-1 h-1 rounded-full bg-slate-100"></span>
                 <span class="text-[11px] font-bold text-amber capitalize">~{{ upload.products_updated }} Actualizados</span>
               </div>
             </div>
@@ -124,8 +124,8 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div v-for="product in catalogPreview" :key="product.id" class="flex items-center gap-5 p-4 rounded-2xl border border-white/[0.07] bg-white/[0.01] hover:bg-white/[0.04] transition-all group">
-          <div class="shrink-0 relative overflow-hidden rounded-xl border border-white/[0.12] bg-white/[0.04] w-16 h-16">
+        <div v-for="product in catalogPreview" :key="product.id" class="flex items-center gap-5 p-4 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-slate-50 transition-all group">
+          <div class="shrink-0 relative overflow-hidden rounded-xl border border-slate-200 bg-slate-50 w-16 h-16">
             <img :src="product.imageUrl" :alt="product.name" class="w-full h-full object-cover transition-transform group-hover:scale-110" />
           </div>
           <div class="min-w-0 flex-grow">
@@ -145,7 +145,7 @@
       </div>
     </div>
 
-    <div class="flex justify-center pt-8 border-t border-white/[0.07]">
+    <div class="flex justify-center pt-8 border-t border-slate-200">
       <RouterLink :to="{ name: 'catalogAssignBuilding' }" class="btn btn-secondary !min-h-[48px] px-8">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />

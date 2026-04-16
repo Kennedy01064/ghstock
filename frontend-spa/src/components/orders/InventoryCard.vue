@@ -1,9 +1,9 @@
 <template>
   <article
-    class="card !p-0 overflow-hidden border-white/[0.07] hover:border-amber/30 transition-all group/card shadow-2xl shadow-black/40"
+    class="card !p-0 overflow-hidden border-slate-200 hover:border-amber/30 transition-all group/card shadow-2xl shadow-slate-200/50"
     :class="inventory.quantity === 0 ? 'opacity-40 grayscale pointer-events-none' : ''"
   >
-    <div class="relative h-44 bg-white/[0.06] p-6 flex items-center justify-center border-b border-white/[0.07] overflow-hidden">
+    <div class="relative h-44 bg-slate-50 p-6 flex items-center justify-center border-b border-slate-200 overflow-hidden">
       <img
         :src="inventory.product.imageUrl"
         :alt="inventory.product.name"
@@ -11,7 +11,7 @@
       >
 
       <div class="absolute top-4 left-4">
-        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/80 backdrop-blur-md border border-white/[0.12] shadow-lg">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/80 backdrop-blur-md border border-slate-200 shadow-lg">
           <svg class="w-3.5 h-3.5 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
@@ -31,7 +31,7 @@
       <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/40 to-transparent" />
     </div>
 
-    <div class="p-6 flex flex-col flex-grow bg-white/[0.01]">
+    <div class="p-6 flex flex-col flex-grow bg-slate-50">
       <div class="flex-grow space-y-1">
         <h3 class="text-sm font-black text-slate-900 uppercase tracking-tight leading-tight line-clamp-2 min-h-[2.5rem] group-hover/card:text-amber transition-colors">
           {{ inventory.product.name }}
@@ -41,7 +41,7 @@
         </p>
       </div>
 
-      <div class="mt-6 pt-5 border-t border-white/[0.07] space-y-4">
+      <div class="mt-6 pt-5 border-t border-slate-200 space-y-4">
         <div class="flex items-center gap-2">
           <input
             v-model.number="consumeQuantity"
@@ -49,7 +49,7 @@
             min="1"
             :max="inventory.quantity"
             :disabled="isConsuming || isAdjusting"
-            class="w-16 h-10 px-2 bg-white/[0.04] border border-white/[0.12] rounded-xl text-center font-black text-amber outline-none focus:border-amber/40 focus:bg-white/[0.06] transition-all shadow-inner disabled:opacity-50"
+            class="w-16 h-10 px-2 bg-slate-50 border border-slate-200 rounded-xl text-center font-black text-amber outline-none focus:border-amber/40 focus:bg-slate-50 transition-all shadow-inner disabled:opacity-50"
           >
           <button
             type="button"
@@ -67,14 +67,14 @@
           </button>
         </div>
 
-        <div class="pt-2 border-t border-white/[0.03]">
+        <div class="pt-2 border-t border-slate-200">
           <div class="flex items-center gap-2">
             <input
               v-model.number="adjustQuantity"
               type="number"
               min="1"
               :disabled="isConsuming || isAdjusting"
-              class="w-16 h-8 px-2 bg-white/[0.04] border border-white/[0.07] rounded-lg text-center font-black text-emerald-400/60 outline-none focus:border-emerald-500/40 focus:bg-white/[0.06] transition-all shadow-inner text-[11px] disabled:opacity-50"
+              class="w-16 h-8 px-2 bg-slate-50 border border-slate-200 rounded-lg text-center font-black text-emerald-400/60 outline-none focus:border-emerald-500/40 focus:bg-slate-50 transition-all shadow-inner text-[11px] disabled:opacity-50"
             >
             <button
               type="button"

@@ -79,4 +79,12 @@
     .custom-scrollbar::-webkit-scrollbar-thumb {
         @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
     }
+
+    /* Utilidades de tabla y secciones para tema claro */
+    .table-header { @apply bg-slate-50 text-text-muted; }
+    .table-divider { @apply divide-slate-100; }
+    .table-row-hover { @apply hover:bg-slate-50; }
+    .section-border { @apply border-slate-200; }
+    .subtle-bg { @apply bg-slate-50; }
+    .card-section-header { @apply bg-slate-50/60 border-b border-slate-100; }
 }

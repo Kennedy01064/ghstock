@@ -11,7 +11,7 @@
         <p class="text-text-muted font-medium text-sm">Registro historico de lotes operativos consolidados y procesados con exito.</p>
       </div>
 
-      <div class="flex items-center gap-6 bg-white/[0.06] border border-white/[0.07] backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl shadow-black/20">
+      <div class="flex items-center gap-6 bg-slate-50 border border-slate-200 backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl shadow-black/20">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 rounded-xl bg-amber/10 border border-amber/20 flex items-center justify-center text-amber">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,9 +23,9 @@
             <span class="text-lg font-black text-slate-900 leading-none">{{ history.batches.length }}</span>
           </div>
         </div>
-        <div class="w-px h-8 bg-white/[0.06]"></div>
+        <div class="w-px h-8 bg-slate-50"></div>
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-slate-900/40">
+          <div class="w-8 h-8 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-900/40">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
@@ -43,11 +43,11 @@
         <div class="w-1.5 h-6 bg-amber rounded-full"></div>
         <h3 class="text-sm font-black text-slate-900 uppercase tracking-tight">Lotes de Despacho</h3>
       </div>
-      <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
+      <div class="card !p-0 border-slate-200 bg-slate-50 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm whitespace-nowrap border-collapse">
             <thead>
-              <tr class="bg-white/[0.02] border-b border-white/[0.03] text-[10px] uppercase tracking-[0.3em] font-black text-text-muted">
+              <tr class="bg-slate-50 border-b border-slate-200 text-[10px] uppercase tracking-[0.3em] font-black text-text-muted">
                 <th class="px-8 py-5">Identificador</th>
                 <th class="px-8 py-5">Cronologia</th>
                 <th class="px-8 py-5">Responsable</th>
@@ -55,8 +55,8 @@
                 <th class="px-8 py-5 text-right">Acciones</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-white/[0.03]">
-              <tr v-for="batch in history.batches" :key="batch.id" class="hover:bg-white/[0.01] transition-all group">
+            <tbody class="divide-y divide-slate-100">
+              <tr v-for="batch in history.batches" :key="batch.id" class="hover:bg-slate-50 transition-all group">
                 <td class="px-8 py-6">
                   <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-amber/5 border border-amber/10 rounded-xl group-hover:border-amber/40 transition-all">
                     <span class="w-1.5 h-1.5 rounded-full bg-amber shadow-[0_0_8px_rgba(242,173,61,0.4)]"></span>
@@ -71,7 +71,7 @@
                 </td>
                 <td class="px-8 py-6">
                   <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-2xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-xs font-black text-amber shadow-inner group-hover:border-amber/30 transition-all">
+                    <div class="w-10 h-10 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center text-xs font-black text-amber shadow-inner group-hover:border-amber/30 transition-all">
                       {{ creatorInitial(batch.created_by) }}
                     </div>
                     <div class="flex flex-col">
@@ -89,7 +89,7 @@
                   </div>
                 </td>
                 <td class="px-8 py-6 text-right">
-                  <RouterLink :to="{ name: 'dispatchBatchDetail', params: { batchId: batch.id } }" class="btn btn-secondary !py-2.5 !px-5 !rounded-xl !text-[10px] border-white/[0.07] hover:border-amber/30 hover:text-amber shadow-none group/link">
+                  <RouterLink :to="{ name: 'dispatchBatchDetail', params: { batchId: batch.id } }" class="btn btn-secondary !py-2.5 !px-5 !rounded-xl !text-[10px] border-slate-200 hover:border-amber/30 hover:text-amber shadow-none group/link">
                     <span>VER DETALLES</span>
                     <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
@@ -114,15 +114,15 @@
 
     <div class="space-y-4">
       <div class="flex items-center gap-3 px-2">
-        <div class="w-1.5 h-6 bg-white/20 rounded-full"></div>
+        <div class="w-1.5 h-6 bg-slate-100 rounded-full"></div>
         <h3 class="text-sm font-black text-slate-900 uppercase tracking-tight">Historial de Pedidos</h3>
-        <span class="text-[10px] font-black text-text-muted bg-white/[0.04] border border-white/[0.07] rounded-lg px-2 py-1 uppercase">{{ history.orders.length }} total</span>
+        <span class="text-[10px] font-black text-text-muted bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 uppercase">{{ history.orders.length }} total</span>
       </div>
-      <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden">
+      <div class="card !p-0 border-slate-200 bg-slate-50 overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm whitespace-nowrap border-collapse">
             <thead>
-              <tr class="bg-white/[0.02] border-b border-white/[0.03] text-[10px] uppercase tracking-[0.3em] font-black text-text-muted">
+              <tr class="bg-slate-50 border-b border-slate-200 text-[10px] uppercase tracking-[0.3em] font-black text-text-muted">
                 <th class="px-6 py-4">Pedido</th>
                 <th class="px-6 py-4">Sede</th>
                 <th class="px-6 py-4">Admin</th>
@@ -131,8 +131,8 @@
                 <th class="px-6 py-4 text-right">Acciones</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-white/[0.03]">
-              <tr v-for="order in history.orders" :key="order.id" class="hover:bg-white/[0.01] transition-all group">
+            <tbody class="divide-y divide-slate-100">
+              <tr v-for="order in history.orders" :key="order.id" class="hover:bg-slate-50 transition-all group">
                 <td class="px-6 py-4">
                   <span class="text-[12px] font-black text-slate-900/60 group-hover:text-amber transition-colors">#{{ order.id }}</span>
                 </td>
@@ -151,7 +151,7 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <RouterLink :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }" class="w-8 h-8 rounded-xl bg-white/[0.05] border border-white/[0.12] text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber transition-all inline-flex items-center justify-center">
+                  <RouterLink :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }" class="w-8 h-8 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber transition-all inline-flex items-center justify-center">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />

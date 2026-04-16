@@ -34,7 +34,7 @@
 
       <div v-else class="grid gap-5 md:grid-cols-2">
         <article v-for="building in filteredBuildings" :key="building.id" class="card !p-0 overflow-hidden">
-          <img :src="building.imageUrl" :alt="building.name" class="h-44 w-full object-cover border-b border-white/[0.07]" />
+          <img :src="building.imageUrl" :alt="building.name" class="h-44 w-full object-cover border-b border-slate-200" />
           <div class="p-6 space-y-4">
             <div class="flex items-start justify-between gap-4">
               <div>

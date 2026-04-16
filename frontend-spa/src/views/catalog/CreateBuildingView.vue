@@ -14,7 +14,7 @@
           <h1 class="h2">Nueva Sede</h1>
           <p class="text-text-muted font-medium">Registro de infraestructura para control de inventarios.</p>
         </div>
-        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 shadow-inner">
           <svg class="w-6 h-6 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" />
           </svg>
@@ -78,14 +78,14 @@
                 </svg>
               </button>
 
-              <ul v-if="adminMenuOpen" class="absolute z-50 w-full mt-3 bg-white border border-white/[0.12] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
+              <ul v-if="adminMenuOpen" class="absolute z-50 w-full mt-3 bg-white border border-slate-200 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
                 <li>
-                  <button type="button" class="w-full text-left px-5 py-3 hover:bg-white/[0.04] transition-colors border-b border-white/[0.07] text-xs font-black uppercase tracking-widest text-text-muted" @click="selectAdmin('')">
+                  <button type="button" class="w-full text-left px-5 py-3 hover:bg-slate-50 transition-colors border-b border-slate-200 text-xs font-black uppercase tracking-widest text-text-muted" @click="selectAdmin('')">
                     Liberar Asignacion
                   </button>
                 </li>
                 <li v-for="admin in adminOptions" :key="admin.id">
-                  <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/[0.04] transition-colors group" @click="selectAdmin(admin.id)">
+                  <button type="button" class="w-full text-left px-5 py-4 hover:bg-slate-50 transition-colors group" @click="selectAdmin(admin.id)">
                     <div class="flex items-center gap-3">
                       <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
                       <span class="text-sm font-black text-slate-900 group-hover:text-amber transition-all">@{{ admin.username }}</span>
@@ -106,13 +106,13 @@
             <button
               type="button"
               class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
-              :class="imageMode === 'url' ? 'bg-amber text-navy-deep' : 'bg-white/[0.04] text-text-muted hover:bg-white/[0.06]'"
+              :class="imageMode === 'url' ? 'bg-amber text-navy-deep' : 'bg-slate-50 text-text-muted hover:bg-slate-50'"
               @click="imageMode = 'url'"
             >Enlace URL</button>
             <button
               type="button"
               class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
-              :class="imageMode === 'file' ? 'bg-amber text-navy-deep' : 'bg-white/[0.04] text-text-muted hover:bg-white/[0.06]'"
+              :class="imageMode === 'file' ? 'bg-amber text-navy-deep' : 'bg-slate-50 text-text-muted hover:bg-slate-50'"
               @click="imageMode = 'file'"
             >Subir Archivo</button>
           </div>
@@ -123,7 +123,7 @@
           <!-- File upload -->
           <div v-else>
             <label
-              class="flex flex-col items-center justify-center w-full h-32 rounded-2xl border-2 border-dashed border-white/[0.12] bg-white/[0.02] hover:border-amber/30 hover:bg-amber/5 transition-all cursor-pointer"
+              class="flex flex-col items-center justify-center w-full h-32 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 hover:border-amber/30 hover:bg-amber/5 transition-all cursor-pointer"
               :class="isUploading ? 'pointer-events-none opacity-60' : ''"
             >
               <div v-if="isUploading" class="flex flex-col items-center gap-2">
@@ -145,8 +145,8 @@
           </div>
 
           <!-- Preview -->
-          <div v-if="buildingPreview" class="flex items-center gap-6 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.12] w-fit group/img">
-            <div class="relative h-24 w-24 rounded-xl overflow-hidden shadow-lg border border-white/[0.12]">
+          <div v-if="buildingPreview" class="flex items-center gap-6 p-4 rounded-2xl bg-slate-50 border border-slate-200 w-fit group/img">
+            <div class="relative h-24 w-24 rounded-xl overflow-hidden shadow-lg border border-slate-200">
               <img :src="buildingPreview" alt="Preview" class="h-full w-full object-cover transition-transform group-hover/img:scale-110">
             </div>
             <div class="space-y-1">
@@ -156,7 +156,7 @@
           </div>
         </div>
 
-        <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-white/[0.12]">
+        <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-slate-200">
           <RouterLink :to="{ name: 'dashboard' }" class="btn btn-secondary flex-1">Cancelar</RouterLink>
           <button type="submit" class="btn btn-primary flex-1 shadow-2xl shadow-amber/10" :disabled="buildingStore.isSubmitting">
             <svg v-if="!buildingStore.isSubmitting" class="w-5 h-5 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

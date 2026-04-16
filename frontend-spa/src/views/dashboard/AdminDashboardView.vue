@@ -6,33 +6,33 @@
   <DashboardSkeleton v-else-if="dashboardStore.isLoading && !dashboard" />
 
   <div v-else-if="dashboard" class="max-w-[1320px] mx-auto px-5 py-8 md:px-8 xl:px-10 space-y-10">
-    <div class="relative bg-gradient-to-br from-[#0f172a] via-[#172032] to-[#0a1220] rounded-[2.5rem] p-8 md:p-14 text-slate-900 shadow-2xl overflow-hidden border border-white/[0.07] group">
+    <div class="relative bg-gradient-to-br from-[#0f172a] via-[#172032] to-[#0a1220] rounded-[2.5rem] p-8 md:p-14 text-white shadow-2xl overflow-hidden border border-slate-700/50 group">
       <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber/10 rounded-full blur-[120px] group-hover:bg-amber/20 transition-all duration-1000"></div>
-      <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-white/[0.04] rounded-full blur-[100px]"></div>
+      <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-white/5 rounded-full blur-[100px]"></div>
 
       <div class="relative z-10">
         <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-12">
           <div class="flex-1 space-y-6">
-            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.12] backdrop-blur-2xl">
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-white/10 border border-white/20 backdrop-blur-2xl">
               <span class="w-2 h-2 bg-amber rounded-full animate-pulse shadow-[0_0_12px_rgba(242,173,61,0.8)]"></span>
               <span class="text-[10px] font-black uppercase tracking-[0.3em] text-amber-soft">Centro de Operaciones</span>
             </div>
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[0.95]">
-              <span class="text-slate-900/40 block mb-2 text-3xl font-bold">Resumen Operativo,</span>
-              <span class="text-slate-900 drop-shadow-2xl">{{ displayName }}</span>
+              <span class="text-white/50 block mb-2 text-3xl font-bold">Resumen Operativo,</span>
+              <span class="text-white drop-shadow-2xl">{{ displayName }}</span>
             </h1>
 
-            <p class="text-text-secondary text-lg md:max-w-xl leading-relaxed font-medium opacity-80">
+            <p class="text-slate-400 text-lg md:max-w-xl leading-relaxed font-medium">
               Estado logistico en tiempo real para su gestion administrativa.
             </p>
 
-            <div class="inline-flex items-center gap-4 bg-white/[0.03] border border-white/[0.07] backdrop-blur-3xl rounded-2xl px-6 py-3 shadow-2xl">
+            <div class="inline-flex items-center gap-4 bg-white/10 border border-white/20 backdrop-blur-3xl rounded-2xl px-6 py-3 shadow-2xl">
               <div class="text-right">
                 <p class="text-[10px] font-black text-amber uppercase tracking-widest leading-none mb-1">Fecha Operativa</p>
-                <p class="text-slate-900 font-black text-sm tracking-widest tabular-nums uppercase whitespace-nowrap">{{ formatDate(new Date()) }}</p>
+                <p class="text-white font-black text-sm tracking-widest tabular-nums uppercase whitespace-nowrap">{{ formatDate(new Date()) }}</p>
               </div>
-              <div class="w-[1px] h-8 bg-white/[0.06]"></div>
+              <div class="w-[1px] h-8 bg-white/20"></div>
               <div class="w-8 h-8 bg-amber/10 rounded-lg flex items-center justify-center border border-amber/20 shadow-lg shadow-amber/10">
                 <svg class="w-4 h-4 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -42,7 +42,7 @@
           </div>
 
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full xl:w-auto shrink-0">
-            <article v-for="metric in metrics" :key="metric.label" class="card !p-6 md:!p-8 group/stat !bg-white/[0.02] hover:!bg-white/[0.05] transition-all border-white/[0.07]" :class="metric.cardClass">
+            <article v-for="metric in metrics" :key="metric.label" class="card !p-6 md:!p-8 group/stat !bg-white/10 hover:!bg-white/15 transition-all border-white/20" :class="metric.cardClass">
               <div class="flex items-center justify-between mb-2">
                 <p class="text-4xl md:text-5xl font-black mb-2 group-hover/stat:scale-110 transition-transform origin-left" :class="metric.valueClass">{{ metric.value }}</p>
                 <span v-if="metric.pulse" class="flex h-3 w-3 relative">
@@ -50,7 +50,7 @@
                   <span class="relative inline-flex rounded-full h-3 w-3" :class="metric.dotClass"></span>
                 </span>
               </div>
-              <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">{{ metric.label }}</p>
+              <p class="text-[10px] font-black text-white/50 uppercase tracking-[0.2em]">{{ metric.label }}</p>
             </article>
           </div>
         </div>
@@ -98,7 +98,7 @@
           </div>
         </div>
 
-        <div class="w-full max-w-[280px] rounded-[28px] border border-white/[0.12] bg-black/10 px-5 py-5 space-y-3 shrink-0">
+        <div class="w-full max-w-[280px] rounded-[28px] border border-slate-200 bg-slate-100 px-5 py-5 space-y-3 shrink-0">
           <p class="text-[10px] font-black uppercase tracking-[0.24em] text-text-muted">Listas pendientes</p>
           <p class="text-4xl font-black text-slate-900">{{ submissionDeadline.pending_orders_count }}</p>
           <p class="text-xs leading-6 text-text-secondary">
@@ -130,7 +130,7 @@
         </span>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <div v-for="order in dashboard.pedidos_despachados" :key="order.id" class="bg-white/[0.03] border border-white/[0.12] rounded-2xl p-4 flex flex-col gap-3 hover:border-blue-400/30 transition-all">
+        <div v-for="order in dashboard.pedidos_despachados" :key="order.id" class="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col gap-3 hover:border-blue-400/30 transition-all">
           <div class="flex items-center justify-between">
             <span class="text-[10px] font-black text-blue-400 uppercase tracking-widest">Pedido #{{ order.id }}</span>
             <span class="text-[10px] text-text-muted">{{ formatDate(order.created_at) }}</span>
@@ -153,7 +153,7 @@
     </div>
 
     <section class="space-y-10">
-      <div class="flex items-end justify-between border-b border-white/[0.07] pb-6">
+      <div class="flex items-end justify-between border-b border-slate-200 pb-6">
         <div class="space-y-2">
           <div class="flex items-center gap-3">
             <div class="w-1 h-5 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
@@ -161,14 +161,14 @@
           </div>
           <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Mis Edificios</h2>
         </div>
-        <div class="px-5 py-2.5 bg-white/[0.03] border border-white/[0.12] rounded-xl backdrop-blur-xl">
+        <div class="px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl backdrop-blur-xl">
           <span class="text-[10px] font-black text-amber uppercase tracking-[0.2em]">{{ dashboard.buildings.length }} UNIDADES VINCULADAS</span>
         </div>
       </div>
 
       <div v-if="dashboard.buildings?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <article v-for="building in dashboard.buildings" :key="building.id" class="card flex flex-col group overflow-hidden border-white/[0.12] hover:border-amber/30 hover:shadow-[0_20px_50px_rgba(4,17,32,0.4)]">
-          <div class="relative h-48 -mx-7 -mt-7 mb-7 overflow-hidden bg-white/20">
+        <article v-for="building in dashboard.buildings" :key="building.id" class="card flex flex-col group overflow-hidden border-slate-200 hover:border-amber/30 hover:shadow-[0_20px_50px_rgba(4,17,32,0.4)]">
+          <div class="relative h-48 -mx-7 -mt-7 mb-7 overflow-hidden bg-slate-100">
             <img v-if="buildingImage(building)" :src="buildingImage(building)" :alt="building.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100" />
             <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-navy-accent/20 to-navy/30">
               <svg class="w-12 h-12 text-slate-900/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,7 +183,7 @@
 
           <div class="flex flex-col flex-1">
             <div class="mb-6 flex-1">
-              <h3 class="text-xl font-black text-rose-50/90 leading-tight mb-2 group-hover:text-amber transition-colors">{{ building.name }}</h3>
+              <h3 class="text-xl font-black text-slate-900 leading-tight mb-2 group-hover:text-amber transition-colors">{{ building.name }}</h3>
               <div class="flex items-center gap-2 text-text-secondary">
                 <svg class="w-4 h-4 shrink-0 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -194,7 +194,7 @@
             </div>
 
             <div class="flex flex-col gap-5 mt-auto">
-              <div class="flex items-center justify-between px-5 py-4 bg-white/[0.02] rounded-2xl border border-white/[0.07] group-hover:bg-white/[0.05] transition-colors">
+              <div class="flex items-center justify-between px-5 py-4 bg-slate-50 rounded-2xl border border-slate-200 group-hover:bg-slate-50 transition-colors">
                 <span class="text-[10px] font-black text-text-muted uppercase tracking-[0.25em]">Pedidos Activos</span>
                 <span class="text-xs font-black text-slate-900 bg-amber/10 h-9 w-9 flex items-center justify-center rounded-xl border border-amber/20 shadow-lg shadow-amber/5">{{ building.active_orders_count || 0 }}</span>
               </div>
@@ -215,8 +215,8 @@
         </article>
       </div>
 
-      <div v-else class="bg-white/[0.04] rounded-[2rem] border-2 border-dashed border-white/[0.12] p-16 text-center">
-        <div class="w-20 h-20 bg-white/[0.04] rounded-3xl flex items-center justify-center mx-auto mb-6">
+      <div v-else class="bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200 p-16 text-center">
+        <div class="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-6">
           <svg class="w-10 h-10 text-slate-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
@@ -226,8 +226,8 @@
       </div>
     </section>
 
-    <div class="card overflow-hidden !p-0 border-white/[0.07] shadow-2xl">
-      <div class="p-10 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
+    <div class="card overflow-hidden !p-0 border-slate-200 shadow-2xl">
+      <div class="p-10 border-b border-slate-200 flex items-center justify-between bg-slate-50">
         <div class="space-y-1">
           <h3 class="text-xl font-black text-slate-900 tracking-tight uppercase">Historial Operativo</h3>
           <p class="text-[10px] font-bold text-text-muted uppercase tracking-[0.3em]">Auditoria de despachos y llegadas</p>
@@ -239,7 +239,7 @@
 
       <div v-if="dashboard.historial_pedidos?.length" class="overflow-x-auto">
         <table class="w-full text-left">
-          <thead class="bg-white/[0.03] border-y border-white/[0.07]">
+          <thead class="bg-slate-50 border-y border-slate-200">
             <tr>
               <th class="px-8 py-5 text-[10px] font-black text-amber uppercase tracking-[0.3em]">Folio ID</th>
               <th class="px-8 py-5 text-[10px] font-black text-slate-900/70 uppercase tracking-[0.3em]">Sede Destino</th>
@@ -248,8 +248,8 @@
               <th class="px-8 py-5 text-[10px] font-black text-slate-900/70 uppercase tracking-[0.3em] text-right">Detalles</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-white/5">
-            <tr v-for="order in dashboard.historial_pedidos" :key="order.id" class="group hover:bg-white/[0.02] transition-all">
+          <tbody class="divide-y divide-slate-100">
+            <tr v-for="order in dashboard.historial_pedidos" :key="order.id" class="group hover:bg-slate-50 transition-all">
               <td class="px-8 py-7">
                 <span class="text-[14px] font-black text-slate-900 tracking-tight">#{{ order.id }}</span>
               </td>
@@ -268,7 +268,7 @@
               <td class="px-8 py-7 text-right">
                 <RouterLink
                   :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }"
-                  class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/[0.05] border border-white/[0.12] text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber hover:scale-110 transition-all shadow-xl group/btn"
+                  class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber hover:scale-110 transition-all shadow-xl group/btn"
                 >
                   <svg class="w-5 h-5 transition-transform group-hover/btn:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -287,7 +287,7 @@
   </div>
 
   <div v-else class="max-w-[1320px] mx-auto px-5 py-12 md:px-8 xl:px-10">
-    <div class="card border border-white/[0.12] text-center space-y-4">
+    <div class="card border border-slate-200 text-center space-y-4">
       <p class="text-sm font-black uppercase tracking-[0.2em] text-slate-900">Sin datos disponibles</p>
       <p class="text-text-secondary">No se pudo cargar el dashboard administrativo en este momento.</p>
       <button type="button" class="btn btn-primary mx-auto" @click="reloadDashboard">
@@ -328,8 +328,8 @@ const metrics = computed(() => [
   {
     label: "Pendientes",
     value: dashboard.value?.pedidos_activos ?? 0,
-    valueClass: "text-slate-900",
-    cardClass: "hover:border-white/[0.12]",
+    valueClass: "text-white",
+    cardClass: "hover:border-white/30",
   },
   {
     label: "En Transito",

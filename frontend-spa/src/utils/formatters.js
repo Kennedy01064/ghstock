@@ -16,15 +16,15 @@ const statusPalette = {
   "en proceso": "bg-amber/10 text-amber border-amber/30",
   activo: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
   suspendido: "bg-rose-500/10 text-rose-400 border-rose-500/30",
-  mantenimiento: "bg-white/5 text-text-muted border-slate-200",
+  mantenimiento: "bg-slate-100 text-text-muted border-slate-200",
   procesado: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
   pendiente: "bg-amber/10 text-amber border-amber/30",
-  partially_dispatched: "bg-blue-500/5 text-blue-300 border-blue-500/20",
+  partially_dispatched: "bg-blue-500/10 text-blue-500 border-blue-500/30",
   rejected: "bg-rose-500/10 text-rose-400 border-rose-500/30",
 }
 
 export function statusClass(status) {
-  return statusPalette[status] ?? "bg-white/5 text-text-muted border-slate-200"
+  return statusPalette[status] ?? "bg-slate-100 text-text-muted border-slate-200"
 }
 
 const statusLabels = {

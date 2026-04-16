@@ -11,7 +11,7 @@
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 px-2">
       <div class="space-y-2">
         <div class="flex items-center gap-3">
-          <RouterLink :to="{ name: 'dispatchPurchases' }" class="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center text-text-muted hover:text-amber hover:bg-white/[0.06] transition-all group">
+          <RouterLink :to="{ name: 'dispatchPurchases' }" class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-text-muted hover:text-amber hover:bg-slate-50 transition-all group">
             <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
             </svg>
@@ -29,7 +29,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="card bg-white/[0.04] border-white/[0.07] relative overflow-hidden group">
+      <div class="card bg-slate-50 border-slate-200 relative overflow-hidden group">
         <div class="absolute top-0 left-0 w-1 h-full bg-amber/40 shadow-[0_0_15px_rgba(242,173,61,0.2)]" />
         <div class="space-y-6">
           <h3 class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Datos del Comprobante</h3>
@@ -50,10 +50,10 @@
         </div>
       </div>
 
-      <div class="card bg-white/[0.04] border-white/[0.07]">
+      <div class="card bg-slate-50 border-slate-200">
         <div class="space-y-6">
           <h3 class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Validacion de Registro</h3>
-          <div class="flex items-center gap-5 p-4 bg-black/20 rounded-2xl border border-white/[0.07]">
+          <div class="flex items-center gap-5 p-4 bg-slate-200/60 rounded-2xl border border-slate-200">
             <div class="w-14 h-14 rounded-2xl bg-amber/10 border border-amber/20 flex items-center justify-center text-xl font-black text-amber shadow-2xl shadow-amber/5">
               {{ (purchase.created_by?.name || purchase.created_by?.username || "?").slice(0, 1).toUpperCase() }}
             </div>
@@ -62,21 +62,21 @@
               <p class="text-[10px] font-black text-amber uppercase tracking-[0.2em]">{{ purchase.created_by?.role }}</p>
             </div>
           </div>
-          <div class="pt-4 border-t border-white/[0.03]">
+          <div class="pt-4 border-t border-slate-200">
             <p class="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1 opacity-60">Timestamp de Sistema</p>
             <p class="text-xs font-black text-slate-900/60 tracking-widest">{{ formatDate(purchase.createdAt) }}</p>
           </div>
         </div>
       </div>
 
-      <div class="card bg-white/[0.04] border-white/[0.07] flex flex-col justify-between">
+      <div class="card bg-slate-50 border-slate-200 flex flex-col justify-between">
         <h3 class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-6">Resumen Operativo</h3>
         <div class="space-y-4">
-          <div class="flex justify-between items-center px-4 py-3 bg-white/[0.02] rounded-xl border border-white/[0.07]">
+          <div class="flex justify-between items-center px-4 py-3 bg-slate-50 rounded-xl border border-slate-200">
             <span class="text-[10px] font-black text-text-muted uppercase tracking-widest">Variedad SKUs</span>
             <span class="text-lg font-black text-slate-900 tabular-nums">{{ purchase.items.length }}</span>
           </div>
-          <div class="flex justify-between items-center px-4 py-3 bg-white/[0.02] rounded-xl border border-white/[0.07]">
+          <div class="flex justify-between items-center px-4 py-3 bg-slate-50 rounded-xl border border-slate-200">
             <span class="text-[10px] font-black text-text-muted uppercase tracking-widest">Unidades Fisicas</span>
             <span class="text-lg font-black text-slate-900 tabular-nums">{{ totalUnits }}</span>
           </div>
@@ -88,14 +88,14 @@
       </div>
     </div>
 
-    <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
-      <div class="px-8 py-5 border-b border-white/[0.03] bg-white/[0.02]">
+    <div class="card !p-0 border-slate-200 bg-slate-50 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
+      <div class="px-8 py-5 border-b border-slate-200 bg-slate-50">
         <h2 class="text-sm font-black text-slate-900 uppercase tracking-[0.2em]">Desglose de Mercancia Recibida</h2>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm border-collapse">
           <thead>
-            <tr class="bg-white/[0.01] border-b border-white/[0.03] text-[9px] uppercase tracking-[0.3em] font-black text-text-muted">
+            <tr class="bg-slate-50 border-b border-slate-200 text-[9px] uppercase tracking-[0.3em] font-black text-text-muted">
               <th class="px-8 py-5">Articulo & Categoria</th>
               <th class="px-8 py-5 text-center">Volumen</th>
               <th class="px-8 py-5 text-right">Precio Un.</th>
@@ -103,8 +103,8 @@
               <th class="px-8 py-5 text-center">Estado Actual Nucleo</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-white/[0.03]">
-            <tr v-for="item in purchase.items" :key="item.id" class="hover:bg-white/[0.01] transition-all group">
+          <tbody class="divide-y divide-slate-100">
+            <tr v-for="item in purchase.items" :key="item.id" class="hover:bg-slate-50 transition-all group">
               <td class="px-8 py-6">
                 <div class="flex flex-col gap-1">
                   <p class="text-[13px] font-black text-slate-900 uppercase tracking-tight group-hover:text-amber transition-colors">{{ item.name }}</p>
@@ -133,7 +133,7 @@
     </div>
 
     <div class="flex justify-center pt-10">
-      <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary !py-4 px-10 !rounded-2xl border-white/[0.12] text-text-muted hover:text-slate-900 hover:border-slate-300 uppercase tracking-widest text-[10px]">
+      <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary !py-4 px-10 !rounded-2xl border-slate-200 text-text-muted hover:text-slate-900 hover:border-slate-300 uppercase tracking-widest text-[10px]">
         REGRESAR AL LISTADO DE COMPRAS
       </RouterLink>
     </div>

@@ -16,7 +16,7 @@
             </div>
             <button
               type="button"
-              class="rounded-full border border-white/[0.12] px-2 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-slate-900/60 transition hover:text-slate-900"
+              class="rounded-full border border-slate-300 px-2 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-slate-500 transition hover:text-slate-700 hover:border-slate-400"
               @click="uiStore.removeToast(toast.id)"
             >
               cerrar
@@ -35,14 +35,14 @@ const uiStore = useUiStore()
 
 function toastClass(type) {
   if (type === "success") {
-    return "border-emerald-500/20 bg-emerald-500/12 text-emerald-100"
+    return "border-emerald-200 bg-emerald-50 text-emerald-800"
   }
 
   if (type === "error") {
-    return "border-rose-500/20 bg-rose-500/12 text-rose-100"
+    return "border-rose-200 bg-rose-50 text-rose-800"
   }
 
-  return "border-amber/20 bg-[#1e293b]/95 text-slate-900"
+  return "border-amber/30 bg-amber/10 text-amber-900"
 }
 
 function dotClass(type) {

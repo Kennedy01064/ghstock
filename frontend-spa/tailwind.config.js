@@ -8,9 +8,10 @@ export default {
     extend: {
       colors: {
         navy: {
-          DEFAULT: "#ffffff",
-          accent: "#ffffff",
-          deep: "#f1f5f9",
+          DEFAULT: "#1e293b",
+          accent: "#0f172a",
+          deep: "#0f172a",
+          light: "#334155",
         },
         amber: {
           DEFAULT: "#F2AD3D",

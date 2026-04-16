@@ -28,25 +28,25 @@
       {{ buildingStore.error }}
     </div>
 
-    <div class="card !p-0 overflow-hidden border-white/[0.12] shadow-2xl shadow-black/40">
+    <div class="card !p-0 overflow-hidden border-slate-200 shadow-2xl shadow-slate-200/50">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="border-b border-white/[0.07] bg-white/[0.02]">
+            <tr class="border-b border-slate-200 bg-slate-50">
               <th class="px-8 py-5 eyebrow !text-text-muted text-[10px]">Identificacion</th>
               <th class="px-6 py-5 eyebrow !text-text-muted text-[10px] text-center">Unidades</th>
               <th class="px-6 py-5 eyebrow !text-text-muted text-[10px] text-center">Gestion Asignada</th>
               <th class="px-8 py-5 eyebrow !text-text-muted text-[10px] text-right">Controles</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-white/5">
-            <tr v-for="building in filteredBuildings" :key="building.id" class="group hover:bg-white/[0.02] transition-colors">
+          <tbody class="divide-y divide-slate-100">
+            <tr v-for="building in filteredBuildings" :key="building.id" class="group hover:bg-slate-50 transition-colors">
               <td class="px-8 py-6">
                 <div class="flex items-center gap-5">
-                  <div v-if="building.imageUrl" class="w-14 h-14 rounded-2xl overflow-hidden shrink-0 shadow-lg border border-white/[0.12]">
+                  <div v-if="building.imageUrl" class="w-14 h-14 rounded-2xl overflow-hidden shrink-0 shadow-lg border border-slate-200">
                     <img :src="building.imageUrl" alt="Frontis" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   </div>
-                  <div v-else class="w-14 h-14 rounded-2xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-text-muted shrink-0 shadow-inner group-hover:text-amber transition-colors">
+                  <div v-else class="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center text-text-muted shrink-0 shadow-inner group-hover:text-amber transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
@@ -66,7 +66,7 @@
                 </div>
               </td>
               <td class="px-6 py-6 text-center">
-                <span class="inline-flex items-center justify-center min-w-[32px] h-8 rounded-lg bg-slate-100 border border-white/[0.12] text-[13px] font-black text-amber">
+                <span class="inline-flex items-center justify-center min-w-[32px] h-8 rounded-lg bg-slate-100 border border-slate-200 text-[13px] font-black text-amber">
                   {{ building.departments_count ?? 0 }}
                 </span>
               </td>
@@ -83,7 +83,7 @@
                 <div class="flex items-center justify-end gap-3">
                   <RouterLink
                     :to="{ name: 'catalogBuildingEdit', params: { buildingId: building.id } }"
-                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-white/[0.04] border border-white/[0.07] text-text-muted hover:border-amber/40 hover:text-amber hover:bg-amber/5 transition-all group/edit"
+                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 border border-slate-200 text-text-muted hover:border-amber/40 hover:text-amber hover:bg-amber/5 transition-all group/edit"
                     title="Editar Sede"
                   >
                     <svg class="w-5 h-5 transition-transform group-hover/edit:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +92,7 @@
                   </RouterLink>
                   <button
                     type="button"
-                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-white/[0.04] border border-white/[0.07] text-red-400/60 hover:border-red-500/40 hover:text-red-500 hover:bg-red-500/5 transition-all group/del"
+                    class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 border border-slate-200 text-red-400/60 hover:border-red-500/40 hover:text-red-500 hover:bg-red-500/5 transition-all group/del"
                     title="Eliminar Sede"
                     @click="pendingBuildingId = building.id"
                   >
@@ -106,7 +106,7 @@
             <tr v-if="!buildingStore.isLoading && !filteredBuildings.length">
               <td colspan="4" class="px-8 py-20 text-center">
                 <div class="flex flex-col items-center gap-4">
-                  <div class="w-16 h-16 rounded-full bg-white/[0.04] flex items-center justify-center text-slate-900/10">
+                  <div class="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center text-slate-900/10">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>

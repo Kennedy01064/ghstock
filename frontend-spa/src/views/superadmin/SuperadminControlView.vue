@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-10 pb-24">
-    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-white/[0.07] pb-8">
+    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-slate-200 pb-8">
       <div class="space-y-4">
         <div class="flex items-center gap-3">
           <div class="w-1.5 h-6 rounded-full bg-rose-400 shadow-[0_0_14px_rgba(251,113,133,0.4)]" />
@@ -46,7 +46,7 @@
               Ajusta el nombre institucional y el recurso visual principal conservando la línea gráfica actual.
             </p>
           </div>
-          <div class="hidden sm:flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner">
+          <div class="hidden sm:flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 shadow-inner">
             <img :src="brandingPreview" alt="Vista previa" class="h-9 w-9 object-contain" />
           </div>
         </div>
@@ -62,8 +62,8 @@
             <input v-model="brandingForm.institutional_logo_url" type="text" class="input-field" placeholder="/static/img/logo_trans.png o https://..." />
           </div>
 
-          <div class="md:col-span-2 flex items-center gap-4 rounded-[28px] border border-white/[0.12] bg-white/[0.04] p-5">
-            <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.06]">
+          <div class="md:col-span-2 flex items-center gap-4 rounded-[28px] border border-slate-200 bg-slate-50 p-5">
+            <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50">
               <img :src="brandingPreview" alt="Logo" class="h-11 w-11 object-contain" />
             </div>
             <div>
@@ -72,7 +72,7 @@
             </div>
           </div>
 
-          <div class="md:col-span-2 flex flex-col sm:flex-row gap-4 border-t border-white/[0.12] pt-6">
+          <div class="md:col-span-2 flex flex-col sm:flex-row gap-4 border-t border-slate-200 pt-6">
             <button type="submit" class="btn btn-primary flex-1" :disabled="systemStore.isSavingSettings">
               {{ systemStore.isSavingSettings ? "Guardando..." : "Guardar identidad" }}
             </button>
@@ -94,11 +94,11 @@
           </span>
         </div>
 
-        <div class="rounded-[28px] border border-white/[0.12] bg-white/[0.04] p-5 space-y-4">
+        <div class="rounded-[28px] border border-slate-200 bg-slate-50 p-5 space-y-4">
           <p class="text-sm leading-7 text-text-secondary">
             Cuando el bloqueo está activo, solo el superadmin puede iniciar sesión. El resto de usuarios recibe un aviso para contactar al desarrollador.
           </p>
-          <div class="rounded-2xl border px-4 py-4 text-sm font-semibold" :class="systemStore.isLocked ? 'border-rose-400/20 bg-rose-500/10 text-rose-100' : 'border-white/[0.12] bg-white/[0.04] text-text-secondary'">
+          <div class="rounded-2xl border px-4 py-4 text-sm font-semibold" :class="systemStore.isLocked ? 'border-rose-400/20 bg-rose-500/10 text-rose-100' : 'border-slate-200 bg-slate-50 text-text-secondary'">
             {{ lockdownMessage }}
           </div>
         </div>
@@ -112,7 +112,7 @@
           {{ systemStore.isLocked ? "Reactivar sistema" : "Suspender sistema" }}
         </button>
 
-        <div class="rounded-[28px] border border-white/[0.12] bg-slate-100/40 p-5 space-y-3">
+        <div class="rounded-[28px] border border-slate-200 bg-slate-100/40 p-5 space-y-3">
           <p class="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900/50">Ultima sincronización</p>
           <p class="text-lg font-black text-slate-900">{{ formatDate(systemStore.settings?.last_updated) }}</p>
           <p class="text-xs leading-6 text-text-muted">
@@ -123,7 +123,7 @@
     </div>
 
     <section class="card !p-0 overflow-hidden">
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-white/[0.07] px-8 py-6 bg-white/[0.04]">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-slate-200 px-8 py-6 bg-slate-50">
         <div>
           <p class="eyebrow !text-amber">Auditoría</p>
           <h2 class="mt-2 text-2xl font-black tracking-tight text-slate-900">Eventos críticos recientes</h2>
@@ -153,15 +153,15 @@
       <div v-else class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="bg-white/[0.04] border-b border-white/[0.07]">
+            <tr class="bg-slate-50 border-b border-slate-200">
               <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Evento</th>
               <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Usuario</th>
               <th class="px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Detalle</th>
               <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted text-right">Fecha</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-white/5">
-            <tr v-for="log in filteredLogs" :key="log.id" class="hover:bg-white/[0.03] transition-colors">
+          <tbody class="divide-y divide-slate-100">
+            <tr v-for="log in filteredLogs" :key="log.id" class="hover:bg-slate-50 transition-colors">
               <td class="px-8 py-5">
                 <div class="space-y-1">
                   <p class="text-sm font-black text-slate-900">{{ humanizeAction(log.action) }}</p>
@@ -171,7 +171,7 @@
                 </div>
               </td>
               <td class="px-6 py-5">
-                <span class="inline-flex items-center rounded-xl border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-[11px] font-black uppercase tracking-[0.15em] text-slate-900/80">
+                <span class="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] font-black uppercase tracking-[0.15em] text-slate-900/80">
                   {{ log.username || "Sistema" }}
                 </span>
               </td>

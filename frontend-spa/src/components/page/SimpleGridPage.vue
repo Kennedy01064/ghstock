@@ -26,7 +26,7 @@
 
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       <article v-for="item in filteredItems" :key="item.id" class="card !p-0 overflow-hidden group">
-        <div class="h-48 bg-white/[0.03] border-b border-white/[0.07] overflow-hidden">
+        <div class="h-48 bg-slate-50 border-b border-slate-200 overflow-hidden">
           <img :src="item.imageUrl" :alt="item.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         </div>
         <div class="p-6 space-y-4">

@@ -33,15 +33,15 @@
         <!-- Desktop Table View -->
         <div class="hidden md:block overflow-x-auto">
           <table class="w-full text-left">
-            <thead class="bg-white/[0.03] text-text-muted font-bold text-[10px] uppercase tracking-[0.2em]">
+            <thead class="bg-slate-50 text-text-muted font-bold text-[10px] uppercase tracking-[0.2em]">
               <tr>
                 <th v-for="column in columns" :key="column.key" class="px-4 lg:px-8 py-4" :class="column.align === 'right' ? 'text-right' : ''">
                   {{ column.label }}
                 </th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-white/5">
-              <tr v-for="row in filteredRows" :key="row.id ?? row.code ?? row.fileName ?? row.name" class="group hover:bg-white/[0.02] transition-all duration-300">
+            <tbody class="divide-y divide-slate-100">
+              <tr v-for="row in filteredRows" :key="row.id ?? row.code ?? row.fileName ?? row.name" class="group hover:bg-slate-50 transition-all duration-300">
                 <td v-for="column in columns" :key="column.key" class="px-4 lg:px-8 py-5" :class="column.align === 'right' ? 'text-right' : ''">
                   <slot :name="`cell-${column.key}`" :row="row">
                     <span v-if="column.type === 'status'" class="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-[0.18em]" :class="statusClass(row[column.key])">
@@ -59,11 +59,11 @@
         </div>
 
         <!-- Mobile Stack View -->
-        <div class="md:hidden divide-y divide-white/5">
+        <div class="md:hidden divide-y divide-slate-100">
           <div 
             v-for="row in filteredRows" 
             :key="row.id ?? row.code ?? row.fileName ?? row.name"
-            class="p-6 space-y-4 active:bg-white/[0.04] transition-colors"
+            class="p-6 space-y-4 active:bg-slate-50 transition-colors"
           >
             <div v-for="column in columns" :key="column.key" class="flex flex-col gap-1">
               <span class="text-[9px] font-black uppercase tracking-[0.2em] text-text-muted">{{ column.label }}</span>
@@ -77,7 +77,7 @@
               </div>
             </div>
           </div>
-          <div v-if="!filteredRows.length" class="px-8 py-12 text-center text-text-muted text-sm border-t border-white/[0.07]">
+          <div v-if="!filteredRows.length" class="px-8 py-12 text-center text-text-muted text-sm border-t border-slate-200">
             {{ emptyMessage }}
           </div>
         </div>

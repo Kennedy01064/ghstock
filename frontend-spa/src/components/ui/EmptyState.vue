@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center p-12 text-center bg-white/[0.02] border border-white/[0.05] rounded-[3rem] animate-in fade-in zoom-in duration-700">
+  <div class="flex flex-col items-center justify-center p-12 text-center bg-slate-50 border border-slate-200 rounded-[3rem] animate-in fade-in zoom-in duration-700">
     <!-- Icon Container -->
     <div class="relative mb-6">
       <div class="absolute inset-0 bg-amber-500/20 blur-3xl rounded-full scale-150 opacity-50"></div>

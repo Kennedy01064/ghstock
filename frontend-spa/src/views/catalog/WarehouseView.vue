@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-[1320px] mx-auto space-y-12 pb-32 px-4">
-    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6 border-b border-white/[0.07] pb-8">
+    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6 border-b border-slate-200 pb-8">
       <div class="space-y-3">
         <div class="flex items-center gap-3">
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
@@ -58,11 +58,11 @@
       />
     </div>
 
-    <div v-else class="card !p-0 overflow-hidden border-white/[0.07] bg-white/[0.01] backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
+    <div v-else class="card !p-0 overflow-hidden border-slate-200 bg-slate-50 backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
       <WarehouseRows :products="filteredProducts" @toggle="toggleProduct" @sync="syncProduct" />
     </div>
 
-    <div class="flex items-center justify-between px-2 pt-4 border-t border-white/[0.07]">
+    <div class="flex items-center justify-between px-2 pt-4 border-t border-slate-200">
       <p class="text-[10px] font-black uppercase tracking-[0.4em] text-text-muted/50">Grupo Hernandez - Logistica Vulcano (C) 2026</p>
       <div class="flex gap-8">
         <div class="flex items-center gap-3">
@@ -85,7 +85,7 @@
 
     <Transition name="modal-fade">
       <div v-if="scraper.isDynamicModalOpen.value" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-100/95 backdrop-blur-md p-6">
-        <div class="card w-full max-w-2xl !bg-white/[0.06] border-white/[0.12] !p-10 animate-in fade-in zoom-in duration-500 shadow-[0_64px_128px_-32px_rgba(0,0,0,0.8)] relative overflow-hidden">
+        <div class="card w-full max-w-2xl !bg-slate-50 border-slate-200 !p-10 animate-in fade-in zoom-in duration-500 shadow-[0_64px_128px_-32px_rgba(0,0,0,0.8)] relative overflow-hidden">
           <div class="absolute top-0 right-0 w-64 h-64 bg-amber/5 rounded-full blur-[100px] -mr-32 -mt-32"></div>
 
           <div class="flex items-center justify-between mb-10 relative z-10">
@@ -97,7 +97,7 @@
               <h3 class="text-3xl font-black text-slate-900 tracking-tight">Importacion Dinamica</h3>
               <p class="text-text-muted text-sm font-medium">Extraiga metadatos tecnicos directamente desde portales retail.</p>
             </div>
-            <button type="button" class="w-12 h-12 rounded-2xl hover:bg-white/[0.06] flex items-center justify-center transition-all hover:rotate-90 group" @click="scraper.closeScraper">
+            <button type="button" class="w-12 h-12 rounded-2xl hover:bg-slate-50 flex items-center justify-center transition-all hover:rotate-90 group" @click="scraper.closeScraper">
               <svg class="w-6 h-6 text-slate-900 group-hover:text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -125,7 +125,7 @@
 
             <div v-if="scraper.isPreviewLoading.value && !scraper.dynamicPreview.value" class="flex flex-col items-center justify-center py-16 space-y-6">
               <div class="relative">
-                <div class="w-16 h-16 border-4 border-white/[0.12] rounded-full"></div>
+                <div class="w-16 h-16 border-4 border-slate-200 rounded-full"></div>
                 <div class="w-16 h-16 border-4 border-amber border-t-transparent rounded-full animate-spin absolute inset-0 shadow-[0_0_20px_rgba(242,173,61,0.3)]"></div>
               </div>
               <div class="text-center space-y-2">
@@ -134,21 +134,21 @@
               </div>
             </div>
 
-            <div v-else-if="scraper.dynamicPreview.value" class="p-8 rounded-3xl border border-white/[0.12] bg-white/[0.04] space-y-6 animate-in slide-in-from-bottom-5 duration-700">
+            <div v-else-if="scraper.dynamicPreview.value" class="p-8 rounded-3xl border border-slate-200 bg-slate-50 space-y-6 animate-in slide-in-from-bottom-5 duration-700">
               <div class="flex gap-6">
-                <div class="w-32 h-32 rounded-2xl bg-slate-100 overflow-hidden border border-white/[0.12] shrink-0 shadow-2xl">
+                <div class="w-32 h-32 rounded-2xl bg-slate-100 overflow-hidden border border-slate-200 shrink-0 shadow-2xl">
                   <img :src="scraper.dynamicPreview.value.image_url || defaultProductUrl" class="w-full h-full object-cover" />
                 </div>
                 <div class="grow min-w-0 space-y-3">
                   <h4 class="text-xl font-black text-slate-900 truncate leading-tight uppercase">{{ scraper.dynamicPreview.value.name || "Nombre del Producto" }}</h4>
                   <div class="flex items-center gap-4">
                     <p class="text-3xl font-black text-amber leading-none">S/ {{ Number(scraper.dynamicPreview.value.price || 0).toFixed(2) }}</p>
-                    <div class="h-6 w-px bg-white/[0.06]"></div>
+                    <div class="h-6 w-px bg-slate-50"></div>
                     <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">SKU: {{ scraper.dynamicPreview.value.sku || "N/A" }}</p>
                   </div>
                 </div>
               </div>
-              <div class="pt-6 border-t border-white/[0.12]">
+              <div class="pt-6 border-t border-slate-200">
                 <button type="button" class="btn btn-primary w-full !h-16 !rounded-2xl shadow-2xl shadow-amber/20" :disabled="scraper.isSubmitting.value" @click="scraper.saveToCatalog(productStore.createProduct)">
                   <span class="tracking-widest font-black text-sm">Vincular al Catalogo Maestro</span>
                 </button>

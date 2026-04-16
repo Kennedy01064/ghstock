@@ -1,11 +1,11 @@
 <template>
-  <ul class="divide-y divide-white/5">
+  <ul class="divide-y divide-slate-100">
     <li
       v-for="item in items"
       :key="item.id"
-      class="px-5 py-4 flex items-center gap-4 hover:bg-white/[0.03] transition-colors group"
+      class="px-5 py-4 flex items-center gap-4 hover:bg-slate-50 transition-colors group"
     >
-      <div class="w-14 h-14 rounded-2xl bg-white border border-white/[0.07] flex items-center justify-center p-2 shrink-0 shadow-inner overflow-hidden">
+      <div class="w-14 h-14 rounded-2xl bg-white border border-slate-200 flex items-center justify-center p-2 shrink-0 shadow-inner overflow-hidden">
         <img
           :src="item.imageUrl"
           :alt="item.nombreProductoSnapshot"
@@ -22,7 +22,7 @@
           {{ item.nombreProductoSnapshot }}
         </p>
         <div class="flex items-center gap-2 mt-1">
-          <span class="text-[9px] font-bold text-text-muted bg-white/[0.04] px-1.5 py-0.5 rounded uppercase">{{ item.unit }}</span>
+          <span class="text-[9px] font-bold text-text-muted bg-slate-50 px-1.5 py-0.5 rounded uppercase">{{ item.unit }}</span>
           <span v-if="item.precioUnitario" class="text-xs font-black text-amber">
             {{ formatCurrency(item.precioUnitario * item.quantity) }}
           </span>

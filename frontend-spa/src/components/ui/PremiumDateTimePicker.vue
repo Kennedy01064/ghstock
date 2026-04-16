@@ -24,7 +24,7 @@
     <Transition name="picker-fade">
       <div 
         v-if="isOpen" 
-        class="absolute left-0 top-full mt-3 z-[100] w-[95vw] sm:w-[520px] rounded-[2rem] border border-white/[0.12] bg-white shadow-[0_40px_100px_-15px_rgba(0,0,0,0.9)] overflow-hidden"
+        class="absolute left-0 top-full mt-3 z-[100] w-[95vw] sm:w-[520px] rounded-[2rem] border border-slate-200 bg-white shadow-[0_40px_100px_-15px_rgba(0,0,0,0.25)] overflow-hidden"
       >
         <!-- Calendar Header -->
         <div class="px-6 py-3.5 border-b border-slate-200 flex items-center justify-between bg-slate-50">

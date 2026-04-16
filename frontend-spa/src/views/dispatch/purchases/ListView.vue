@@ -10,9 +10,9 @@
       </div>
 
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-        <div class="flex items-center gap-4 bg-white/[0.06] border border-white/[0.07] backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl shadow-black/20">
+        <div class="flex items-center gap-4 bg-slate-50 border border-slate-200 backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl shadow-black/20">
           <span class="text-[9px] font-black text-text-muted uppercase tracking-widest text-center">Operaciones<br>Registradas</span>
-          <span class="text-2xl font-black text-slate-900 leading-none border-l border-white/[0.12] pl-4">{{ purchases.length }}</span>
+          <span class="text-2xl font-black text-slate-900 leading-none border-l border-slate-200 pl-4">{{ purchases.length }}</span>
         </div>
 
         <RouterLink :to="{ name: 'dispatchPurchaseCreate' }" class="btn btn-primary shadow-2xl shadow-amber/10 group h-14 px-8">
@@ -28,11 +28,11 @@
       {{ dispatchStore.error }}
     </div>
 
-    <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
+    <div class="card !p-0 border-slate-200 bg-slate-50 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm whitespace-nowrap border-collapse">
           <thead>
-            <tr class="bg-white/[0.02] border-b border-white/[0.03] text-[10px] uppercase tracking-[0.3em] font-black text-text-muted">
+            <tr class="bg-slate-50 border-b border-slate-200 text-[10px] uppercase tracking-[0.3em] font-black text-text-muted">
               <th class="px-8 py-5">Control</th>
               <th class="px-8 py-5">Cronologia</th>
               <th class="px-8 py-5">Proveedor & Comprobante</th>
@@ -41,8 +41,8 @@
               <th class="px-8 py-5 text-right">Acciones</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-white/[0.03]">
-            <tr v-for="purchase in purchases" :key="purchase.id" class="hover:bg-white/[0.01] transition-all group">
+          <tbody class="divide-y divide-slate-100">
+            <tr v-for="purchase in purchases" :key="purchase.id" class="hover:bg-slate-50 transition-all group">
               <td class="px-8 py-6">
                 <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-emerald-500/5 border border-emerald-500/10 rounded-xl group-hover:border-emerald-500/40 transition-all">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
@@ -69,7 +69,7 @@
                 </div>
               </td>
               <td class="px-8 py-6 text-center">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-100/60 border border-white/[0.07]">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-100/60 border border-slate-200">
                   <span class="text-sm font-black text-slate-900 tabular-nums">{{ purchase.items?.length || 0 }}</span>
                   <span class="text-[9px] font-black text-text-muted uppercase tracking-widest">SKUs</span>
                 </div>
@@ -80,7 +80,7 @@
                 </p>
               </td>
               <td class="px-8 py-6 text-right">
-                <RouterLink :to="{ name: 'dispatchPurchaseDetail', params: { purchaseId: purchase.id } }" class="btn btn-secondary !py-2.5 !px-5 !rounded-xl !text-[10px] border-white/[0.07] hover:border-amber/30 hover:text-amber shadow-none group/link">
+                <RouterLink :to="{ name: 'dispatchPurchaseDetail', params: { purchaseId: purchase.id } }" class="btn btn-secondary !py-2.5 !px-5 !rounded-xl !text-[10px] border-slate-200 hover:border-amber/30 hover:text-amber shadow-none group/link">
                   <span>VER DETALLE</span>
                   <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />

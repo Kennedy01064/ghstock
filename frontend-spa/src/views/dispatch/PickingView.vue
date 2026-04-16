@@ -15,7 +15,7 @@
 
     <div class="card !p-0 overflow-hidden overflow-x-auto">
       <table class="w-full text-left">
-        <thead class="bg-white/[0.03] text-text-muted font-bold text-[10px] uppercase tracking-[0.2em]">
+        <thead class="bg-slate-50 text-text-muted font-bold text-[10px] uppercase tracking-[0.2em]">
           <tr>
             <th class="px-8 py-4">Producto</th>
             <th class="px-8 py-4">Solicitado</th>
@@ -23,7 +23,7 @@
             <th class="px-8 py-4 text-right">Completar</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-white/5">
+        <tbody class="divide-y divide-slate-100">
           <tr v-for="item in items" :key="item.id">
             <td class="px-8 py-5 text-sm font-black text-slate-900">{{ item.name }}</td>
             <td class="px-8 py-5 text-sm font-bold text-slate-900">{{ item.requested }} {{ item.unit }}</td>

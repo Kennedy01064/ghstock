@@ -13,7 +13,7 @@
       </RouterLink>
     </div>
 
-    <form class="card !p-5 border-white/[0.07] flex flex-col sm:flex-row gap-4 items-end" @submit.prevent="applyFilters">
+    <form class="card !p-5 border-slate-200 flex flex-col sm:flex-row gap-4 items-end" @submit.prevent="applyFilters">
       <div class="flex-1">
         <label class="label-premium">Estado</label>
         <select v-model="filters.status" class="select-field !py-3">
@@ -54,7 +54,7 @@
       <article
         v-for="order in orders"
         :key="order.id"
-        class="card !p-0 overflow-hidden border-white/[0.07] hover:border-white/[0.12] transition-all group"
+        class="card !p-0 overflow-hidden border-slate-200 hover:border-slate-200 transition-all group"
       >
         <div v-if="order.rejectionNote" class="px-6 py-3 bg-rose-500/10 border-b border-rose-500/20 flex items-start gap-3">
           <svg class="w-4 h-4 text-rose-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,7 +151,7 @@
 
             <RouterLink
               :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }"
-              class="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.12] text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber transition-all flex items-center justify-center"
+              class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber transition-all flex items-center justify-center"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -253,7 +253,7 @@ function statusBadgeClass(status) {
     delivered: "bg-emerald-400/10 text-emerald-400 border-emerald-400/20",
     cancelled: "bg-rose-400/10 text-rose-400 border-rose-400/20",
     rejected: "bg-rose-500/10 text-rose-400 border-rose-500/30",
-  }[status] ?? "bg-white/[0.04] text-slate-900/40 border-white/[0.12]"
+  }[status] ?? "bg-slate-50 text-slate-900/40 border-slate-200"
 }
 
 function statusDotClass(status) {
@@ -266,7 +266,7 @@ function statusDotClass(status) {
     delivered: "bg-emerald-400/10 border-emerald-400/20 text-emerald-400",
     cancelled: "bg-rose-400/10 border-rose-400/20 text-rose-400",
     rejected: "bg-rose-500/10 border-rose-500/30 text-rose-400",
-  }[status] ?? "bg-white/[0.04] border-white/[0.12] text-slate-900/50"
+  }[status] ?? "bg-slate-50 border-slate-200 text-slate-900/50"
 }
 
 async function loadOrders() {

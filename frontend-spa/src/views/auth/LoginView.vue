@@ -2,7 +2,7 @@
   <section class="min-h-screen flex items-center justify-center px-6 py-6">
     <div class="w-full max-w-sm animate-in fade-in zoom-in duration-700">
       <div class="text-center mb-5 flex flex-col items-center group">
-        <span class="flex h-20 w-20 items-center justify-center mb-4 rounded-full border border-white/[0.12] bg-white/[0.03] shadow-2xl transition-transform group-hover:scale-105 duration-500">
+        <span class="flex h-20 w-20 items-center justify-center mb-4 rounded-full border border-slate-200 bg-slate-50 shadow-2xl transition-transform group-hover:scale-105 duration-500">
           <img :src="institutionalLogo" :alt="institutionalName" class="h-12 w-12 object-contain drop-shadow-2xl" />
         </span>
         <h1 class="text-2xl font-display font-black text-slate-900 tracking-[-0.05em] leading-none mb-1 uppercase">{{ institutionalName }}</h1>

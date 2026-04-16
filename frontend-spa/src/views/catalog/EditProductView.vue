@@ -18,7 +18,7 @@
           <h1 class="h2">Modificar Activo</h1>
           <p class="text-text-muted font-medium">Actualizando parametros de: <span class="text-slate-900">{{ product.name }}</span></p>
         </div>
-        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 shadow-inner">
           <svg class="w-6 h-6 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
@@ -77,9 +77,9 @@
 
         <div class="space-y-4">
           <label class="label-premium">Fotografia del Activo</label>
-          <div v-if="productPreview" class="flex items-center gap-6 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.12] w-fit">
+          <div v-if="productPreview" class="flex items-center gap-6 p-4 rounded-2xl bg-slate-50 border border-slate-200 w-fit">
             <div class="relative group">
-              <img :src="productPreview" alt="Actual" class="h-24 w-24 object-cover rounded-xl shadow-lg border border-white/[0.12] group-hover:border-amber/40 transition-all">
+              <img :src="productPreview" alt="Actual" class="h-24 w-24 object-cover rounded-xl shadow-lg border border-slate-200 group-hover:border-amber/40 transition-all">
             </div>
             <div class="space-y-1">
               <p class="text-xs font-black text-slate-900 uppercase tracking-widest">Imagen Actual</p>
@@ -94,12 +94,12 @@
           <input v-model="form.sourceUrl" type="url" class="input-field" placeholder="https://proveedor.com/item">
         </div>
 
-        <div class="flex items-center gap-3 rounded-xl bg-white/[0.03] border border-white/[0.12] px-4 py-3">
-          <input id="active" v-model="form.active" type="checkbox" class="w-4 h-4 rounded border-white/[0.12] bg-slate-100 text-amber focus:ring-amber/40 focus:ring-offset-navy-deep">
+        <div class="flex items-center gap-3 rounded-xl bg-slate-50 border border-slate-200 px-4 py-3">
+          <input id="active" v-model="form.active" type="checkbox" class="w-4 h-4 rounded border-slate-200 bg-slate-100 text-amber focus:ring-amber/40 focus:ring-offset-navy-deep">
           <label for="active" class="text-[11px] font-bold text-slate-900 uppercase tracking-widest">Producto activo para despacho</label>
         </div>
 
-        <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-white/[0.12]">
+        <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-slate-200">
           <RouterLink :to="{ name: 'catalogWarehouse' }" class="btn btn-secondary flex-1">Descartar Cambios</RouterLink>
           <button type="submit" class="btn btn-primary flex-1 shadow-2xl shadow-amber/10" :disabled="productStore.isSubmitting">
             <svg v-if="!productStore.isSubmitting" class="w-5 h-5 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

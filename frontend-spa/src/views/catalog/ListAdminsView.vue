@@ -58,7 +58,7 @@
           :key="option.value"
           type="button"
           class="rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] transition-all"
-          :class="selectedRole === option.value ? 'border-amber/40 bg-amber/10 text-amber' : 'border-white/[0.12] bg-white/[0.03] text-text-muted hover:text-slate-900'"
+          :class="selectedRole === option.value ? 'border-amber/40 bg-amber/10 text-amber' : 'border-slate-200 bg-slate-50 text-text-muted hover:text-slate-900'"
           @click="selectedRole = option.value"
         >
           {{ option.label }}
@@ -71,7 +71,7 @@
           :key="option.value"
           type="button"
           class="rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] transition-all"
-          :class="selectedStatus === option.value ? 'border-slate-300 bg-white/[0.06] text-slate-900' : 'border-white/[0.12] bg-white/[0.03] text-text-muted hover:text-slate-900'"
+          :class="selectedStatus === option.value ? 'border-slate-300 bg-slate-50 text-slate-900' : 'border-slate-200 bg-slate-50 text-text-muted hover:text-slate-900'"
           @click="selectedStatus = option.value"
         >
           {{ option.label }}
@@ -90,11 +90,11 @@
       />
     </div>
 
-    <div v-else class="card !p-0 overflow-hidden border-white/[0.07] bg-white/[0.02]">
+    <div v-else class="card !p-0 overflow-hidden border-slate-200 bg-slate-50">
       <div class="overflow-x-auto custom-scrollbar">
         <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="bg-white/[0.04] border-b border-white/[0.07]">
+            <tr class="bg-slate-50 border-b border-slate-200">
               <th class="px-8 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-text-muted">Cuenta</th>
               <th class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-text-muted">Rol</th>
               <th class="px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-text-muted">Estado</th>
@@ -102,8 +102,8 @@
               <th v-if="showActionsColumn" class="px-8 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-text-muted text-right">Acciones</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-white/5">
-            <tr v-for="user in filteredUsers" :key="user.id" class="group transition-colors" :class="user.is_active === false ? 'bg-rose-500/[0.03] hover:bg-rose-500/[0.06]' : 'hover:bg-white/[0.03]'">
+          <tbody class="divide-y divide-slate-100">
+            <tr v-for="user in filteredUsers" :key="user.id" class="group transition-colors" :class="user.is_active === false ? 'bg-rose-500/[0.03] hover:bg-rose-500/[0.06]' : 'hover:bg-slate-50'">
               <td class="px-8 py-6">
                 <div class="flex items-center gap-4">
                   <div class="w-12 h-12 rounded-2xl border flex items-center justify-center text-lg font-black shrink-0 shadow-inner transition-transform group-hover:scale-105" :class="user.role === 'superadmin' ? 'bg-rose-500/10 border-rose-400/20 text-rose-300' : 'bg-amber/10 border-amber/20 text-amber'">
@@ -139,7 +139,7 @@
                   <span
                     v-for="building in user.assigned_buildings"
                     :key="`${user.id}-${building.id}`"
-                    class="inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-white/[0.04] border border-white/[0.12] text-slate-900/80 transition-colors"
+                    class="inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-slate-50 border border-slate-200 text-slate-900/80 transition-colors"
                   >
                     {{ building.name }}
                   </span>
@@ -153,7 +153,7 @@
                 <div class="flex items-center justify-end gap-2">
                   <RouterLink
                     :to="{ name: 'catalogAdminEdit', params: { adminId: user.id } }"
-                    class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] text-text-muted hover:text-amber hover:border-amber/30 hover:bg-white/[0.08] transition-all"
+                    class="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-text-muted hover:text-amber hover:border-amber/30 hover:bg-white/[0.08] transition-all"
                     title="Editar perfil"
                   >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +163,7 @@
 
                   <button
                     type="button"
-                    class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] transition-all"
+                    class="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 transition-all"
                     :class="user.role === 'superadmin' ? 'text-slate-900/20 cursor-not-allowed' : user.is_active === false ? 'text-emerald-300 hover:border-emerald-400/30 hover:bg-emerald-400/10' : 'text-rose-300 hover:border-rose-500/30 hover:bg-rose-500/10'"
                     :disabled="user.role === 'superadmin'"
                     :title="user.is_active === false ? 'Reactivar cuenta' : 'Suspender cuenta'"
@@ -179,7 +179,7 @@
 
                   <button
                     type="button"
-                    class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] transition-all"
+                    class="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 transition-all"
                     :class="user.role === 'superadmin' ? 'text-slate-900/20 cursor-not-allowed' : 'text-text-muted hover:text-rose-500 hover:border-rose-500/30 hover:bg-rose-500/10'"
                     :disabled="user.role === 'superadmin'"
                     title="Eliminar registro"
@@ -360,7 +360,7 @@ function roleClass(role) {
   if (role === "manager") {
     return "border-amber/30 bg-amber/10 text-amber"
   }
-  return "border-white/[0.12] bg-white/[0.04] text-text-muted"
+  return "border-slate-200 bg-slate-50 text-text-muted"
 }
 
 function openActionModal(type, user) {

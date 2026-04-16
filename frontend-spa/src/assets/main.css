@@ -2,9 +2,10 @@
 
 /* Custom Variables */
 :root {
-    --navy-default: #ffffff;
-    --navy-accent: #ffffff;
-    --navy-deep: #f1f5f9;
+    --navy-default: #1e293b;
+    --navy-accent: #0f172a;
+    --navy-deep: #0f172a;
+    --navy-light: #334155;
     --amber-default: #F2AD3D;
     --amber-hover: #D9921E;
     --amber-soft: #C8A66B;
@@ -74,7 +75,7 @@ body {
 
 .btn-primary { 
     background: var(--amber-default);
-    color: var(--navy-deep);
+    color: var(--navy-accent);
     box-shadow: 0 10px 15px -3px rgba(242, 173, 61, 0.1);
     text-transform: uppercase;
     letter-spacing: 0.05em;
