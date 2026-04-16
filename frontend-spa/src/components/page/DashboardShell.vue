@@ -22,7 +22,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <article v-for="panel in primaryPanels" :key="panel.title" class="card !p-0 overflow-hidden">
-        <div class="px-8 py-6 border-b border-white/[0.07] bg-white/[0.02]">
+        <div class="px-8 py-6 border-b border-slate-100 bg-slate-50/50">
           <h3 class="text-base font-bold text-slate-900">{{ panel.title }}</h3>
           <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-2">{{ panel.caption }}</p>
         </div>
@@ -32,7 +32,7 @@
               <span class="font-bold text-slate-900">{{ item.label }}</span>
               <span class="text-text-muted">{{ item.value }}</span>
             </div>
-            <div class="h-2 rounded-full bg-white/[0.04] overflow-hidden">
+            <div class="h-2 rounded-full bg-slate-100 overflow-hidden">
               <div class="h-full rounded-full bg-gradient-to-r from-amber to-amber-hover" :style="{ width: `${item.percent}%` }"></div>
             </div>
           </div>
@@ -42,7 +42,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] gap-8">
       <article class="card !p-0 overflow-hidden">
-        <div class="px-8 py-6 border-b border-white/[0.07] bg-white/[0.02] flex items-center justify-between">
+        <div class="px-8 py-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
           <div>
             <h3 class="text-base font-bold text-slate-900">{{ table.title }}</h3>
             <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-2">{{ table.caption }}</p>
@@ -53,13 +53,13 @@
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left">
-            <thead class="bg-white/[0.03] text-text-muted font-bold text-[10px] uppercase tracking-[0.2em]">
+            <thead class="bg-slate-50/30 text-text-muted font-bold text-[10px] uppercase tracking-[0.2em]">
               <tr>
                 <th v-for="column in table.columns" :key="column.key" class="px-8 py-4">{{ column.label }}</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-white/5">
-              <tr v-for="row in table.rows" :key="row.id ?? row.label" class="hover:bg-white/[0.02] transition-colors">
+            <tbody class="divide-y divide-slate-100">
+              <tr v-for="row in table.rows" :key="row.id ?? row.label" class="hover:bg-slate-50/50 transition-colors">
                 <td v-for="column in table.columns" :key="column.key" class="px-8 py-5 text-sm font-bold text-slate-900">
                   {{ typeof column.value === "function" ? column.value(row) : row[column.key] }}
                 </td>
@@ -70,13 +70,13 @@
       </article>
 
       <article class="card !p-0 overflow-hidden">
-        <div class="px-8 py-6 border-b border-white/[0.07] bg-white/[0.02]">
+        <div class="px-8 py-6 border-b border-slate-100 bg-slate-50/50">
           <h3 class="text-base font-bold text-slate-900">{{ feed.title }}</h3>
           <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-2">{{ feed.caption }}</p>
         </div>
-        <div class="divide-y divide-white/5">
+        <div class="divide-y divide-slate-100">
           <div v-for="item in feed.items" :key="item.title" class="px-8 py-5 flex items-start gap-4">
-            <div class="w-10 h-10 rounded-xl border border-white/[0.12] bg-white/[0.04] flex items-center justify-center text-amber">
+            <div class="w-10 h-10 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-center text-amber">
               <span class="text-xs font-black">{{ item.badge }}</span>
             </div>
             <div class="min-w-0">
@@ -96,7 +96,7 @@
         class="card !p-6 flex flex-col items-center justify-center gap-3 group hover:border-amber/40 hover:bg-amber/5 transition-all duration-300"
       >
         <div class="relative">
-          <div class="w-12 h-12 bg-white/[0.04] rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber transition-all duration-500 shadow-lg">
+          <div class="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber transition-all duration-500 shadow-lg">
             <svg class="w-6 h-6 text-slate-900 group-hover:text-navy-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" :d="link.iconPath" />
             </svg>

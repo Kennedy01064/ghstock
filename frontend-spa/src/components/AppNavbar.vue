@@ -1,13 +1,13 @@
 <template>
   <header
     class="sticky top-0 z-50 border-b transition-colors duration-300"
-    style="border-color: rgba(226, 232, 240, 1); background: rgba(15,23,42,0.92); backdrop-filter: blur(12px);"
+    style="border-color: rgba(226, 232, 240, 1); background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px);"
   >
     <div class="mx-auto flex w-full max-w-[1320px] items-center gap-4 px-5 py-4 md:px-8 xl:px-10">
       <RouterLink :to="dashboardRoute" class="group flex min-w-0 items-center gap-3 pr-2">
         <span
           class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition duration-200"
-          style="border-color: rgba(226, 232, 240, 1); background: rgba(255,255,255,0.03);"
+          style="border-color: rgba(226, 232, 240, 1); background: #f8fafc;"
         >
           <img :src="logoUrl" alt="Logo Grupo Hernandez" class="h-10 w-auto object-contain" />
         </span>
@@ -159,7 +159,7 @@
             {{ viewAsAdmin ? "Volver a Superadmin" : "Ver como Admin" }}
           </button>
 
-          <div class="hidden md:flex items-center gap-4 pl-5 border-l border-white/[0.07]">
+          <div class="hidden md:flex items-center gap-4 pl-5 border-l border-slate-200">
             <div class="flex flex-col items-start">
               <span data-testid="navbar-user-name" class="text-[13px] font-black text-slate-900 leading-none mb-1 tracking-tight">{{ displayName }}</span>
               <span class="text-[9px] font-black text-amber tracking-[0.15em] uppercase leading-none opacity-80">{{ displayRole }}</span>
@@ -174,7 +174,7 @@
 
           <button
             type="button"
-            class="flex items-center justify-center w-10 h-10 rounded-full text-slate-900/40 bg-white/[0.04] border border-white/[0.12] hover:text-red-400 hover:border-red-400/20 transition-all"
+            class="flex items-center justify-center w-10 h-10 rounded-full text-slate-900/40 bg-slate-100 border border-slate-200 hover:text-red-400 hover:border-red-400/20 transition-all"
             title="Cerrar Sesion"
             @click="handleLogout"
           >
@@ -185,7 +185,7 @@
 
           <button
             type="button"
-            class="lg:hidden flex items-center justify-center w-12 h-12 rounded-full border border-white/[0.12] bg-white/[0.04] text-slate-900/70"
+            class="lg:hidden flex items-center justify-center w-12 h-12 rounded-full border border-slate-200 bg-slate-100 text-slate-900/70"
             @click="mobileMenuOpen = !mobileMenuOpen"
           >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -196,9 +196,9 @@
       </div>
     </div>
 
-    <div v-if="showAuthenticatedShell && mobileMenuOpen" id="mobile-menu" class="xl:hidden border-t border-white/[0.12] bg-white shadow-2xl">
+    <div v-if="showAuthenticatedShell && mobileMenuOpen" id="mobile-menu" class="xl:hidden border-t border-slate-200 bg-white shadow-2xl">
       <nav class="px-4 py-4 flex flex-col gap-1.5">
-        <RouterLink :to="dashboardRoute" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-white/[0.06] transition-colors">
+        <RouterLink :to="dashboardRoute" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-slate-100 transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
@@ -291,7 +291,7 @@
           {{ viewAsAdmin ? "Volver a Superadmin" : "Ver como Admin" }}
         </button>
 
-        <div class="mt-2 pt-4 border-t border-white/[0.12] flex items-center gap-3 px-2">
+        <div class="mt-2 pt-4 border-t border-slate-200 flex items-center gap-3 px-2">
           <div class="w-10 h-10 bg-amber rounded-xl flex items-center justify-center text-sm font-black text-navy-deep uppercase shadow-md">
             {{ displayInitial }}
           </div>
