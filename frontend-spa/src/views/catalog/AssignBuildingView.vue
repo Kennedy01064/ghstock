@@ -38,14 +38,14 @@
           <div class="p-6 space-y-4">
             <div class="flex items-start justify-between gap-4">
               <div>
-                <h3 class="text-lg font-black text-white">{{ building.name }}</h3>
+                <h3 class="text-lg font-black text-slate-900">{{ building.name }}</h3>
                 <p class="text-[11px] uppercase tracking-[0.18em] text-text-muted mt-2">{{ building.address }}</p>
               </div>
               <input v-model="selectedBuildingIds" type="checkbox" :value="building.id" class="h-4 w-4 accent-amber" />
             </div>
             <div class="text-sm text-text-secondary space-y-2">
-              <p>Administrador actual: <span class="text-white font-bold">{{ building.adminName }}</span></p>
-              <p>Unidades: <span class="text-white font-bold">{{ building.units }}</span></p>
+              <p>Administrador actual: <span class="text-slate-900 font-bold">{{ building.adminName }}</span></p>
+              <p>Unidades: <span class="text-slate-900 font-bold">{{ building.units }}</span></p>
             </div>
           </div>
         </article>

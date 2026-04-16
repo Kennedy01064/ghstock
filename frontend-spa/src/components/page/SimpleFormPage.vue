@@ -57,7 +57,7 @@
                     </svg>
                   </div>
                   <div>
-                    <p class="text-sm font-bold text-white">{{ field.placeholder }}</p>
+                    <p class="text-sm font-bold text-slate-900">{{ field.placeholder }}</p>
                     <p class="text-[11px] text-text-muted mt-1">{{ field.help ?? "Campo preparado para integrar carga real en Fase 4." }}</p>
                   </div>
                 </div>
@@ -100,7 +100,7 @@
           <div class="rounded-[24px] overflow-hidden border border-white/[0.12] bg-white/[0.03]">
             <img :src="preview.image" :alt="preview.title" class="h-48 w-full object-cover" />
           </div>
-          <h3 class="mt-4 text-lg font-black text-white">{{ preview.title }}</h3>
+          <h3 class="mt-4 text-lg font-black text-slate-900">{{ preview.title }}</h3>
           <p class="mt-2 text-sm leading-6 text-text-secondary">{{ preview.description }}</p>
         </div>
 

@@ -6,7 +6,7 @@
   <DashboardSkeleton v-else-if="dashboardStore.isLoading && !dashboard" />
 
   <div v-else-if="dashboard" class="max-w-[1320px] mx-auto px-5 py-8 md:px-8 xl:px-10 space-y-10">
-    <div class="relative bg-gradient-to-br from-[#0f172a] via-[#172032] to-[#0a1220] rounded-[2.5rem] p-8 md:p-14 text-white shadow-2xl overflow-hidden border border-white/[0.07] group">
+    <div class="relative bg-gradient-to-br from-[#0f172a] via-[#172032] to-[#0a1220] rounded-[2.5rem] p-8 md:p-14 text-slate-900 shadow-2xl overflow-hidden border border-white/[0.07] group">
       <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber/10 rounded-full blur-[120px] group-hover:bg-amber/20 transition-all duration-1000"></div>
       <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-white/[0.04] rounded-full blur-[100px]"></div>
 
@@ -19,8 +19,8 @@
             </div>
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[0.95]">
-              <span class="text-white/40 block mb-2 text-3xl font-bold">Resumen Operativo,</span>
-              <span class="text-white drop-shadow-2xl">{{ displayName }}</span>
+              <span class="text-slate-900/40 block mb-2 text-3xl font-bold">Resumen Operativo,</span>
+              <span class="text-slate-900 drop-shadow-2xl">{{ displayName }}</span>
             </h1>
 
             <p class="text-text-secondary text-lg md:max-w-xl leading-relaxed font-medium opacity-80">
@@ -30,7 +30,7 @@
             <div class="inline-flex items-center gap-4 bg-white/[0.03] border border-white/[0.07] backdrop-blur-3xl rounded-2xl px-6 py-3 shadow-2xl">
               <div class="text-right">
                 <p class="text-[10px] font-black text-amber uppercase tracking-widest leading-none mb-1">Fecha Operativa</p>
-                <p class="text-white font-black text-sm tracking-widest tabular-nums uppercase whitespace-nowrap">{{ formatDate(new Date()) }}</p>
+                <p class="text-slate-900 font-black text-sm tracking-widest tabular-nums uppercase whitespace-nowrap">{{ formatDate(new Date()) }}</p>
               </div>
               <div class="w-[1px] h-8 bg-white/[0.06]"></div>
               <div class="w-8 h-8 bg-amber/10 rounded-lg flex items-center justify-center border border-amber/20 shadow-lg shadow-amber/10">
@@ -75,7 +75,7 @@
 
           <div class="space-y-2">
             <div class="flex flex-wrap items-center gap-3">
-              <h3 class="text-lg font-black text-white uppercase tracking-[0.12em]">Alerta de cierre operativo</h3>
+              <h3 class="text-lg font-black text-slate-900 uppercase tracking-[0.12em]">Alerta de cierre operativo</h3>
               <span class="inline-flex items-center rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em]" :class="submissionDeadline.state === 'overdue' ? 'border-rose-400/30 bg-rose-500/10 text-rose-100' : 'border-cyan-400/30 bg-cyan-400/10 text-cyan-100'">
                 {{ submissionDeadline.state === "overdue" ? "Vencida" : "Programada" }}
               </span>
@@ -86,7 +86,7 @@
             </p>
 
             <div class="flex flex-wrap items-center gap-4 text-sm font-bold">
-              <span class="text-white">{{ formatDateTime(submissionDeadline.deadline_at) }}</span>
+              <span class="text-slate-900">{{ formatDateTime(submissionDeadline.deadline_at) }}</span>
               <span :class="submissionDeadline.state === 'overdue' ? 'text-rose-200' : 'text-cyan-100'">
                 {{ deadlineRelativeCopy(submissionDeadline.deadline_at, submissionDeadline.state) }}
               </span>
@@ -100,7 +100,7 @@
 
         <div class="w-full max-w-[280px] rounded-[28px] border border-white/[0.12] bg-black/10 px-5 py-5 space-y-3 shrink-0">
           <p class="text-[10px] font-black uppercase tracking-[0.24em] text-text-muted">Listas pendientes</p>
-          <p class="text-4xl font-black text-white">{{ submissionDeadline.pending_orders_count }}</p>
+          <p class="text-4xl font-black text-slate-900">{{ submissionDeadline.pending_orders_count }}</p>
           <p class="text-xs leading-6 text-text-secondary">
             {{ submissionDeadline.pending_orders_count === 0 ? "No tienes borradores pendientes por enviar." : submissionDeadline.pending_orders_count === 1 ? "Mantienes 1 lista en borrador pendiente de envio." : `Mantienes ${submissionDeadline.pending_orders_count} listas en borrador pendientes de envio.` }}
           </p>
@@ -120,7 +120,7 @@
             </svg>
           </div>
           <div>
-            <h3 class="text-sm font-black text-white uppercase tracking-widest">Pedidos en Transito</h3>
+            <h3 class="text-sm font-black text-slate-900 uppercase tracking-widest">Pedidos en Transito</h3>
             <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">{{ dashboard.pedidos_despachados.length }} listo<span v-if="dashboard.pedidos_despachados.length !== 1">s</span> para recibir</p>
           </div>
         </div>
@@ -135,7 +135,7 @@
             <span class="text-[10px] font-black text-blue-400 uppercase tracking-widest">Pedido #{{ order.id }}</span>
             <span class="text-[10px] text-text-muted">{{ formatDate(order.created_at) }}</span>
           </div>
-          <p class="text-sm font-black text-white">{{ order.building?.name }}</p>
+          <p class="text-sm font-black text-slate-900">{{ order.building?.name }}</p>
           <p class="text-[11px] text-text-muted">{{ order.items?.length ?? 0 }} producto<span v-if="(order.items?.length ?? 0) !== 1">s</span></p>
           <button
             type="button"
@@ -157,9 +157,9 @@
         <div class="space-y-2">
           <div class="flex items-center gap-3">
             <div class="w-1 h-5 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
-            <span class="eyebrow !text-white text-[10px] tracking-[0.4em]">Activos Directos</span>
+            <span class="eyebrow !text-slate-900 text-[10px] tracking-[0.4em]">Activos Directos</span>
           </div>
-          <h2 class="text-3xl font-black text-white tracking-tight uppercase">Mis Edificios</h2>
+          <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Mis Edificios</h2>
         </div>
         <div class="px-5 py-2.5 bg-white/[0.03] border border-white/[0.12] rounded-xl backdrop-blur-xl">
           <span class="text-[10px] font-black text-amber uppercase tracking-[0.2em]">{{ dashboard.buildings.length }} UNIDADES VINCULADAS</span>
@@ -168,16 +168,16 @@
 
       <div v-if="dashboard.buildings?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <article v-for="building in dashboard.buildings" :key="building.id" class="card flex flex-col group overflow-hidden border-white/[0.12] hover:border-amber/30 hover:shadow-[0_20px_50px_rgba(4,17,32,0.4)]">
-          <div class="relative h-48 -mx-7 -mt-7 mb-7 overflow-hidden bg-navy/20">
+          <div class="relative h-48 -mx-7 -mt-7 mb-7 overflow-hidden bg-white/20">
             <img v-if="buildingImage(building)" :src="buildingImage(building)" :alt="building.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100" />
             <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-navy-accent/20 to-navy/30">
-              <svg class="w-12 h-12 text-white/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-12 h-12 text-slate-900/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
             <div class="absolute bottom-4 left-6 translate-y-2 group-hover:translate-y-0 transition-transform opacity-0 group-hover:opacity-100">
-              <p class="text-white text-[10px] font-black uppercase tracking-widest drop-shadow-lg bg-amber/90 px-2 py-1 rounded">Activo</p>
+              <p class="text-slate-900 text-[10px] font-black uppercase tracking-widest drop-shadow-lg bg-amber/90 px-2 py-1 rounded">Activo</p>
             </div>
           </div>
 
@@ -196,7 +196,7 @@
             <div class="flex flex-col gap-5 mt-auto">
               <div class="flex items-center justify-between px-5 py-4 bg-white/[0.02] rounded-2xl border border-white/[0.07] group-hover:bg-white/[0.05] transition-colors">
                 <span class="text-[10px] font-black text-text-muted uppercase tracking-[0.25em]">Pedidos Activos</span>
-                <span class="text-xs font-black text-white bg-amber/10 h-9 w-9 flex items-center justify-center rounded-xl border border-amber/20 shadow-lg shadow-amber/5">{{ building.active_orders_count || 0 }}</span>
+                <span class="text-xs font-black text-slate-900 bg-amber/10 h-9 w-9 flex items-center justify-center rounded-xl border border-amber/20 shadow-lg shadow-amber/5">{{ building.active_orders_count || 0 }}</span>
               </div>
 
               <button
@@ -217,11 +217,11 @@
 
       <div v-else class="bg-white/[0.04] rounded-[2rem] border-2 border-dashed border-white/[0.12] p-16 text-center">
         <div class="w-20 h-20 bg-white/[0.04] rounded-3xl flex items-center justify-center mx-auto mb-6">
-          <svg class="w-10 h-10 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-10 h-10 text-slate-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
         </div>
-        <h3 class="text-xl font-black text-white mb-2">Centro de Operaciones Vacio</h3>
+        <h3 class="text-xl font-black text-slate-900 mb-2">Centro de Operaciones Vacio</h3>
         <p class="text-text-muted max-w-sm mx-auto font-medium">No tienes edificios asignados bajo tu administracion. Contacta con el area de compras central.</p>
       </div>
     </section>
@@ -229,7 +229,7 @@
     <div class="card overflow-hidden !p-0 border-white/[0.07] shadow-2xl">
       <div class="p-10 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
         <div class="space-y-1">
-          <h3 class="text-xl font-black text-white tracking-tight uppercase">Historial Operativo</h3>
+          <h3 class="text-xl font-black text-slate-900 tracking-tight uppercase">Historial Operativo</h3>
           <p class="text-[10px] font-bold text-text-muted uppercase tracking-[0.3em]">Auditoria de despachos y llegadas</p>
         </div>
         <RouterLink :to="{ name: 'ordersBuildings' }" class="btn btn-outline !px-8 !py-3 hover:bg-amber hover:text-navy-deep transition-all !rounded-xl !text-[10px] !font-black !tracking-widest uppercase shadow-xl">
@@ -242,19 +242,19 @@
           <thead class="bg-white/[0.03] border-y border-white/[0.07]">
             <tr>
               <th class="px-8 py-5 text-[10px] font-black text-amber uppercase tracking-[0.3em]">Folio ID</th>
-              <th class="px-8 py-5 text-[10px] font-black text-white/70 uppercase tracking-[0.3em]">Sede Destino</th>
-              <th class="px-8 py-5 text-[10px] font-black text-white/70 uppercase tracking-[0.3em]">Fecha</th>
-              <th class="px-8 py-5 text-[10px] font-black text-white/70 uppercase tracking-[0.3em]">Estado Logistico</th>
-              <th class="px-8 py-5 text-[10px] font-black text-white/70 uppercase tracking-[0.3em] text-right">Detalles</th>
+              <th class="px-8 py-5 text-[10px] font-black text-slate-900/70 uppercase tracking-[0.3em]">Sede Destino</th>
+              <th class="px-8 py-5 text-[10px] font-black text-slate-900/70 uppercase tracking-[0.3em]">Fecha</th>
+              <th class="px-8 py-5 text-[10px] font-black text-slate-900/70 uppercase tracking-[0.3em]">Estado Logistico</th>
+              <th class="px-8 py-5 text-[10px] font-black text-slate-900/70 uppercase tracking-[0.3em] text-right">Detalles</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-white/5">
             <tr v-for="order in dashboard.historial_pedidos" :key="order.id" class="group hover:bg-white/[0.02] transition-all">
               <td class="px-8 py-7">
-                <span class="text-[14px] font-black text-white tracking-tight">#{{ order.id }}</span>
+                <span class="text-[14px] font-black text-slate-900 tracking-tight">#{{ order.id }}</span>
               </td>
               <td class="px-8 py-7">
-                <p class="text-[15px] font-black text-white group-hover:text-amber transition-colors">{{ order.building?.name }}</p>
+                <p class="text-[15px] font-black text-slate-900 group-hover:text-amber transition-colors">{{ order.building?.name }}</p>
                 <p class="text-[10px] text-text-muted font-bold mt-1.5 uppercase tracking-widest">{{ order.items?.length ?? 0 }} SKU solicitados</p>
               </td>
               <td class="px-8 py-7">
@@ -268,7 +268,7 @@
               <td class="px-8 py-7 text-right">
                 <RouterLink
                   :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }"
-                  class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/[0.05] border border-white/[0.12] text-white hover:bg-amber hover:text-navy-deep hover:border-amber hover:scale-110 transition-all shadow-xl group/btn"
+                  class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/[0.05] border border-white/[0.12] text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber hover:scale-110 transition-all shadow-xl group/btn"
                 >
                   <svg class="w-5 h-5 transition-transform group-hover/btn:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -288,7 +288,7 @@
 
   <div v-else class="max-w-[1320px] mx-auto px-5 py-12 md:px-8 xl:px-10">
     <div class="card border border-white/[0.12] text-center space-y-4">
-      <p class="text-sm font-black uppercase tracking-[0.2em] text-white">Sin datos disponibles</p>
+      <p class="text-sm font-black uppercase tracking-[0.2em] text-slate-900">Sin datos disponibles</p>
       <p class="text-text-secondary">No se pudo cargar el dashboard administrativo en este momento.</p>
       <button type="button" class="btn btn-primary mx-auto" @click="reloadDashboard">
         Reintentar carga
@@ -328,7 +328,7 @@ const metrics = computed(() => [
   {
     label: "Pendientes",
     value: dashboard.value?.pedidos_activos ?? 0,
-    valueClass: "text-white",
+    valueClass: "text-slate-900",
     cardClass: "hover:border-white/[0.12]",
   },
   {

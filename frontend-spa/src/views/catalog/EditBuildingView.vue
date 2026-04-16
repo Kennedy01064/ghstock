@@ -16,7 +16,7 @@
         <div class="space-y-2">
           <span class="eyebrow">Mantenimiento de Sede</span>
           <h1 class="h2">Editar Infraestructura</h1>
-          <p class="text-text-muted font-medium">Actualizando parametros tecnicos de: <span class="text-white">{{ building.name }}</span></p>
+          <p class="text-text-muted font-medium">Actualizando parametros tecnicos de: <span class="text-slate-900">{{ building.name }}</span></p>
         </div>
         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner">
           <svg class="w-6 h-6 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,7 @@
                 </svg>
               </button>
 
-              <ul v-if="adminMenuOpen" class="absolute z-50 w-full mt-3 bg-navy-accent border border-white/[0.12] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
+              <ul v-if="adminMenuOpen" class="absolute z-50 w-full mt-3 bg-white border border-white/[0.12] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
                 <li>
                   <button type="button" class="w-full text-left px-5 py-3 hover:bg-white/[0.04] transition-colors border-b border-white/[0.07] text-xs font-black uppercase tracking-widest text-text-muted" @click="selectAdmin('')">
                     Liberar Gestion
@@ -71,7 +71,7 @@
                   <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/[0.04] transition-colors group" @click="selectAdmin(admin.id)">
                     <div class="flex items-center gap-3">
                       <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
-                      <span class="text-sm font-black text-white group-hover:text-amber transition-all">{{ admin.name || admin.username }}</span>
+                      <span class="text-sm font-black text-slate-900 group-hover:text-amber transition-all">{{ admin.name || admin.username }}</span>
                     </div>
                     <p class="text-[10px] font-medium text-text-muted mt-1 ml-4.5">@{{ admin.username }}</p>
                   </button>
@@ -133,7 +133,7 @@
               <img :src="buildingPreview" alt="Fachada" class="h-full w-full object-cover transition-transform group-hover/img:scale-110">
             </div>
             <div class="space-y-1">
-              <p class="text-xs font-black text-white uppercase tracking-widest">Vista Previa</p>
+              <p class="text-xs font-black text-slate-900 uppercase tracking-widest">Vista Previa</p>
               <p class="text-[10px] font-medium text-text-muted">Imagen vinculada al edificio.</p>
             </div>
           </div>

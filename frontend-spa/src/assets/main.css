@@ -2,15 +2,15 @@
 
 /* Custom Variables */
 :root {
-    --navy-default: #1e293b;
-    --navy-accent: #263244;
-    --navy-deep: #0f172a;
+    --navy-default: #ffffff;
+    --navy-accent: #ffffff;
+    --navy-deep: #f1f5f9;
     --amber-default: #F2AD3D;
     --amber-hover: #D9921E;
     --amber-soft: #C8A66B;
-    --text-primary: #ffffff;
-    --text-secondary: rgba(248, 245, 239, 0.85);
-    --text-muted: rgba(248, 245, 239, 0.6);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
 }
 
 /* Base Styles */
@@ -28,12 +28,11 @@ body {
 .card { 
     position: relative;
     padding: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid #e2e8f0;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.04);
+    background: #ffffff;
     transition: all 0.3s ease;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 @media (min-width: 768px) {
@@ -43,8 +42,8 @@ body {
 }
 
 .card:hover { 
-    border-color: rgba(242, 173, 61, 0.2); 
-    background: rgba(255, 255, 255, 0.06);
+    border-color: #cbd5e1;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
 }
 
 .btn { 
@@ -90,14 +89,15 @@ body {
 }
 
 .btn-secondary, .btn-outline { 
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.14);
+    background: #ffffff;
+    border-color: #cbd5e1;
     color: var(--text-primary);
 }
 
 .btn-secondary:hover, .btn-outline:hover { 
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.25);
+    background: #f8fafc;
+    border-color: #94a3b8;
+    color: #0f172a;
 }
 
 .pill { 
@@ -139,14 +139,14 @@ body {
 .input-field { 
     width: 100%;
     padding: 0.875rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid #cbd5e1;
     border-radius: 0.75rem;
     outline: none;
     color: var(--text-primary);
     font-size: 16px; /* Prevents iOS auto-zoom */
     font-weight: 500;
     transition: all 0.2s ease;
-    background: rgba(255, 255, 255, 0.06);
+    background: #ffffff;
 }
 
 @media (min-width: 768px) {
@@ -157,13 +157,13 @@ body {
 }
 
 .input-field:focus {
-    border-color: rgba(242, 173, 61, 0.4);
-    background: rgba(255, 255, 255, 0.09);
-    box-shadow: 0 0 0 4px rgba(242, 173, 61, 0.05);
+    border-color: rgba(242, 173, 61, 0.8);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(242, 173, 61, 0.1);
 }
 
 .input-field::placeholder {
-    color: rgba(248, 245, 239, 0.25);
+    color: #94a3b8;
 }
 
 /* Premium Datetime Picker Overrides */
@@ -190,20 +190,20 @@ body {
 .select-field {
     width: 100%;
     padding: 0.875rem 3rem 0.875rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid #cbd5e1;
     border-radius: 0.75rem;
     outline: none;
     color: var(--text-primary);
     font-size: 16px; /* Prevents iOS auto-zoom */
     font-weight: 500;
     transition: all 0.2s ease;
-    background: rgba(255, 255, 255, 0.06);
+    background: #ffffff;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23F2AD3D' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230f172a' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 1.25rem center;
     background-size: 1.25rem;
-    color-scheme: dark;
+    color-scheme: light;
 }
 
 @media (min-width: 768px) {
@@ -217,8 +217,8 @@ body {
 .select-field {
     padding-right: 3rem;
     appearance: none;
-    color-scheme: dark;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23F2AD3D' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    color-scheme: light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230f172a' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 1.25rem center;
     background-size: 1.25rem;
@@ -226,14 +226,14 @@ body {
 
 .input-field:is(select):focus,
 .select-field:focus {
-    border-color: rgba(242, 173, 61, 0.4);
-    background: rgba(255, 255, 255, 0.09);
-    box-shadow: 0 0 0 4px rgba(242, 173, 61, 0.05);
+    border-color: rgba(242, 173, 61, 0.8);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(242, 173, 61, 0.1);
 }
 
 .input-field:is(select) option,
 .select-field option {
-    background: #1e293b;
+    background: #ffffff;
     color: var(--text-primary);
 }
 
@@ -241,8 +241,8 @@ body {
     width: 3rem;
     height: 3rem;
     border-radius: 1rem;
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid #cbd5e1;
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -282,14 +282,14 @@ body::-webkit-scrollbar {
 }
 .custom-scrollbar::-webkit-scrollbar-track,
 body::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.03);
+    background: #f1f5f9;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.14);
+    background: #cbd5e1;
     border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover,
 body::-webkit-scrollbar-thumb:hover {
-    background: rgba(242, 173, 61, 0.3);
+    background: #94a3b8;
 }

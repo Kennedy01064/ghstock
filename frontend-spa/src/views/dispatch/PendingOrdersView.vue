@@ -25,7 +25,7 @@
           <div>
             <div class="flex items-center gap-3">
               <input v-model="selectedOrderIds" type="checkbox" :value="order.id" class="h-4 w-4 accent-amber" />
-              <h3 class="text-lg font-black text-white">Orden #{{ order.id }} - {{ order.buildingName }}</h3>
+              <h3 class="text-lg font-black text-slate-900">Orden #{{ order.id }} - {{ order.buildingName }}</h3>
             </div>
             <p class="text-[11px] uppercase tracking-[0.18em] text-text-muted mt-3">{{ order.items.length }} items - {{ order.createdBy?.name || 'Sin usuario' }}</p>
           </div>
@@ -39,7 +39,7 @@
     <div v-if="pendingOrders.length" class="card flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
         <span class="section-label">Seleccion actual</span>
-        <p class="text-white font-black text-xl">{{ selectedOrderIds.length }} orden(es)</p>
+        <p class="text-slate-900 font-black text-xl">{{ selectedOrderIds.length }} orden(es)</p>
       </div>
       <button type="button" class="btn btn-primary" :disabled="!selectedOrderIds.length || dispatchStore.isConsolidating" @click="isConfirmOpen = true">
         {{ dispatchStore.isConsolidating ? "Consolidando..." : "Consolidar en batch" }}

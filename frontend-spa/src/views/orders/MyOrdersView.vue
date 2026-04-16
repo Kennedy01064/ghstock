@@ -3,7 +3,7 @@
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
       <div class="space-y-2">
         <span class="eyebrow !text-amber/60">Seguimiento de Solicitudes</span>
-        <h1 data-testid="orders-page-title" class="text-3xl md:text-4xl font-black text-white tracking-tight uppercase">Mis Pedidos</h1>
+        <h1 data-testid="orders-page-title" class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight uppercase">Mis Pedidos</h1>
       </div>
       <RouterLink :to="{ name: 'ordersBuildings' }" class="btn btn-primary !py-3 !px-7 self-start sm:self-auto shrink-0">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +96,7 @@
             </div>
             <div class="min-w-0">
               <div class="flex flex-wrap items-center gap-2 mb-0.5">
-                <p class="text-sm font-black text-white group-hover:text-amber transition-colors">
+                <p class="text-sm font-black text-slate-900 group-hover:text-amber transition-colors">
                   #{{ order.id }} - {{ order.buildingName }}
                 </p>
                 <span class="inline-flex items-center px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border" :class="statusBadgeClass(order.status)">
@@ -151,7 +151,7 @@
 
             <RouterLink
               :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }"
-              class="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.12] text-white hover:bg-amber hover:text-navy-deep hover:border-amber transition-all flex items-center justify-center"
+              class="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.12] text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber transition-all flex items-center justify-center"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -253,7 +253,7 @@ function statusBadgeClass(status) {
     delivered: "bg-emerald-400/10 text-emerald-400 border-emerald-400/20",
     cancelled: "bg-rose-400/10 text-rose-400 border-rose-400/20",
     rejected: "bg-rose-500/10 text-rose-400 border-rose-500/30",
-  }[status] ?? "bg-white/[0.04] text-white/40 border-white/[0.12]"
+  }[status] ?? "bg-white/[0.04] text-slate-900/40 border-white/[0.12]"
 }
 
 function statusDotClass(status) {
@@ -266,7 +266,7 @@ function statusDotClass(status) {
     delivered: "bg-emerald-400/10 border-emerald-400/20 text-emerald-400",
     cancelled: "bg-rose-400/10 border-rose-400/20 text-rose-400",
     rejected: "bg-rose-500/10 border-rose-500/30 text-rose-400",
-  }[status] ?? "bg-white/[0.04] border-white/[0.12] text-white/50"
+  }[status] ?? "bg-white/[0.04] border-white/[0.12] text-slate-900/50"
 }
 
 async function loadOrders() {

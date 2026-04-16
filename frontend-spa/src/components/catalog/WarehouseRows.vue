@@ -24,15 +24,15 @@
           v-for="product in products"
           :key="product.id"
           class="group hover:bg-white/[0.03] transition-all duration-300"
-          :class="product.active ? '' : 'opacity-30 grayscale blur-[0.5px] bg-navy-deep/50'"
+          :class="product.active ? '' : 'opacity-30 grayscale blur-[0.5px] bg-slate-100/50'"
         >
           <td class="px-4 py-4">
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl border border-white/[0.12] bg-navy-accent overflow-hidden shrink-0 shadow-lg group-hover:border-amber/40 group-hover:shadow-amber/10 transition-all duration-500">
+              <div class="w-10 h-10 rounded-xl border border-white/[0.12] bg-white overflow-hidden shrink-0 shadow-lg group-hover:border-amber/40 group-hover:shadow-amber/10 transition-all duration-500">
                 <img :src="product.imageUrl" :alt="product.name" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
               </div>
               <div class="min-w-0 space-y-0.5">
-                <p class="text-sm font-black text-white tracking-tight truncate leading-tight uppercase group-hover:text-amber transition-colors">{{ product.name }}</p>
+                <p class="text-sm font-black text-slate-900 tracking-tight truncate leading-tight uppercase group-hover:text-amber transition-colors">{{ product.name }}</p>
                 <div class="flex items-center gap-1.5">
                   <span class="text-[9px] font-black text-amber uppercase tracking-widest px-1.5 py-0.5 rounded bg-amber/10 border border-amber/20">SKU</span>
                   <span class="text-[10px] font-bold text-text-muted tracking-wider truncate">{{ product.sku || "SIN-SKU" }}</span>
@@ -53,7 +53,7 @@
           </td>
           <td class="px-3 py-4 text-right">
             <div class="inline-flex flex-col items-end">
-              <span class="text-base font-black text-white leading-none"><span class="text-amber">S/</span> {{ formatNumber(product.precio) }}</span>
+              <span class="text-base font-black text-slate-900 leading-none"><span class="text-amber">S/</span> {{ formatNumber(product.precio) }}</span>
               <span class="text-[9px] font-black uppercase tracking-[0.2em] text-text-muted/60 mt-0.5">P. Unitario</span>
             </div>
           </td>
@@ -82,7 +82,7 @@
               </button>
               <RouterLink
                 :to="{ name: 'catalogProductEdit', params: { productId: product.id } }"
-                class="w-8 h-8 flex items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] text-text-muted hover:text-white hover:border-white/20 hover:bg-white/[0.06] transition-all duration-300"
+                class="w-8 h-8 flex items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] text-text-muted hover:text-slate-900 hover:border-slate-300 hover:bg-white/[0.06] transition-all duration-300"
                 title="Editar Activo"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,19 +1,19 @@
 <template>
   <header
     class="sticky top-0 z-50 border-b transition-colors duration-300"
-    style="border-color: rgba(255,255,255,0.1); background: rgba(15,23,42,0.92); backdrop-filter: blur(12px);"
+    style="border-color: rgba(226, 232, 240, 1); background: rgba(15,23,42,0.92); backdrop-filter: blur(12px);"
   >
     <div class="mx-auto flex w-full max-w-[1320px] items-center gap-4 px-5 py-4 md:px-8 xl:px-10">
       <RouterLink :to="dashboardRoute" class="group flex min-w-0 items-center gap-3 pr-2">
         <span
           class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition duration-200"
-          style="border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);"
+          style="border-color: rgba(226, 232, 240, 1); background: rgba(255,255,255,0.03);"
         >
           <img :src="logoUrl" alt="Logo Grupo Hernandez" class="h-10 w-auto object-contain" />
         </span>
         <span class="min-w-0">
           <span
-            class="block truncate font-display text-[1.1rem] md:text-[1.2rem] font-extrabold tracking-[-0.04em] text-white leading-none mb-1"
+            class="block truncate font-display text-[1.1rem] md:text-[1.2rem] font-extrabold tracking-[-0.04em] text-slate-900 leading-none mb-1"
           >
             Grupo Hernandez
           </span>
@@ -161,7 +161,7 @@
 
           <div class="hidden md:flex items-center gap-4 pl-5 border-l border-white/[0.07]">
             <div class="flex flex-col items-start">
-              <span data-testid="navbar-user-name" class="text-[13px] font-black text-white leading-none mb-1 tracking-tight">{{ displayName }}</span>
+              <span data-testid="navbar-user-name" class="text-[13px] font-black text-slate-900 leading-none mb-1 tracking-tight">{{ displayName }}</span>
               <span class="text-[9px] font-black text-amber tracking-[0.15em] uppercase leading-none opacity-80">{{ displayRole }}</span>
               <span v-if="viewAsAdmin" class="mt-1 text-[8px] font-black text-rose-300 tracking-[0.2em] uppercase leading-none opacity-90">Vista Admin</span>
             </div>
@@ -174,7 +174,7 @@
 
           <button
             type="button"
-            class="flex items-center justify-center w-10 h-10 rounded-full text-white/40 bg-white/[0.04] border border-white/[0.12] hover:text-red-400 hover:border-red-400/20 transition-all"
+            class="flex items-center justify-center w-10 h-10 rounded-full text-slate-900/40 bg-white/[0.04] border border-white/[0.12] hover:text-red-400 hover:border-red-400/20 transition-all"
             title="Cerrar Sesion"
             @click="handleLogout"
           >
@@ -185,7 +185,7 @@
 
           <button
             type="button"
-            class="lg:hidden flex items-center justify-center w-12 h-12 rounded-full border border-white/[0.12] bg-white/[0.04] text-white/70"
+            class="lg:hidden flex items-center justify-center w-12 h-12 rounded-full border border-white/[0.12] bg-white/[0.04] text-slate-900/70"
             @click="mobileMenuOpen = !mobileMenuOpen"
           >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -196,9 +196,9 @@
       </div>
     </div>
 
-    <div v-if="showAuthenticatedShell && mobileMenuOpen" id="mobile-menu" class="xl:hidden border-t border-white/[0.12] bg-navy shadow-2xl">
+    <div v-if="showAuthenticatedShell && mobileMenuOpen" id="mobile-menu" class="xl:hidden border-t border-white/[0.12] bg-white shadow-2xl">
       <nav class="px-4 py-4 flex flex-col gap-1.5">
-        <RouterLink :to="dashboardRoute" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/[0.06] transition-colors">
+        <RouterLink :to="dashboardRoute" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-white/[0.06] transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
@@ -206,31 +206,31 @@
         </RouterLink>
 
         <template v-if="showManagementNavigation">
-          <RouterLink :to="{ name: 'dispatchPending' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/[0.06] transition-colors">
+          <RouterLink :to="{ name: 'dispatchPending' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-white/[0.06] transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
             </svg>
             Despacho
           </RouterLink>
-          <RouterLink :to="{ name: 'dispatchHistory' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/[0.06] transition-colors">
+          <RouterLink :to="{ name: 'dispatchHistory' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-white/[0.06] transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Historial
           </RouterLink>
-          <RouterLink :to="{ name: 'dispatchPurchases' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-emerald-400 hover:bg-white/[0.06] transition-colors">
+          <RouterLink :to="{ name: 'dispatchPurchases' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-emerald-400 hover:bg-white/[0.06] transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
             Compras Directas
           </RouterLink>
-          <RouterLink :to="{ name: 'catalogWarehouse' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/[0.06] transition-colors">
+          <RouterLink :to="{ name: 'catalogWarehouse' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-white/[0.06] transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
             Almacen
           </RouterLink>
-          <RouterLink :to="{ name: 'catalogUploadCsv' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/[0.06] transition-colors">
+          <RouterLink :to="{ name: 'catalogUploadCsv' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-white/[0.06] transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>
@@ -257,19 +257,19 @@
         </template>
 
         <template v-else>
-          <RouterLink :to="{ name: 'ordersMyOrders' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/[0.06] transition-colors">
+          <RouterLink :to="{ name: 'ordersMyOrders' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-white/[0.06] transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
             Mis Pedidos
           </RouterLink>
-          <RouterLink :to="{ name: 'ordersMyInventory' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/[0.06] transition-colors">
+          <RouterLink :to="{ name: 'ordersMyInventory' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-white/[0.06] transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
             Inventario Local
           </RouterLink>
-          <RouterLink :to="{ name: 'ordersConsumption' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-white/80 hover:text-white hover:bg-white/[0.06] transition-colors">
+          <RouterLink :to="{ name: 'ordersConsumption' }" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900/80 hover:text-slate-900 hover:bg-white/[0.06] transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
@@ -296,7 +296,7 @@
             {{ displayInitial }}
           </div>
           <div>
-            <p class="text-sm font-bold text-white leading-none">{{ mobileDisplayName }}</p>
+            <p class="text-sm font-bold text-slate-900 leading-none">{{ mobileDisplayName }}</p>
             <p class="text-xs font-bold text-amber-soft uppercase mt-1 tracking-widest">{{ displayRole }}</p>
             <p v-if="viewAsAdmin" class="text-[10px] font-black text-rose-300 uppercase mt-1 tracking-widest">Vista Admin</p>
           </div>
@@ -373,9 +373,9 @@ watch(viewAsAdmin, (value) => {
   sessionStorage.setItem(adminViewStorageKey, String(value))
 })
 
-function desktopLinkClass(name, inactiveClass = "text-text-secondary hover:text-white") {
+function desktopLinkClass(name, inactiveClass = "text-text-secondary hover:text-slate-900") {
   return isActiveRoute(name)
-    ? "text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-amber"
+    ? "text-slate-900 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-amber"
     : inactiveClass
 }
 

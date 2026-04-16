@@ -4,7 +4,7 @@
       <RouterLink
         v-if="backTo"
         :to="backTo"
-        class="inline-flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.25em] text-text-muted hover:text-white transition-colors"
+        class="inline-flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.25em] text-text-muted hover:text-slate-900 transition-colors"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
@@ -25,7 +25,7 @@
       <slot name="meta">
         <div class="text-right">
           <p class="label-premium !mb-0">{{ meta.label }}</p>
-          <p class="text-white font-black text-sm tracking-widest tabular-nums uppercase">{{ meta.value }}</p>
+          <p class="text-slate-900 font-black text-sm tracking-widest tabular-nums uppercase">{{ meta.value }}</p>
         </div>
       </slot>
     </div>

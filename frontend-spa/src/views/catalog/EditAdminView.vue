@@ -16,7 +16,7 @@
         <div class="space-y-2">
           <span class="eyebrow">Ajustes de cuenta</span>
           <h1 class="h2">Modificar usuario</h1>
-          <p class="text-text-muted font-medium">Parámetros de acceso para <span class="text-white">@{{ account.username }}</span></p>
+          <p class="text-text-muted font-medium">Parámetros de acceso para <span class="text-slate-900">@{{ account.username }}</span></p>
         </div>
         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner" :class="isProtectedAccount ? 'text-rose-300 border-rose-400/20 bg-rose-500/10' : 'text-amber'">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,12 +69,12 @@
                 </svg>
               </button>
 
-              <ul v-if="roleMenuOpen && !isProtectedAccount" class="absolute z-50 w-full mt-3 bg-navy-accent border border-white/[0.12] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
+              <ul v-if="roleMenuOpen && !isProtectedAccount" class="absolute z-50 w-full mt-3 bg-white border border-white/[0.12] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
                 <li>
                   <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/[0.04] transition-colors border-b border-white/[0.07] group" @click="selectRole('admin')">
                     <div class="flex items-center gap-3">
                       <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
-                      <span class="text-sm font-black text-white group-hover:text-amber transition-all">Perfil operativo</span>
+                      <span class="text-sm font-black text-slate-900 group-hover:text-amber transition-all">Perfil operativo</span>
                     </div>
                     <p class="text-[10px] font-medium text-text-muted mt-1 ml-4.5">Gestión directa de pedidos y suministros de activos asignados.</p>
                   </button>
@@ -83,7 +83,7 @@
                   <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/[0.04] transition-colors group" @click="selectRole('manager')">
                     <div class="flex items-center gap-3">
                       <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
-                      <span class="text-sm font-black text-white group-hover:text-amber transition-all">Perfil directivo</span>
+                      <span class="text-sm font-black text-slate-900 group-hover:text-amber transition-all">Perfil directivo</span>
                     </div>
                     <p class="text-[10px] font-medium text-text-muted mt-1 ml-4.5">Control total del catálogo, infraestructura y auditoría de personal.</p>
                   </button>
@@ -103,7 +103,7 @@
             >
               <div class="flex items-center justify-between gap-4">
                 <div>
-                  <p class="text-sm font-black text-white">{{ form.isActive ? "Cuenta habilitada" : "Cuenta suspendida" }}</p>
+                  <p class="text-sm font-black text-slate-900">{{ form.isActive ? "Cuenta habilitada" : "Cuenta suspendida" }}</p>
                   <p class="mt-1 text-[11px] font-medium" :class="form.isActive ? 'text-emerald-100/80' : 'text-rose-100/80'">
                     {{ form.isActive ? "El usuario puede iniciar sesión normalmente." : "El usuario no podrá ingresar hasta ser reactivado." }}
                   </p>
@@ -120,7 +120,7 @@
           <label class="eyebrow !text-text-muted">Nueva contraseña <span class="text-[10px] lowercase text-text-muted opacity-50">(opcional)</span></label>
           <div class="relative group">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-white/20 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-slate-900/20 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
               </svg>
             </div>
@@ -131,7 +131,7 @@
         <div class="space-y-4 pt-4">
           <div class="flex items-center justify-between">
             <label class="eyebrow !text-text-muted">Infraestructura asignada</label>
-            <button type="button" class="text-[10px] font-black uppercase tracking-widest text-amber hover:text-white transition-colors" :disabled="isProtectedAccount" @click="toggleAllVisible">
+            <button type="button" class="text-[10px] font-black uppercase tracking-widest text-amber hover:text-slate-900 transition-colors" :disabled="isProtectedAccount" @click="toggleAllVisible">
               {{ allVisibleSelected ? "Desmarcar todo" : "Seleccionar todo" }}
             </button>
           </div>
@@ -145,9 +145,9 @@
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar p-1">
             <label v-for="building in visibleBuildings" :key="building.id" class="relative flex items-center gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07] cursor-pointer hover:bg-white/[0.06] hover:border-white/[0.12] transition-all group/item">
-              <input v-model="selectedBuildingIds" type="checkbox" :value="building.id" class="w-5 h-5 rounded-lg border-white/[0.12] bg-navy-deep text-amber focus:ring-amber/40 focus:ring-offset-navy-deep transition-all cursor-pointer" :disabled="isProtectedAccount">
+              <input v-model="selectedBuildingIds" type="checkbox" :value="building.id" class="w-5 h-5 rounded-lg border-white/[0.12] bg-slate-100 text-amber focus:ring-amber/40 focus:ring-offset-navy-deep transition-all cursor-pointer" :disabled="isProtectedAccount">
               <div class="min-w-0">
-                <p class="text-[13px] font-black text-white truncate">{{ building.name }}</p>
+                <p class="text-[13px] font-black text-slate-900 truncate">{{ building.name }}</p>
                 <p class="text-[10px] font-medium text-text-muted truncate mt-0.5">{{ building.address || "Sede sin dirección fiscal" }}</p>
               </div>
             </label>

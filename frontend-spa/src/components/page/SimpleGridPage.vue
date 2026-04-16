@@ -12,7 +12,7 @@
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <div v-if="searchable" class="relative max-w-md w-full">
         <input v-model="query" type="search" placeholder="Buscar..." class="input-field !pl-12" />
-        <svg class="w-4 h-4 text-white/40 absolute left-5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 text-slate-900/40 absolute left-5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
@@ -32,7 +32,7 @@
         <div class="p-6 space-y-4">
           <div class="flex items-start justify-between gap-4">
             <div>
-              <h3 class="text-lg font-black text-white">{{ item.name }}</h3>
+              <h3 class="text-lg font-black text-slate-900">{{ item.name }}</h3>
               <p class="text-[11px] uppercase tracking-[0.18em] text-text-muted mt-1">{{ item.subtitle }}</p>
             </div>
             <span v-if="item.status" class="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-[0.18em]" :class="statusClass(item.status)">
@@ -43,7 +43,7 @@
           <div class="space-y-2 text-sm text-text-secondary">
             <div v-for="fact in item.facts" :key="fact.label" class="flex items-center justify-between gap-4">
               <span class="text-text-muted">{{ fact.label }}</span>
-              <span class="font-bold text-white">{{ fact.value }}</span>
+              <span class="font-bold text-slate-900">{{ fact.value }}</span>
             </div>
           </div>
 

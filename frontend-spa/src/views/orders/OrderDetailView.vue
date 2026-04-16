@@ -24,7 +24,7 @@
     <div class="card flex flex-col md:flex-row md:items-center justify-between gap-8 border-white/[0.12] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.6)] backdrop-blur-3xl overflow-hidden relative group/header">
       <div class="absolute inset-0 bg-gradient-to-r from-amber/5 to-transparent opacity-0 group-hover/header:opacity-100 transition-opacity duration-700" />
       <div class="flex items-center gap-6 relative z-10">
-        <div class="h-14 w-14 rounded-2xl bg-navy-accent border border-white/[0.12] flex items-center justify-center text-amber shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)]">
+        <div class="h-14 w-14 rounded-2xl bg-white border border-white/[0.12] flex items-center justify-center text-amber shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)]">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
@@ -37,7 +37,7 @@
       <div class="flex items-center gap-6 relative z-10">
         <div class="text-right hidden sm:block border-r border-white/[0.12] pr-6">
           <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Referencia Interna</p>
-          <p class="text-xs font-bold text-white uppercase mt-1">G-ORD-{{ String(order.id).padStart(5, "0") }}</p>
+          <p class="text-xs font-bold text-slate-900 uppercase mt-1">G-ORD-{{ String(order.id).padStart(5, "0") }}</p>
         </div>
         <div class="flex flex-col items-end gap-2">
           <span class="px-5 py-2.5 rounded-xl text-[10px] font-black tracking-[0.3em] uppercase border shadow-2xl transition-all" :class="statusClass(order.status)">
@@ -59,18 +59,18 @@
             </div>
             <div>
               <h2 class="text-[10px] font-black text-red-400 uppercase tracking-[0.4em] mb-1">Reposicion Etica Prioritaria</h2>
-              <p class="text-base font-black text-white tracking-tight">Stock Critico Detectado en Sede</p>
+              <p class="text-base font-black text-slate-900 tracking-tight">Stock Critico Detectado en Sede</p>
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <article v-for="inv in criticalInventory" :key="inv.id" class="bg-white/[0.05] border border-white/[0.07] rounded-2xl p-4 flex items-center gap-4">
-              <div class="w-14 h-14 shrink-0 bg-navy-deep border border-white/[0.07] flex items-center justify-center rounded-xl p-2 shadow-2xl">
+              <div class="w-14 h-14 shrink-0 bg-slate-100 border border-white/[0.07] flex items-center justify-center rounded-xl p-2 shadow-2xl">
                 <img :src="inv.product.imageUrl" :alt="inv.product.name" class="max-h-full object-contain">
               </div>
               <div class="flex-grow min-w-0">
-                <h3 class="text-[10px] font-black text-white uppercase truncate">{{ inv.product.name }}</h3>
+                <h3 class="text-[10px] font-black text-slate-900 uppercase truncate">{{ inv.product.name }}</h3>
                 <div class="flex items-center gap-2 mt-1.5">
-                  <span class="px-2 py-0.5 rounded-lg text-[8px] font-black bg-red-500 text-white uppercase tracking-widest">{{ inv.quantity }} {{ inv.product.unit || "UN" }}</span>
+                  <span class="px-2 py-0.5 rounded-lg text-[8px] font-black bg-red-500 text-slate-900 uppercase tracking-widest">{{ inv.quantity }} {{ inv.product.unit || "UN" }}</span>
                   <span class="text-[9px] font-bold text-text-muted">Min: {{ inv.product.stockMinimo }}</span>
                 </div>
               </div>
@@ -95,7 +95,7 @@
           <div class="px-4 md:px-8 py-5 border-b border-white/[0.07] bg-white/[0.02] space-y-4">
             <div class="flex items-center justify-between gap-3">
               <div>
-                <h3 class="text-base font-bold text-white">Catalogo disponible</h3>
+                <h3 class="text-base font-bold text-slate-900">Catalogo disponible</h3>
                 <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-1">Agregar productos a la orden</p>
               </div>
               <span class="shrink-0 px-3 py-1.5 bg-white/[0.04] border border-white/[0.12] rounded-xl text-[10px] font-black text-amber uppercase tracking-widest">{{ filteredProducts.length }} items</span>
@@ -119,7 +119,7 @@
               <div class="flex items-center gap-4">
                 <img :src="product.imageUrl" :alt="product.name" class="w-16 h-16 rounded-2xl object-cover border border-white/[0.12] bg-white/[0.04]" />
                 <div class="min-w-0">
-                  <p class="text-sm font-black text-white truncate">{{ product.name }}</p>
+                  <p class="text-sm font-black text-slate-900 truncate">{{ product.name }}</p>
                   <p class="text-[10px] uppercase tracking-[0.18em] text-text-muted mt-2">{{ product.categoria }}</p>
                 </div>
               </div>
@@ -153,7 +153,7 @@
         <article class="card !p-0 overflow-hidden">
           <div class="px-4 md:px-8 py-5 border-b border-white/[0.07] bg-white/[0.02] flex items-center justify-between gap-3">
             <div>
-              <h3 class="text-base font-bold text-white">Items de la orden</h3>
+              <h3 class="text-base font-bold text-slate-900">Items de la orden</h3>
               <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-1">Resumen del requerimiento</p>
             </div>
             <span class="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-[0.18em]" :class="statusClass(order.status)">{{ statusLabel(order.status) }}</span>
@@ -166,9 +166,9 @@
         <article class="card">
           <span class="section-label">Resumen</span>
           <div class="space-y-3 text-sm text-text-secondary">
-            <div class="flex items-center justify-between gap-4"><span>Edificio</span><span class="font-bold text-white">{{ order.buildingName }}</span></div>
-            <div class="flex items-center justify-between gap-4"><span>Solicitante</span><span class="font-bold text-white">{{ order.createdBy?.name || '-' }}</span></div>
-            <div class="flex items-center justify-between gap-4"><span>Total estimado</span><span class="font-bold text-white">{{ formatCurrency(totalAmount) }}</span></div>
+            <div class="flex items-center justify-between gap-4"><span>Edificio</span><span class="font-bold text-slate-900">{{ order.buildingName }}</span></div>
+            <div class="flex items-center justify-between gap-4"><span>Solicitante</span><span class="font-bold text-slate-900">{{ order.createdBy?.name || '-' }}</span></div>
+            <div class="flex items-center justify-between gap-4"><span>Total estimado</span><span class="font-bold text-slate-900">{{ formatCurrency(totalAmount) }}</span></div>
           </div>
         </article>
 

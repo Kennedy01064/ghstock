@@ -16,7 +16,7 @@
         <div class="space-y-2">
           <span class="eyebrow">Edicion Tecnica</span>
           <h1 class="h2">Modificar Activo</h1>
-          <p class="text-text-muted font-medium">Actualizando parametros de: <span class="text-white">{{ product.name }}</span></p>
+          <p class="text-text-muted font-medium">Actualizando parametros de: <span class="text-slate-900">{{ product.name }}</span></p>
         </div>
         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner">
           <svg class="w-6 h-6 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,7 +82,7 @@
               <img :src="productPreview" alt="Actual" class="h-24 w-24 object-cover rounded-xl shadow-lg border border-white/[0.12] group-hover:border-amber/40 transition-all">
             </div>
             <div class="space-y-1">
-              <p class="text-xs font-black text-white uppercase tracking-widest">Imagen Actual</p>
+              <p class="text-xs font-black text-slate-900 uppercase tracking-widest">Imagen Actual</p>
               <p class="text-[10px] font-medium text-text-muted">Actualice la ruta o URL para reemplazar la imagen.</p>
             </div>
           </div>
@@ -95,8 +95,8 @@
         </div>
 
         <div class="flex items-center gap-3 rounded-xl bg-white/[0.03] border border-white/[0.12] px-4 py-3">
-          <input id="active" v-model="form.active" type="checkbox" class="w-4 h-4 rounded border-white/[0.12] bg-navy-deep text-amber focus:ring-amber/40 focus:ring-offset-navy-deep">
-          <label for="active" class="text-[11px] font-bold text-white uppercase tracking-widest">Producto activo para despacho</label>
+          <input id="active" v-model="form.active" type="checkbox" class="w-4 h-4 rounded border-white/[0.12] bg-slate-100 text-amber focus:ring-amber/40 focus:ring-offset-navy-deep">
+          <label for="active" class="text-[11px] font-bold text-slate-900 uppercase tracking-widest">Producto activo para despacho</label>
         </div>
 
         <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-white/[0.12]">

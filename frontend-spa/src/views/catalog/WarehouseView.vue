@@ -4,9 +4,9 @@
       <div class="space-y-3">
         <div class="flex items-center gap-3">
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
-          <span class="eyebrow tracking-[0.4em] !text-white text-[10px]">Logistica Central</span>
+          <span class="eyebrow tracking-[0.4em] !text-slate-900 text-[10px]">Logistica Central</span>
         </div>
-        <h1 data-testid="warehouse-page-title" class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white">Almacen Maestro</h1>
+        <h1 data-testid="warehouse-page-title" class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-slate-900">Almacen Maestro</h1>
         <p class="text-text-muted font-medium text-sm max-w-xl">Control volumetrico y gestion tecnica de existencias corporativas con sincronizacion en tiempo real.</p>
       </div>
 
@@ -84,7 +84,7 @@
     />
 
     <Transition name="modal-fade">
-      <div v-if="scraper.isDynamicModalOpen.value" class="fixed inset-0 z-[100] flex items-center justify-center bg-navy-deep/95 backdrop-blur-md p-6">
+      <div v-if="scraper.isDynamicModalOpen.value" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-100/95 backdrop-blur-md p-6">
         <div class="card w-full max-w-2xl !bg-white/[0.06] border-white/[0.12] !p-10 animate-in fade-in zoom-in duration-500 shadow-[0_64px_128px_-32px_rgba(0,0,0,0.8)] relative overflow-hidden">
           <div class="absolute top-0 right-0 w-64 h-64 bg-amber/5 rounded-full blur-[100px] -mr-32 -mt-32"></div>
 
@@ -94,11 +94,11 @@
                 <div class="w-1.5 h-4 bg-amber rounded-full"></div>
                 <span class="eyebrow !text-amber text-[10px]">Inteligencia Artificial</span>
               </div>
-              <h3 class="text-3xl font-black text-white tracking-tight">Importacion Dinamica</h3>
+              <h3 class="text-3xl font-black text-slate-900 tracking-tight">Importacion Dinamica</h3>
               <p class="text-text-muted text-sm font-medium">Extraiga metadatos tecnicos directamente desde portales retail.</p>
             </div>
             <button type="button" class="w-12 h-12 rounded-2xl hover:bg-white/[0.06] flex items-center justify-center transition-all hover:rotate-90 group" @click="scraper.closeScraper">
-              <svg class="w-6 h-6 text-white group-hover:text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 text-slate-900 group-hover:text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -110,7 +110,7 @@
               <div class="flex gap-3">
                 <div class="relative grow group">
                   <input v-model="scraper.dynamicUrl.value" type="url" placeholder="https://www.sodimac.com.pe/..." class="input-field !pl-12 !h-16 grow font-bold shadow-inner" />
-                  <svg class="w-5 h-5 text-white/20 absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-slate-900/20 absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.803a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                   </svg>
                 </div>
@@ -129,18 +129,18 @@
                 <div class="w-16 h-16 border-4 border-amber border-t-transparent rounded-full animate-spin absolute inset-0 shadow-[0_0_20px_rgba(242,173,61,0.3)]"></div>
               </div>
               <div class="text-center space-y-2">
-                <p class="text-xs font-black text-white uppercase tracking-[0.3em] animate-pulse">Analizando Esquema de Datos</p>
+                <p class="text-xs font-black text-slate-900 uppercase tracking-[0.3em] animate-pulse">Analizando Esquema de Datos</p>
                 <p class="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em]">Conectando con servidores retail...</p>
               </div>
             </div>
 
             <div v-else-if="scraper.dynamicPreview.value" class="p-8 rounded-3xl border border-white/[0.12] bg-white/[0.04] space-y-6 animate-in slide-in-from-bottom-5 duration-700">
               <div class="flex gap-6">
-                <div class="w-32 h-32 rounded-2xl bg-navy-deep overflow-hidden border border-white/[0.12] shrink-0 shadow-2xl">
+                <div class="w-32 h-32 rounded-2xl bg-slate-100 overflow-hidden border border-white/[0.12] shrink-0 shadow-2xl">
                   <img :src="scraper.dynamicPreview.value.image_url || defaultProductUrl" class="w-full h-full object-cover" />
                 </div>
                 <div class="grow min-w-0 space-y-3">
-                  <h4 class="text-xl font-black text-white truncate leading-tight uppercase">{{ scraper.dynamicPreview.value.name || "Nombre del Producto" }}</h4>
+                  <h4 class="text-xl font-black text-slate-900 truncate leading-tight uppercase">{{ scraper.dynamicPreview.value.name || "Nombre del Producto" }}</h4>
                   <div class="flex items-center gap-4">
                     <p class="text-3xl font-black text-amber leading-none">S/ {{ Number(scraper.dynamicPreview.value.price || 0).toFixed(2) }}</p>
                     <div class="h-6 w-px bg-white/[0.06]"></div>

@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.07] pb-10">
       <div class="space-y-2">
         <span class="eyebrow">Catalogo Maestro</span>
-        <h1 class="text-4xl font-black tracking-tight text-white">Importacion de Productos</h1>
+        <h1 class="text-4xl font-black tracking-tight text-slate-900">Importacion de Productos</h1>
         <p class="text-text-muted font-medium">Gestion centralizada de inventario via CSV</p>
       </div>
       <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner">
@@ -23,7 +23,7 @@
               </svg>
             </div>
             <div>
-              <h3 class="font-bold text-xl text-white tracking-tight">Subir Archivo CSV</h3>
+              <h3 class="font-bold text-xl text-slate-900 tracking-tight">Subir Archivo CSV</h3>
               <p class="text-text-muted text-[13px] font-medium mt-1">Actualizacion masiva de SKUs y Existencias</p>
             </div>
           </div>
@@ -38,7 +38,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                   </svg>
                 </div>
-                <p class="text-base font-bold text-white tracking-tight">{{ selectedFile ? `Archivo listo: ${selectedFile.name}` : "Seleccionar archivo CSV corporativo" }}</p>
+                <p class="text-base font-bold text-slate-900 tracking-tight">{{ selectedFile ? `Archivo listo: ${selectedFile.name}` : "Seleccionar archivo CSV corporativo" }}</p>
                 <p class="mt-2 text-[10px] font-black text-text-muted uppercase tracking-[0.2em] opacity-60">Drag and drop o click aqui</p>
               </div>
             </label>
@@ -55,10 +55,10 @@
               <div>
                 <p class="text-xs font-black text-amber uppercase tracking-[0.15em] mb-3">Estructura Requerida del Archivo</p>
                 <div class="relative group">
-                  <code class="text-[12px] font-bold text-amber-soft block bg-navy-deep/50 rounded-xl px-4 py-3 border border-white/[0.07] shadow-inner overflow-x-auto whitespace-nowrap custom-scrollbar group-hover:border-amber/20 transition-colors">sku,nombre,unidad_medida,precio,descripcion,imagen_url,stock_actual</code>
+                  <code class="text-[12px] font-bold text-amber-soft block bg-slate-100/50 rounded-xl px-4 py-3 border border-white/[0.07] shadow-inner overflow-x-auto whitespace-nowrap custom-scrollbar group-hover:border-amber/20 transition-colors">sku,nombre,unidad_medida,precio,descripcion,imagen_url,stock_actual</code>
                 </div>
                 <p class="text-[11px] font-medium text-text-muted mt-3 italic leading-relaxed">
-                  Si el <strong class="text-white/80 font-bold">SKU</strong> ya existe, los datos se sincronizaran automaticamente. De lo contrario, se creara una nueva entrada en el Catalogo Maestro.
+                  Si el <strong class="text-slate-900/80 font-bold">SKU</strong> ya existe, los datos se sincronizaran automaticamente. De lo contrario, se creara una nueva entrada en el Catalogo Maestro.
                 </p>
               </div>
             </div>
@@ -80,7 +80,7 @@
 
     <div v-if="productStore.csvUploads.length" class="space-y-6">
       <div class="flex items-center gap-3 px-2">
-        <h3 class="text-2xl font-black tracking-tight text-white">Historial de Operaciones</h3>
+        <h3 class="text-2xl font-black tracking-tight text-slate-900">Historial de Operaciones</h3>
         <span class="pill">{{ productStore.csvUploads.length }} Cargas</span>
       </div>
 
@@ -93,7 +93,7 @@
               </svg>
             </div>
             <div class="min-w-0">
-              <p class="text-[15px] font-bold text-white truncate pr-4">{{ upload.filename }}</p>
+              <p class="text-[15px] font-bold text-slate-900 truncate pr-4">{{ upload.filename }}</p>
               <div class="flex flex-wrap items-center gap-3 mt-1.5 opacity-60">
                 <span class="text-[11px] font-black uppercase tracking-widest text-text-muted">{{ formatUploadDate(upload.uploaded_at) }}</span>
                 <span class="w-1 h-1 rounded-full bg-white/20"></span>
@@ -106,7 +106,7 @@
 
           <button
             type="button"
-            class="p-3 text-white/20 hover:text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all border border-transparent hover:border-rose-500/20 active:scale-90"
+            class="p-3 text-slate-900/20 hover:text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all border border-transparent hover:border-rose-500/20 active:scale-90"
             @click="pendingUploadId = upload.id"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +119,7 @@
 
     <div v-if="catalogPreview.length" class="space-y-6">
       <div class="flex items-center gap-3 px-2">
-        <h3 class="text-2xl font-black tracking-tight text-white">Vistazo Rapido al Catalogo</h3>
+        <h3 class="text-2xl font-black tracking-tight text-slate-900">Vistazo Rapido al Catalogo</h3>
         <span class="pill !text-emerald-400 !bg-emerald-400/10 !border-emerald-400/20">{{ productStore.products.length }} Items</span>
       </div>
 
@@ -130,12 +130,12 @@
           </div>
           <div class="min-w-0 flex-grow">
             <div class="flex items-center gap-2 mb-1">
-              <p class="text-sm font-bold text-white truncate">{{ product.name }}</p>
-              <span v-if="product.sku" class="text-[9px] font-black uppercase tracking-widest text-text-muted bg-navy-accent px-1.5 py-0.5 rounded">{{ product.sku }}</span>
+              <p class="text-sm font-bold text-slate-900 truncate">{{ product.name }}</p>
+              <span v-if="product.sku" class="text-[9px] font-black uppercase tracking-widest text-text-muted bg-white px-1.5 py-0.5 rounded">{{ product.sku }}</span>
             </div>
             <div class="flex items-center justify-between">
               <p class="text-[13px] font-black text-amber">S/ {{ Number(product.precio || 0).toFixed(2) }}</p>
-              <span class="text-[11px] font-bold text-text-muted opacity-60">Existencia: <span class="text-white">{{ product.stockActual }}</span></span>
+              <span class="text-[11px] font-bold text-text-muted opacity-60">Existencia: <span class="text-slate-900">{{ product.stockActual }}</span></span>
             </div>
           </div>
         </div>

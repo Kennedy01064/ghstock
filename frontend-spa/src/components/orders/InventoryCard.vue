@@ -11,11 +11,11 @@
       >
 
       <div class="absolute top-4 left-4">
-        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-navy-deep/80 backdrop-blur-md border border-white/[0.12] shadow-lg">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/80 backdrop-blur-md border border-white/[0.12] shadow-lg">
           <svg class="w-3.5 h-3.5 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
-          <span class="text-[10px] font-black text-white uppercase tracking-widest truncate max-w-[100px]">
+          <span class="text-[10px] font-black text-slate-900 uppercase tracking-widest truncate max-w-[100px]">
             {{ inventory.building?.name || "Sede" }}
           </span>
         </div>
@@ -33,7 +33,7 @@
 
     <div class="p-6 flex flex-col flex-grow bg-white/[0.01]">
       <div class="flex-grow space-y-1">
-        <h3 class="text-sm font-black text-white uppercase tracking-tight leading-tight line-clamp-2 min-h-[2.5rem] group-hover/card:text-amber transition-colors">
+        <h3 class="text-sm font-black text-slate-900 uppercase tracking-tight leading-tight line-clamp-2 min-h-[2.5rem] group-hover/card:text-amber transition-colors">
           {{ inventory.product.name }}
         </h3>
         <p v-if="inventory.product.sku" class="text-[10px] font-black text-text-muted tracking-[0.2em] uppercase">
@@ -53,7 +53,7 @@
           >
           <button
             type="button"
-            class="flex-1 h-10 flex items-center justify-center gap-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all border bg-red-500/5 text-red-400 border-red-500/20 hover:bg-red-500 hover:text-white hover:border-red-500 shadow-xl shadow-red-500/5 disabled:opacity-50"
+            class="flex-1 h-10 flex items-center justify-center gap-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all border bg-red-500/5 text-red-400 border-red-500/20 hover:bg-red-500 hover:text-slate-900 hover:border-red-500 shadow-xl shadow-red-500/5 disabled:opacity-50"
             :disabled="inventory.quantity === 0 || isConsuming || isAdjusting"
             @click="emit('consume', { id: inventory.id, quantity: safeConsumeQuantity })"
           >
@@ -78,7 +78,7 @@
             >
             <button
               type="button"
-              class="flex-1 h-8 flex items-center justify-center gap-2 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all border bg-emerald-500/5 text-emerald-400 border-emerald-500/10 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 disabled:opacity-50"
+              class="flex-1 h-8 flex items-center justify-center gap-2 rounded-lg font-black text-[9px] uppercase tracking-widest transition-all border bg-emerald-500/5 text-emerald-400 border-emerald-500/10 hover:bg-emerald-500 hover:text-slate-900 hover:border-emerald-500 disabled:opacity-50"
               :disabled="isConsuming || isAdjusting"
               @click="emit('adjust', { id: inventory.id, quantity: safeAdjustedQuantity })"
             >

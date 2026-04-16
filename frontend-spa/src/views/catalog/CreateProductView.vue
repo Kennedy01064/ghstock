@@ -78,7 +78,7 @@
             <div v-if="productPreview" class="flex items-center gap-6 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.12] w-fit">
               <img :src="productPreview" alt="Preview" class="h-24 w-24 object-cover rounded-xl shadow-lg border border-white/[0.12]">
               <div class="space-y-1">
-                <p class="text-xs font-black text-white uppercase tracking-widest">Vista Actual</p>
+                <p class="text-xs font-black text-slate-900 uppercase tracking-widest">Vista Actual</p>
                 <p class="text-[10px] font-medium text-text-muted">La API actual recibe la ruta o URL de la imagen.</p>
               </div>
             </div>
@@ -109,13 +109,13 @@
       </div>
 
       <div class="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.07] mt-6">
-        <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-navy-accent border border-white/[0.12] text-amber shrink-0">
+        <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-white border border-white/[0.12] text-amber shrink-0">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
         <p class="text-[11px] font-medium text-text-muted leading-relaxed">
-          <span class="text-white font-bold">INFO:</span> Los productos registrados aqui apareceran inmediatamente en el Catalogo Maestro y podran ser asignados a despachos masivos.
+          <span class="text-slate-900 font-bold">INFO:</span> Los productos registrados aqui apareceran inmediatamente en el Catalogo Maestro y podran ser asignados a despachos masivos.
         </p>
       </div>
     </div>

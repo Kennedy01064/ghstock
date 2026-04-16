@@ -12,18 +12,18 @@
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
           <span class="eyebrow tracking-[0.4em] !text-amber text-[10px]">Logistica Central</span>
         </div>
-        <h1 class="text-5xl font-black tracking-tighter italic leading-none text-white">
+        <h1 class="text-5xl font-black tracking-tighter italic leading-none text-slate-900">
           Panel de <span class="text-amber">Control</span>
         </h1>
         <p class="text-text-muted font-medium text-sm md:text-base max-w-xl">
-          Estado logistico en tiempo real para <span class="text-white font-bold capitalize">{{ displayName }}</span>.
+          Estado logistico en tiempo real para <span class="text-slate-900 font-bold capitalize">{{ displayName }}</span>.
         </p>
       </div>
 
       <div class="flex items-center gap-5 bg-white/[0.03] border border-white/[0.07] backdrop-blur-3xl rounded-[2rem] px-8 py-5 shadow-2xl self-start xl:self-auto">
         <div class="text-right">
           <p class="label-premium !mb-0">Fecha Operativa</p>
-          <p class="text-white font-black text-sm tracking-widest tabular-nums uppercase">{{ formatDate(new Date()) }}</p>
+          <p class="text-slate-900 font-black text-sm tracking-widest tabular-nums uppercase">{{ formatDate(new Date()) }}</p>
         </div>
         <div class="w-[1px] h-10 bg-white/[0.06]"></div>
         <div class="w-10 h-10 bg-amber/10 rounded-xl flex items-center justify-center border border-amber/20 shadow-lg shadow-amber/10">
@@ -55,9 +55,9 @@
           <div class="space-y-1">
             <div v-if="metric.prefix" class="flex items-baseline gap-1">
               <span class="text-xl font-bold text-amber/40 tabular-nums">{{ metric.prefix }}</span>
-              <p class="text-5xl font-black text-white tracking-tighter">{{ metric.value }}</p>
+              <p class="text-5xl font-black text-slate-900 tracking-tighter">{{ metric.value }}</p>
             </div>
-            <p v-else class="text-5xl font-black text-white tracking-tighter">{{ metric.value }}</p>
+            <p v-else class="text-5xl font-black text-slate-900 tracking-tighter">{{ metric.value }}</p>
             <div class="flex items-center gap-2" :class="metric.dot ? '' : 'pt-1'">
               <span v-if="metric.dot" class="w-1.5 h-1.5 rounded-full bg-amber animate-pulse"></span>
               <span class="eyebrow !text-text-muted/60">{{ metric.label }}</span>
@@ -77,7 +77,7 @@
               </svg>
             </div>
             <div>
-              <h3 class="text-base font-bold text-white">Pedidos por Edificio</h3>
+              <h3 class="text-base font-bold text-slate-900">Pedidos por Edificio</h3>
               <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-0.5">Distribucion de Solicitudes</p>
             </div>
           </div>
@@ -99,7 +99,7 @@
               </svg>
             </div>
             <div>
-              <h3 class="text-base font-bold text-white">Top 5 Movimientos</h3>
+              <h3 class="text-base font-bold text-slate-900">Top 5 Movimientos</h3>
               <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-0.5">Acumulado Total de Pedidos</p>
             </div>
           </div>
@@ -122,7 +122,7 @@
               </svg>
             </div>
             <div>
-              <h3 class="text-base font-bold text-white">Inversion por Sede</h3>
+              <h3 class="text-base font-bold text-slate-900">Inversion por Sede</h3>
               <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-0.5">Distribucion de Costos Totales</p>
             </div>
           </div>
@@ -141,7 +141,7 @@
                 <td class="px-8 py-5">
                   <div class="flex items-center gap-3">
                     <div class="w-2 h-2 rounded-full bg-emerald-500/40"></div>
-                    <span class="text-sm font-bold text-white group-hover:text-amber transition-colors">{{ item.building_name }}</span>
+                    <span class="text-sm font-bold text-slate-900 group-hover:text-amber transition-colors">{{ item.building_name }}</span>
                   </div>
                 </td>
                 <td class="px-8 py-5 text-right font-black text-emerald-400 tabular-nums">
@@ -166,7 +166,7 @@
                 </svg>
               </div>
               <div>
-                <h3 class="text-base font-bold text-white">Alertas Criticas</h3>
+                <h3 class="text-base font-bold text-slate-900">Alertas Criticas</h3>
                 <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-0.5">Reposicion Inmediata</p>
               </div>
             </div>
@@ -175,7 +175,7 @@
           <div class="flex-grow overflow-y-auto max-h-[500px] custom-scrollbar">
             <template v-if="dashboard.alertas_stock?.length">
               <div class="px-6 py-3 bg-white/[0.02] border-b border-white/[0.07]">
-                <span class="text-[9px] font-black text-white/40 uppercase tracking-[0.25em]">Almacen Central</span>
+                <span class="text-[9px] font-black text-slate-900/40 uppercase tracking-[0.25em]">Almacen Central</span>
               </div>
               <div class="divide-y divide-white/5">
                 <div v-for="product in dashboard.alertas_stock" :key="product.id" class="px-6 py-4 flex items-center gap-4 hover:bg-white/[0.03] transition-all group">
@@ -183,7 +183,7 @@
                     <img :src="product.imagen_url || defaultProductUrl" alt="" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <div class="flex-grow min-w-0">
-                    <p class="text-[13px] font-extrabold text-white truncate group-hover:text-amber transition-colors">{{ product.name }}</p>
+                    <p class="text-[13px] font-extrabold text-slate-900 truncate group-hover:text-amber transition-colors">{{ product.name }}</p>
                     <p class="text-[10px] font-bold text-text-muted uppercase tracking-wider">Stock: <span class="text-rose-400">{{ product.stock_actual }}</span> / Min: {{ product.stock_minimo }}</p>
                   </div>
                   <div class="px-2 py-1 rounded-md bg-rose-500/10 border border-rose-500/20">
@@ -198,7 +198,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h4 class="text-white font-bold mb-1">Operaciones Estables</h4>
+              <h4 class="text-slate-900 font-bold mb-1">Operaciones Estables</h4>
               <p class="text-xs text-text-muted max-w-[200px]">No se detectan quiebres de stock en la red.</p>
             </div>
           </div>
@@ -221,15 +221,15 @@
         >
           <div class="relative">
             <div class="w-12 h-12 bg-white/[0.04] rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber group-hover:text-navy transition-all duration-500 shadow-lg">
-              <svg class="w-6 h-6 text-white group-hover:text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 text-slate-900 group-hover:text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" :d="item.iconPath" />
               </svg>
             </div>
-            <span v-if="item.count" class="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-navy-deep shadow-lg">
+            <span v-if="item.count" class="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-slate-900 text-[10px] font-black rounded-full flex items-center justify-center border-2 border-navy-deep shadow-lg">
               {{ item.count }}
             </span>
           </div>
-          <p class="text-[11px] font-black text-text-muted uppercase tracking-[0.2em] group-hover:text-white transition-colors text-center">{{ item.label }}</p>
+          <p class="text-[11px] font-black text-text-muted uppercase tracking-[0.2em] group-hover:text-slate-900 transition-colors text-center">{{ item.label }}</p>
         </RouterLink>
       </div>
     </div>
@@ -267,8 +267,8 @@ const metrics = computed(() => [
   {
     label: "Edificios Operativos",
     value: dashboard.value?.total_edificios_activos ?? 0,
-    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-white/20",
-    iconClass: "text-white/50 group-hover:text-white/80 transition-colors",
+    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-slate-300",
+    iconClass: "text-slate-900/50 group-hover:text-slate-900/80 transition-colors",
     iconPath: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
   },
@@ -284,8 +284,8 @@ const metrics = computed(() => [
   {
     label: "Catalogo de Items",
     value: dashboard.value?.total_productos ?? 0,
-    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-white/20",
-    iconClass: "text-white/50 group-hover:text-white/80 transition-colors",
+    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-slate-300",
+    iconClass: "text-slate-900/50 group-hover:text-slate-900/80 transition-colors",
     iconPath: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
   },
@@ -374,7 +374,7 @@ function renderCharts() {
           backgroundColor: "#1e293b",
           titleColor: "#F2AD3D",
           bodyColor: "#ffffff",
-          borderColor: "rgba(255,255,255,0.1)",
+          borderColor: "rgba(226, 232, 240, 1)",
           borderWidth: 1,
           padding: 16,
           cornerRadius: 16,
@@ -388,7 +388,7 @@ function renderCharts() {
           grid: { color: "rgba(255,255,255,0.03)", drawBorder: false },
         },
         x: {
-          ticks: { color: "rgba(255,255,255,0.6)" },
+          ticks: { color: "rgba(71, 85, 105, 1)" },
           grid: { display: false },
         },
       },
@@ -427,7 +427,7 @@ function renderCharts() {
           backgroundColor: "#1e293b",
           titleColor: "#F2AD3D",
           bodyColor: "#ffffff",
-          borderColor: "rgba(255,255,255,0.1)",
+          borderColor: "rgba(226, 232, 240, 1)",
           borderWidth: 1,
           padding: 16,
           cornerRadius: 16,

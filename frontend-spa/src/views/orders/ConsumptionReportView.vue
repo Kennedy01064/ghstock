@@ -3,7 +3,7 @@
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
       <div class="space-y-2">
         <span class="eyebrow !text-amber/60">Inventario Local</span>
-        <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight uppercase">Reporte de Consumo</h1>
+        <h1 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight uppercase">Reporte de Consumo</h1>
         <p class="text-text-muted text-sm">Historico de productos consumidos por sede.</p>
       </div>
     </div>
@@ -42,10 +42,10 @@
           <thead class="bg-white/[0.03] border-b border-white/[0.07]">
             <tr>
               <th class="px-6 py-4 text-[10px] font-black text-amber uppercase tracking-[0.3em]">Producto</th>
-              <th class="px-6 py-4 text-[10px] font-black text-white/60 uppercase tracking-[0.3em] hidden sm:table-cell">Sede</th>
-              <th class="px-6 py-4 text-[10px] font-black text-white/60 uppercase tracking-[0.3em] text-right">Total Consumido</th>
-              <th class="px-6 py-4 text-[10px] font-black text-white/60 uppercase tracking-[0.3em] text-right hidden md:table-cell">Eventos</th>
-              <th class="px-6 py-4 text-[10px] font-black text-white/60 uppercase tracking-[0.3em] hidden lg:table-cell">Ultimo Reporte</th>
+              <th class="px-6 py-4 text-[10px] font-black text-slate-900/60 uppercase tracking-[0.3em] hidden sm:table-cell">Sede</th>
+              <th class="px-6 py-4 text-[10px] font-black text-slate-900/60 uppercase tracking-[0.3em] text-right">Total Consumido</th>
+              <th class="px-6 py-4 text-[10px] font-black text-slate-900/60 uppercase tracking-[0.3em] text-right hidden md:table-cell">Eventos</th>
+              <th class="px-6 py-4 text-[10px] font-black text-slate-900/60 uppercase tracking-[0.3em] hidden lg:table-cell">Ultimo Reporte</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-white/[0.04]">
@@ -58,14 +58,14 @@
                     class="w-9 h-9 rounded-xl object-contain bg-white/[0.04] p-1.5 border border-white/[0.12] shrink-0"
                   >
                   <div class="min-w-0">
-                    <p class="text-sm font-black text-white group-hover:text-amber transition-colors truncate">{{ row.productName }}</p>
+                    <p class="text-sm font-black text-slate-900 group-hover:text-amber transition-colors truncate">{{ row.productName }}</p>
                     <p class="text-[10px] text-text-muted sm:hidden">{{ row.buildingName }}</p>
                   </div>
                 </div>
               </td>
               <td class="px-6 py-4 text-[13px] text-text-muted font-bold hidden sm:table-cell">{{ row.buildingName }}</td>
               <td class="px-6 py-4 text-right">
-                <span class="text-base font-black text-white">{{ row.totalConsumed }}</span>
+                <span class="text-base font-black text-slate-900">{{ row.totalConsumed }}</span>
                 <span class="text-[10px] text-text-muted ml-1">{{ row.unit }}</span>
               </td>
               <td class="px-6 py-4 text-right hidden md:table-cell">
@@ -82,11 +82,11 @@
 
     <div v-else class="card border-dashed border-white/[0.12] bg-white/[0.01] py-20 text-center">
       <div class="w-16 h-16 bg-white/[0.04] rounded-3xl flex items-center justify-center mx-auto mb-5">
-        <svg class="w-8 h-8 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-8 h-8 text-slate-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
         </svg>
       </div>
-      <h3 class="text-lg font-black text-white mb-2">Sin datos de consumo</h3>
+      <h3 class="text-lg font-black text-slate-900 mb-2">Sin datos de consumo</h3>
       <p class="text-text-muted text-sm max-w-xs mx-auto">Registra consumos desde la seccion Inventario Local para ver reportes aqui.</p>
     </div>
   </div>

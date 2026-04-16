@@ -4,14 +4,14 @@
       <div class="space-y-3">
         <div class="flex items-center gap-3">
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]" />
-          <span class="eyebrow tracking-[0.4em] !text-white text-[10px]">Gestion de Activos</span>
+          <span class="eyebrow tracking-[0.4em] !text-slate-900 text-[10px]">Gestion de Activos</span>
         </div>
         <h1 data-testid="buildings-page-title" class="h2 !text-3xl !tracking-tight">Seleccion de Sede</h1>
         <p class="text-text-muted font-medium text-sm max-w-xl">
           Identifique la unidad inmobiliaria para iniciar el manifiesto de requerimientos y control de existencias.
         </p>
       </div>
-      <div class="h-16 w-16 rounded-[2rem] bg-navy-accent border border-white/[0.12] flex items-center justify-center text-amber shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)] shrink-0">
+      <div class="h-16 w-16 rounded-[2rem] bg-white border border-white/[0.12] flex items-center justify-center text-amber shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)] shrink-0">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
@@ -35,14 +35,14 @@
         <div class="absolute inset-0 bg-gradient-to-r from-amber/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
 
         <div class="flex flex-col lg:flex-row min-h-[220px] relative z-10">
-          <div class="w-full lg:w-80 bg-navy-deep relative overflow-hidden shrink-0 border-b lg:border-b-0 lg:border-r border-white/[0.07]">
+          <div class="w-full lg:w-80 bg-slate-100 relative overflow-hidden shrink-0 border-b lg:border-b-0 lg:border-r border-white/[0.07]">
             <img
               v-if="building.imageUrl"
               :src="building.imageUrl"
               :alt="building.name"
               class="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-1000 opacity-40 group-hover/card:opacity-80"
             >
-            <div v-else class="w-full h-full flex items-center justify-center text-white/[0.03]">
+            <div v-else class="w-full h-full flex items-center justify-center text-slate-900/[0.03]">
               <svg class="w-24 h-24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
@@ -59,7 +59,7 @@
             <div class="space-y-4">
               <div class="flex items-start justify-between gap-6">
                 <div class="space-y-2">
-                  <h3 class="text-2xl font-black text-white uppercase tracking-tight group-hover/card:text-amber transition-colors leading-none">
+                  <h3 class="text-2xl font-black text-slate-900 uppercase tracking-tight group-hover/card:text-amber transition-colors leading-none">
                     {{ building.name }}
                   </h3>
                   <div class="flex items-center gap-2.5 text-text-muted">
@@ -102,12 +102,12 @@
     </div>
 
     <div v-else class="card flex flex-col items-center justify-center py-32 border-dashed border-white/[0.12] bg-white/[0.01] rounded-[3rem]">
-      <div class="w-24 h-24 rounded-[2.5rem] bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-white/5 mb-8 shadow-inner">
+      <div class="w-24 h-24 rounded-[2.5rem] bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-slate-900/5 mb-8 shadow-inner">
         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
       </div>
-      <h3 class="text-xl font-black text-white uppercase tracking-[0.3em]">Acceso Restringido</h3>
+      <h3 class="text-xl font-black text-slate-900 uppercase tracking-[0.3em]">Acceso Restringido</h3>
       <p class="text-text-muted text-sm font-medium mt-3 max-w-sm text-center italic leading-relaxed opacity-60">
         No se han detectado sedes vinculadas a su credencial corporativa. Por favor, solicite su alta en la Direccion General.
       </p>

@@ -18,7 +18,7 @@
     <div class="grid gap-5 md:grid-cols-3">
       <article v-for="summary in summaries" :key="summary.label" class="card">
         <span class="section-label">{{ summary.label }}</span>
-        <div class="text-3xl font-black text-white tracking-tight">{{ summary.value }}</div>
+        <div class="text-3xl font-black text-slate-900 tracking-tight">{{ summary.value }}</div>
         <p class="mt-3 text-sm leading-6 text-text-secondary">{{ summary.description }}</p>
       </article>
     </div>
@@ -27,7 +27,7 @@
       <div class="space-y-8">
         <div v-for="section in sections" :key="section.title" class="card !p-0 overflow-hidden">
           <div class="px-8 py-6 border-b border-white/[0.07] bg-white/[0.02]">
-            <h3 class="text-base font-bold text-white">{{ section.title }}</h3>
+            <h3 class="text-base font-bold text-slate-900">{{ section.title }}</h3>
             <p v-if="section.description" class="text-[11px] uppercase tracking-[0.18em] text-text-muted mt-2">{{ section.description }}</p>
           </div>
 
@@ -40,7 +40,7 @@
               </thead>
               <tbody class="divide-y divide-white/5">
                 <tr v-for="row in section.rows" :key="row.id ?? row.name" class="hover:bg-white/[0.02] transition-colors">
-                  <td v-for="column in section.columns" :key="column.key" class="px-8 py-5 text-sm font-bold text-white">
+                  <td v-for="column in section.columns" :key="column.key" class="px-8 py-5 text-sm font-bold text-slate-900">
                     {{ typeof column.value === "function" ? column.value(row) : row[column.key] }}
                   </td>
                 </tr>
@@ -52,7 +52,7 @@
             <div v-for="item in section.items" :key="item.title" class="px-8 py-5">
               <div class="flex items-center justify-between gap-4">
                 <div>
-                  <p class="text-sm font-black text-white">{{ item.title }}</p>
+                  <p class="text-sm font-black text-slate-900">{{ item.title }}</p>
                   <p class="text-[11px] uppercase tracking-[0.18em] text-text-muted mt-2">{{ item.subtitle }}</p>
                 </div>
                 <span v-if="item.badge" class="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-[0.18em]" :class="statusClass(item.badge)">

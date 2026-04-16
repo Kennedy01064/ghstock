@@ -15,8 +15,8 @@
         class="input-field !pl-14 font-black uppercase text-xs tracking-[0.15em] hover:border-amber/40 transition-all flex items-center min-h-[52px]"
         :class="{ 'border-amber/40 ring-4 ring-amber/5': isOpen }"
       >
-        <span v-if="modelValue" class="text-white">{{ displayValue }}</span>
-        <span v-else class="text-white/20">Seleccionar {{ type === 'date' ? 'fecha' : 'fecha y hora' }}</span>
+        <span v-if="modelValue" class="text-slate-900">{{ displayValue }}</span>
+        <span v-else class="text-slate-900/20">Seleccionar {{ type === 'date' ? 'fecha' : 'fecha y hora' }}</span>
       </div>
     </div>
 
@@ -24,13 +24,13 @@
     <Transition name="picker-fade">
       <div 
         v-if="isOpen" 
-        class="absolute left-0 top-full mt-3 z-[100] w-[95vw] sm:w-[520px] rounded-[2rem] border border-white/[0.12] bg-navy shadow-[0_40px_100px_-15px_rgba(0,0,0,0.9)] overflow-hidden"
+        class="absolute left-0 top-full mt-3 z-[100] w-[95vw] sm:w-[520px] rounded-[2rem] border border-white/[0.12] bg-white shadow-[0_40px_100px_-15px_rgba(0,0,0,0.9)] overflow-hidden"
       >
         <!-- Calendar Header -->
-        <div class="px-6 py-3.5 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
+        <div class="px-6 py-3.5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
           <button 
             type="button" 
-            class="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.06] hover:text-amber transition-all"
+            class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 hover:text-amber transition-all"
             @click="prevMonth"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,12 +40,12 @@
           
           <div class="text-center">
             <p class="text-[10px] font-black uppercase tracking-[0.2em] text-amber mb-0.5">{{ currentYear }}</p>
-            <p class="text-sm font-black text-white uppercase tracking-wider">{{ currentMonthName }}</p>
+            <p class="text-sm font-black text-slate-900 uppercase tracking-wider">{{ currentMonthName }}</p>
           </div>
 
           <button 
             type="button" 
-            class="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.06] hover:text-amber transition-all"
+            class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 hover:text-amber transition-all"
             @click="nextMonth"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Content Area: Horizontal on Desktop -->
-        <div class="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-white/5">
+        <div class="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-slate-200">
           <!-- Left: Calendar -->
           <div class="p-4 flex-1">
             <!-- Weekdays -->
@@ -77,8 +77,8 @@
                 type="button"
                 class="relative aspect-square flex items-center justify-center rounded-xl text-xs sm:text-[10px] font-bold transition-all"
                 :class="[
-                  date.isCurrentMonth ? 'text-white' : 'text-white/20',
-                  date.isSelected ? 'bg-amber !text-navy-deep shadow-lg shadow-amber/40 scale-105 !font-black' : 'hover:bg-white/[0.04]',
+                  date.isCurrentMonth ? 'text-slate-900' : 'text-slate-400',
+                  date.isSelected ? 'bg-amber !text-slate-900 shadow-lg shadow-amber/40 scale-105 !font-black' : 'hover:bg-slate-100',
                   date.isToday && !date.isSelected ? 'border border-amber/30 text-amber' : ''
                 ]"
                 @click="selectDay(date)"
@@ -90,7 +90,7 @@
           </div>
 
           <!-- Right: Time Selector -->
-          <div v-if="type === 'datetime'" class="p-5 sm:w-[170px] flex flex-col justify-center bg-white/[0.01]">
+          <div v-if="type === 'datetime'" class="p-5 sm:w-[170px] flex flex-col justify-center bg-slate-50">
             <p class="text-[9px] font-black uppercase tracking-[0.2em] text-amber mb-4 text-center">Hora</p>
             
             <div class="flex flex-col items-center gap-4">
@@ -101,7 +101,7 @@
                     v-model="time.hours" 
                     min="0" 
                     max="23"
-                    class="w-11 h-11 bg-white/[0.04] border border-white/[0.12] rounded-xl text-center text-lg font-black text-white focus:border-amber/40 focus:bg-white/[0.06] outline-none transition-all tabular-nums"
+                    class="w-11 h-11 bg-white border border-slate-200 rounded-xl text-center text-lg font-black text-slate-900 focus:border-amber/40 focus:bg-slate-50 outline-none transition-all tabular-nums"
                     @change="updateTime"
                   />
                   <p class="text-[7px] font-black text-center text-text-muted uppercase tracking-widest">HRS</p>
@@ -116,7 +116,7 @@
                     min="0" 
                     max="59" 
                     step="5"
-                    class="w-11 h-11 bg-white/[0.04] border border-white/[0.12] rounded-xl text-center text-lg font-black text-white focus:border-amber/40 focus:bg-white/[0.06] outline-none transition-all tabular-nums"
+                    class="w-11 h-11 bg-white border border-slate-200 rounded-xl text-center text-lg font-black text-slate-900 focus:border-amber/40 focus:bg-slate-50 outline-none transition-all tabular-nums"
                     @change="updateTime"
                   />
                   <p class="text-[7px] font-black text-center text-text-muted uppercase tracking-widest">MIN</p>
@@ -125,25 +125,25 @@
 
               <!-- Quick Time Suggestions -->
               <div class="grid grid-cols-2 gap-2 w-full mt-2">
-                <button type="button" @click="time.hours = 12; time.minutes = 0; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-white/[0.04] text-[8px] sm:text-[7px] font-black text-text-muted uppercase hover:bg-white/[0.06] transition-all tracking-tighter">Mediodía</button>
-                <button type="button" @click="time.hours = 23; time.minutes = 59; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-white/[0.04] text-[8px] sm:text-[7px] font-black text-text-muted uppercase hover:bg-white/[0.06] transition-all tracking-tighter">Cierre</button>
+                <button type="button" @click="time.hours = 12; time.minutes = 0; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-slate-100 text-[8px] sm:text-[7px] font-black text-slate-500 uppercase hover:bg-slate-200 transition-all tracking-tighter">Mediodía</button>
+                <button type="button" @click="time.hours = 23; time.minutes = 59; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-slate-100 text-[8px] sm:text-[7px] font-black text-slate-500 uppercase hover:bg-slate-200 transition-all tracking-tighter">Cierre</button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Footer Actions -->
-        <div class="px-5 py-4 bg-white/[0.02] border-t border-white/[0.07] flex gap-3">
+        <div class="px-5 py-4 bg-slate-50 border-t border-slate-200 flex gap-3">
           <button 
             type="button" 
-            class="flex-1 py-2.5 px-4 rounded-xl border border-white/[0.07] text-[10px] font-black text-text-muted hover:bg-white/[0.04] transition-all uppercase tracking-widest"
+            class="flex-1 py-2.5 px-4 rounded-xl border border-slate-300 bg-white text-[10px] font-black text-slate-600 hover:bg-slate-100 transition-all uppercase tracking-widest"
             @click="clear"
           >
             Limpiar
           </button>
           <button 
             type="button" 
-            class="flex-1 py-2.5 px-4 rounded-xl bg-amber text-navy-deep text-[10px] font-black hover:bg-amber-hover hover:scale-[1.02] transition-all uppercase tracking-widest shadow-lg shadow-amber/10"
+            class="flex-1 py-2.5 px-4 rounded-xl bg-amber text-slate-900 text-[10px] font-black hover:bg-amber-hover hover:scale-[1.02] transition-all uppercase tracking-widest shadow-lg shadow-amber/10"
             @click="close"
           >
             Aceptar

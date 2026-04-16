@@ -21,17 +21,17 @@
       <div class="card bg-white/[0.05] border-white/[0.07] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] relative z-10">
         <div class="flex items-center gap-3 mb-8 px-2">
           <div class="w-1.5 h-6 bg-amber rounded-full" />
-          <h2 class="text-lg font-black text-white uppercase tracking-tight">Informacion del Comprobante</h2>
+          <h2 class="text-lg font-black text-slate-900 uppercase tracking-tight">Informacion del Comprobante</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="space-y-3">
             <label class="eyebrow !text-text-muted">Proveedor</label>
-            <input v-model="form.supplier" type="text" :disabled="dispatchStore.isPurchasing" placeholder="Razon Social / Nombre" class="input-field font-bold uppercase tracking-widest text-[11px] placeholder:text-white/10">
+            <input v-model="form.supplier" type="text" :disabled="dispatchStore.isPurchasing" placeholder="Razon Social / Nombre" class="input-field font-bold uppercase tracking-widest text-[11px] placeholder:text-slate-900/10">
           </div>
           <div class="space-y-3">
             <label class="eyebrow !text-text-muted">N° de Factura / Guia</label>
-            <input v-model="form.invoiceNumber" type="text" :disabled="dispatchStore.isPurchasing" placeholder="Ej: F001-00123" class="input-field font-bold uppercase tracking-widest text-[11px] placeholder:text-white/10">
+            <input v-model="form.invoiceNumber" type="text" :disabled="dispatchStore.isPurchasing" placeholder="Ej: F001-00123" class="input-field font-bold uppercase tracking-widest text-[11px] placeholder:text-slate-900/10">
           </div>
           <div class="space-y-3">
             <label class="eyebrow !text-text-muted">Fecha de Operacion <span class="text-amber">*</span></label>
@@ -39,7 +39,7 @@
           </div>
           <div class="md:col-span-3 space-y-3">
             <label class="eyebrow !text-text-muted">Observaciones Internas</label>
-            <textarea v-model="form.notes" rows="2" :disabled="dispatchStore.isPurchasing" placeholder="Detalles relevantes de la transaccion..." class="input-field min-h-[80px] py-4 placeholder:text-white/10" />
+            <textarea v-model="form.notes" rows="2" :disabled="dispatchStore.isPurchasing" placeholder="Detalles relevantes de la transaccion..." class="input-field min-h-[80px] py-4 placeholder:text-slate-900/10" />
           </div>
         </div>
       </div>
@@ -48,11 +48,11 @@
         <div class="flex flex-col sm:flex-row items-center justify-between gap-6 mb-10 px-2">
           <div class="flex items-center gap-3">
             <div class="w-1.5 h-6 bg-amber rounded-full" />
-            <h2 class="text-lg font-black text-white uppercase tracking-tight">Relacion de Articulos</h2>
+            <h2 class="text-lg font-black text-slate-900 uppercase tracking-tight">Relacion de Articulos</h2>
           </div>
 
           <div class="flex flex-wrap gap-3 w-full sm:w-auto">
-            <button type="button" class="flex-1 sm:flex-none h-12 flex items-center justify-center gap-3 px-6 rounded-2xl bg-white/[0.04] border border-white/[0.12] text-[10px] font-black text-white uppercase tracking-widest hover:bg-white/[0.06] hover:border-amber/40 hover:text-amber transition-all group disabled:opacity-50" :disabled="dispatchStore.isPurchasing" @click="selectorOpen = true">
+            <button type="button" class="flex-1 sm:flex-none h-12 flex items-center justify-center gap-3 px-6 rounded-2xl bg-white/[0.04] border border-white/[0.12] text-[10px] font-black text-slate-900 uppercase tracking-widest hover:bg-white/[0.06] hover:border-amber/40 hover:text-amber transition-all group disabled:opacity-50" :disabled="dispatchStore.isPurchasing" @click="selectorOpen = true">
               <svg class="w-4 h-4 text-amber transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
@@ -68,7 +68,7 @@
         </div>
 
         <div v-if="rows.length" class="space-y-4">
-          <div v-for="row in rows" :key="row.id" class="grid grid-cols-1 sm:grid-cols-12 gap-5 p-6 bg-white/[0.02] border border-white/[0.12] rounded-[1.8rem] group/row hover:border-white/20 transition-all">
+          <div v-for="row in rows" :key="row.id" class="grid grid-cols-1 sm:grid-cols-12 gap-5 p-6 bg-white/[0.02] border border-white/[0.12] rounded-[1.8rem] group/row hover:border-slate-300 transition-all">
             <div class="sm:col-span-6 space-y-2">
               <label class="eyebrow !text-text-muted !text-[9px]">Producto / Descripcion</label>
               <input v-model="row.name" type="text" required :disabled="dispatchStore.isPurchasing" placeholder="Descripcion material" class="input-field h-12 !px-4 !rounded-xl font-bold uppercase tracking-widest text-[11px] bg-black/20 group-hover/row:bg-black/40">
@@ -79,10 +79,10 @@
             </div>
             <div class="sm:col-span-3 space-y-2">
               <label class="eyebrow !text-text-muted !text-[9px]">P. Unitario (S/)</label>
-              <input v-model.number="row.unitPrice" type="number" min="0" step="0.01" :disabled="dispatchStore.isPurchasing" class="input-field h-12 !px-4 !rounded-xl font-black text-emerald-400 placeholder:text-white/5 bg-black/20">
+              <input v-model.number="row.unitPrice" type="number" min="0" step="0.01" :disabled="dispatchStore.isPurchasing" class="input-field h-12 !px-4 !rounded-xl font-black text-emerald-400 placeholder:text-slate-900/5 bg-black/20">
             </div>
             <div class="sm:col-span-1 flex items-end justify-center pb-1">
-              <button type="button" class="w-10 h-10 flex items-center justify-center rounded-xl bg-red-500/5 text-red-500/40 border border-red-500/10 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all disabled:opacity-50" :disabled="dispatchStore.isPurchasing" @click="removeRow(row.id)">
+              <button type="button" class="w-10 h-10 flex items-center justify-center rounded-xl bg-red-500/5 text-red-500/40 border border-red-500/10 hover:bg-red-500 hover:text-slate-900 hover:border-red-500 transition-all disabled:opacity-50" :disabled="dispatchStore.isPurchasing" @click="removeRow(row.id)">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
@@ -97,7 +97,7 @@
       </div>
 
       <div class="flex flex-col sm:flex-row items-center justify-end gap-6 pt-6 border-t border-white/[0.07]">
-        <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary w-full sm:w-auto px-12 !py-4 border-white/[0.12] text-white/40 hover:text-white">
+        <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary w-full sm:w-auto px-12 !py-4 border-white/[0.12] text-slate-900/40 hover:text-slate-900">
           CANCELAR
         </RouterLink>
         <button type="submit" class="btn btn-primary w-full sm:w-auto px-16 !py-5 shadow-2xl shadow-amber/20 group" :disabled="dispatchStore.isPurchasing">
@@ -117,14 +117,14 @@
     </form>
 
     <Transition name="fade">
-      <div v-if="selectorOpen" class="fixed inset-0 bg-navy-deep/80 backdrop-blur-2xl items-center justify-center z-[100] p-6 flex">
-        <div class="bg-navy-accent border border-white/[0.12] rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh]">
+      <div v-if="selectorOpen" class="fixed inset-0 bg-slate-100/80 backdrop-blur-2xl items-center justify-center z-[100] p-6 flex">
+        <div class="bg-white border border-white/[0.12] rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh]">
           <div class="p-10 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.02]">
             <div class="space-y-1">
               <h3 class="h2 !text-3xl italic">Catalogo Maestro</h3>
               <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Seleccione un articulo existente</p>
             </div>
-            <button type="button" class="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-white/20 hover:text-white hover:bg-red-500/20 hover:border-red-500/40 transition-all" @click="selectorOpen = false">
+            <button type="button" class="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-slate-900/20 hover:text-slate-900 hover:bg-red-500/20 hover:border-red-500/40 transition-all" @click="selectorOpen = false">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -133,8 +133,8 @@
 
           <div class="p-10 flex flex-col gap-6 flex-1 min-h-0 overflow-hidden">
             <div class="relative group shrink-0">
-              <input v-model="selectorQuery" type="text" placeholder="Filtrar por nombre o categoria..." class="input-field !pl-14 font-bold tracking-widest text-[11px] !bg-navy-deep/80 !border-white/15 focus:!bg-navy-deep focus:!border-amber/40 transition-all">
-              <div class="absolute left-6 top-1/2 -translate-y-1/2 text-white/10 group-focus-within:text-amber transition-colors">
+              <input v-model="selectorQuery" type="text" placeholder="Filtrar por nombre o categoria..." class="input-field !pl-14 font-bold tracking-widest text-[11px] !bg-slate-100/80 !border-white/15 focus:!bg-slate-100 focus:!border-amber/40 transition-all">
+              <div class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-900/10 group-focus-within:text-amber transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -148,12 +148,12 @@
                     {{ (product.categoria || "G").slice(0, 1).toUpperCase() }}
                   </div>
                   <div class="flex flex-col">
-                    <p class="text-sm font-black text-white uppercase tracking-tight group-hover/item:text-amber transition-colors">{{ product.name }}</p>
+                    <p class="text-sm font-black text-slate-900 uppercase tracking-tight group-hover/item:text-amber transition-colors">{{ product.name }}</p>
                     <p class="text-[9px] font-black text-text-muted uppercase tracking-widest mt-0.5">{{ product.categoria }} • STOCK: {{ product.stockActual }}</p>
                   </div>
                 </div>
 
-                <button type="button" class="h-10 px-6 rounded-xl bg-white/[0.04] border border-white/[0.12] text-[9px] font-black text-white hover:bg-amber hover:text-navy-deep hover:border-amber transition-all uppercase tracking-widest shadow-xl" @click="selectProduct(product)">
+                <button type="button" class="h-10 px-6 rounded-xl bg-white/[0.04] border border-white/[0.12] text-[9px] font-black text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber transition-all uppercase tracking-widest shadow-xl" @click="selectProduct(product)">
                   ELEGIR
                 </button>
               </div>

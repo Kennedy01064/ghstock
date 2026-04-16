@@ -12,18 +12,18 @@
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
           <span class="eyebrow tracking-[0.4em] !text-amber text-[10px]">Operación Manager</span>
         </div>
-        <h1 class="text-5xl font-black tracking-tighter italic leading-none text-white">
+        <h1 class="text-5xl font-black tracking-tighter italic leading-none text-slate-900">
           Tablero <span class="text-amber">Logístico</span>
         </h1>
         <p class="text-text-muted font-medium text-sm md:text-base max-w-xl">
-          Vista operativa para <span class="text-white font-bold capitalize">{{ displayName }}</span>, con foco en cobertura de edificios, pedidos y rotación de catálogo.
+          Vista operativa para <span class="text-slate-900 font-bold capitalize">{{ displayName }}</span>, con foco en cobertura de edificios, pedidos y rotación de catálogo.
         </p>
       </div>
 
       <div class="flex items-center gap-5 bg-white/[0.03] border border-white/[0.07] backdrop-blur-3xl rounded-[2rem] px-8 py-5 shadow-2xl self-start xl:self-auto">
         <div class="text-right">
           <p class="label-premium !mb-0">Fecha Operativa</p>
-          <p class="text-white font-black text-sm tracking-widest tabular-nums uppercase">{{ formatDate(new Date()) }}</p>
+          <p class="text-slate-900 font-black text-sm tracking-widest tabular-nums uppercase">{{ formatDate(new Date()) }}</p>
         </div>
         <div class="w-[1px] h-10 bg-white/[0.06]"></div>
         <div class="w-10 h-10 bg-amber/10 rounded-xl flex items-center justify-center border border-amber/20 shadow-lg shadow-amber/10">
@@ -55,9 +55,9 @@
           <div class="space-y-1">
             <div v-if="metric.prefix" class="flex items-baseline gap-1">
               <span class="text-xl font-bold text-amber/40 tabular-nums">{{ metric.prefix }}</span>
-              <p class="text-5xl font-black text-white tracking-tighter">{{ metric.value }}</p>
+              <p class="text-5xl font-black text-slate-900 tracking-tighter">{{ metric.value }}</p>
             </div>
-            <p v-else class="text-5xl font-black text-white tracking-tighter">{{ metric.value }}</p>
+            <p v-else class="text-5xl font-black text-slate-900 tracking-tighter">{{ metric.value }}</p>
             <div class="flex items-center gap-2" :class="metric.dot ? '' : 'pt-1'">
               <span v-if="metric.dot" class="w-1.5 h-1.5 rounded-full bg-amber animate-pulse"></span>
               <span class="eyebrow !text-text-muted/60">{{ metric.label }}</span>
@@ -78,7 +78,7 @@
               </svg>
             </div>
             <div>
-              <h3 class="text-base font-bold text-white">Pedidos por Edificio</h3>
+              <h3 class="text-base font-bold text-slate-900">Pedidos por Edificio</h3>
               <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-0.5">Distribución de Solicitudes</p>
             </div>
           </div>
@@ -100,7 +100,7 @@
               </svg>
             </div>
             <div>
-              <h3 class="text-base font-bold text-white">Top 5 Movimientos</h3>
+              <h3 class="text-base font-bold text-slate-900">Top 5 Movimientos</h3>
               <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-0.5">Acumulado Total de Pedidos</p>
             </div>
           </div>
@@ -116,7 +116,7 @@
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
       <article class="card !p-0 overflow-hidden border-white/[0.07]">
         <div class="px-7 py-5 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
-          <h3 class="text-sm font-black text-white uppercase tracking-widest">Lotes en Proceso</h3>
+          <h3 class="text-sm font-black text-slate-900 uppercase tracking-widest">Lotes en Proceso</h3>
           <span v-if="dashboard.lotes_pendientes?.length" class="px-3 py-1 bg-amber/10 text-amber text-[10px] font-black rounded-lg border border-amber/20 uppercase tracking-widest">{{ dashboard.lotes_pendientes.length }} activos</span>
         </div>
         <div v-if="dashboard.lotes_pendientes?.length" class="divide-y divide-white/[0.04]">
@@ -124,7 +124,7 @@
             <div class="flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl bg-amber/10 border border-amber/20 flex items-center justify-center text-amber text-xs font-black">#{{ batch.id }}</div>
               <div>
-                <p class="text-sm font-black text-white group-hover:text-amber transition-colors">Lote #{{ batch.id }}</p>
+                <p class="text-sm font-black text-slate-900 group-hover:text-amber transition-colors">Lote #{{ batch.id }}</p>
                 <p class="text-[10px] text-text-muted font-bold">{{ batch.orders?.length ?? 0 }} sedes / {{ batch.items?.length ?? 0 }} SKUs</p>
               </div>
             </div>
@@ -140,14 +140,14 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <p class="text-sm font-black text-white mb-1">Sin lotes pendientes</p>
+          <p class="text-sm font-black text-slate-900 mb-1">Sin lotes pendientes</p>
           <p class="text-[12px] text-text-muted">Todos los despachos están al día.</p>
         </div>
       </article>
 
       <article class="card !p-0 overflow-hidden border-rose-500/10">
         <div class="px-7 py-5 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
-          <h3 class="text-sm font-black text-white uppercase tracking-widest">Alertas de Stock</h3>
+          <h3 class="text-sm font-black text-slate-900 uppercase tracking-widest">Alertas de Stock</h3>
           <span v-if="dashboard.alertas_stock?.length" class="px-3 py-1 bg-rose-500/10 text-rose-400 text-[10px] font-black rounded-lg border border-rose-500/20 uppercase tracking-widest flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 bg-rose-400 rounded-full animate-pulse"></span>
             {{ dashboard.alertas_stock.length }} críticos
@@ -157,7 +157,7 @@
           <div v-for="product in dashboard.alertas_stock" :key="product.id" class="flex items-center gap-4 px-7 py-4 hover:bg-white/[0.02] transition-colors group">
             <img :src="product.imagen_url || defaultProductUrl" :alt="product.name" class="w-10 h-10 rounded-xl object-contain bg-white/[0.04] p-1.5 border border-white/[0.12] shrink-0" />
             <div class="flex-1 min-w-0">
-              <p class="text-[13px] font-black text-white truncate group-hover:text-amber transition-colors">{{ product.name }}</p>
+              <p class="text-[13px] font-black text-slate-900 truncate group-hover:text-amber transition-colors">{{ product.name }}</p>
               <p class="text-[10px] text-text-muted font-bold">Min: {{ product.stock_minimo }} {{ product.unit }}</p>
             </div>
             <div class="shrink-0 text-right">
@@ -167,21 +167,21 @@
           </div>
         </div>
         <div v-else class="px-7 py-10 text-center">
-          <p class="text-sm font-black text-white mb-1">Stock en niveles normales</p>
+          <p class="text-sm font-black text-slate-900 mb-1">Stock en niveles normales</p>
           <p class="text-[12px] text-text-muted">No hay productos bajo el mínimo.</p>
         </div>
       </article>
 
       <article class="card !p-0 overflow-hidden border-white/[0.07]">
         <div class="px-7 py-5 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
-          <h3 class="text-sm font-black text-white uppercase tracking-widest">Compras Recientes</h3>
+          <h3 class="text-sm font-black text-slate-900 uppercase tracking-widest">Compras Recientes</h3>
           <RouterLink :to="{ name: 'dispatchPurchases' }" class="text-[10px] font-black text-amber hover:text-amber/80 uppercase tracking-widest transition-colors">Ver todas</RouterLink>
         </div>
         <div v-if="dashboard.compras_recientes?.length" class="divide-y divide-white/[0.04]">
           <div v-for="purchase in dashboard.compras_recientes" :key="purchase.id" class="px-7 py-4 hover:bg-white/[0.02] transition-colors group">
             <div class="flex items-start justify-between gap-4">
               <div class="min-w-0">
-                <p class="text-sm font-black text-white group-hover:text-amber transition-colors">#{{ purchase.id }} {{ purchase.supplier || "Proveedor no definido" }}</p>
+                <p class="text-sm font-black text-slate-900 group-hover:text-amber transition-colors">#{{ purchase.id }} {{ purchase.supplier || "Proveedor no definido" }}</p>
                 <p class="text-[10px] text-text-muted font-bold uppercase tracking-widest mt-1">{{ formatDate(purchase.purchase_date) }}</p>
               </div>
               <div class="text-right shrink-0">
@@ -191,7 +191,7 @@
           </div>
         </div>
         <div v-else class="px-7 py-10 text-center">
-          <p class="text-sm font-black text-white mb-1">Sin compras registradas</p>
+          <p class="text-sm font-black text-slate-900 mb-1">Sin compras registradas</p>
           <p class="text-[12px] text-text-muted">Todavía no hay movimientos de abastecimiento recientes.</p>
         </div>
       </article>
@@ -206,7 +206,7 @@
             </svg>
           </div>
           <div>
-            <h3 class="text-base font-black text-white italic uppercase tracking-tighter leading-none">Ventana de envio <span class="text-amber">Operativa</span></h3>
+            <h3 class="text-base font-black text-slate-900 italic uppercase tracking-tighter leading-none">Ventana de envio <span class="text-amber">Operativa</span></h3>
             <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-0.5">Fecha limite para listas y pedidos de administradores</p>
           </div>
         </div>
@@ -259,7 +259,7 @@
 
           <template v-if="submissionDeadline">
             <div class="space-y-2">
-              <p class="text-2xl font-black text-white leading-tight uppercase tracking-tighter tabular-nums">{{ formatDateTime(submissionDeadline.deadline_at) }}</p>
+              <p class="text-2xl font-black text-slate-900 leading-tight uppercase tracking-tighter tabular-nums">{{ formatDateTime(submissionDeadline.deadline_at) }}</p>
               <p class="text-sm font-bold" :class="submissionDeadline.state === 'overdue' ? 'text-rose-200' : 'text-cyan-100'">
                 {{ relativeDeadlineCopy(submissionDeadline.deadline_at, submissionDeadline.state) }}
               </p>
@@ -267,7 +267,7 @@
 
             <div class="rounded-2xl border border-white/[0.12] bg-black/10 px-4 py-4 space-y-2">
               <p class="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Listas pendientes</p>
-              <p class="text-3xl font-black text-white">{{ submissionDeadline.pending_orders_count }}</p>
+              <p class="text-3xl font-black text-slate-900">{{ submissionDeadline.pending_orders_count }}</p>
               <p class="text-xs leading-6 text-text-secondary font-bold">
                 {{ submissionDeadline.pending_orders_count === 1 ? "Hay 1 borrador activo sin enviar." : `Hay ${submissionDeadline.pending_orders_count} borradores activos sin enviar.` }}
               </p>
@@ -279,7 +279,7 @@
           </template>
 
           <template v-else>
-            <p class="text-xl font-black text-white italic">Sin fecha limite configurada</p>
+            <p class="text-xl font-black text-slate-900 italic">Sin fecha limite configurada</p>
             <p class="text-sm leading-7 text-text-secondary font-medium">
               Define una ventana de envio para que los administradores reciban la alerta desde su panel principal.
             </p>
@@ -303,15 +303,15 @@
         >
           <div class="relative">
             <div class="w-12 h-12 bg-white/[0.04] rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber group-hover:text-navy transition-all duration-500 shadow-lg">
-              <svg class="w-6 h-6 text-white group-hover:text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 text-slate-900 group-hover:text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" :d="item.iconPath" />
               </svg>
             </div>
-            <span v-if="item.count" class="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-navy-deep shadow-lg">
+            <span v-if="item.count" class="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-slate-900 text-[10px] font-black rounded-full flex items-center justify-center border-2 border-navy-deep shadow-lg">
               {{ item.count }}
             </span>
           </div>
-          <p class="text-[11px] font-black text-text-muted uppercase tracking-[0.2em] group-hover:text-white transition-colors text-center">{{ item.label }}</p>
+          <p class="text-[11px] font-black text-text-muted uppercase tracking-[0.2em] group-hover:text-slate-900 transition-colors text-center">{{ item.label }}</p>
         </RouterLink>
       </div>
     </div>
@@ -359,8 +359,8 @@ const metrics = computed(() => [
   {
     label: "Edificios Operativos",
     value: dashboard.value?.total_edificios_activos ?? 0,
-    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-white/20",
-    iconClass: "text-white/50 group-hover:text-white/80 transition-colors",
+    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-slate-300",
+    iconClass: "text-slate-900/50 group-hover:text-slate-900/80 transition-colors",
     iconPath: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
   },
@@ -376,8 +376,8 @@ const metrics = computed(() => [
   {
     label: "Catálogo Activo",
     value: dashboard.value?.total_productos ?? 0,
-    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-white/20",
-    iconClass: "text-white/50 group-hover:text-white/80 transition-colors",
+    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-slate-300",
+    iconClass: "text-slate-900/50 group-hover:text-slate-900/80 transition-colors",
     iconPath: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
   },
@@ -569,7 +569,7 @@ function renderCharts() {
           backgroundColor: "#1e293b",
           titleColor: "#F2AD3D",
           bodyColor: "#ffffff",
-          borderColor: "rgba(255,255,255,0.1)",
+          borderColor: "rgba(226, 232, 240, 1)",
           borderWidth: 1,
           padding: 16,
           cornerRadius: 16,
@@ -583,7 +583,7 @@ function renderCharts() {
           grid: { color: "rgba(255,255,255,0.03)", drawBorder: false },
         },
         x: {
-          ticks: { color: "rgba(255,255,255,0.6)" },
+          ticks: { color: "rgba(71, 85, 105, 1)" },
           grid: { display: false },
         },
       },
@@ -627,7 +627,7 @@ function renderCharts() {
           backgroundColor: "#1e293b",
           titleColor: "#F2AD3D",
           bodyColor: "#ffffff",
-          borderColor: "rgba(255,255,255,0.1)",
+          borderColor: "rgba(226, 232, 240, 1)",
           borderWidth: 1,
           padding: 16,
           cornerRadius: 16,

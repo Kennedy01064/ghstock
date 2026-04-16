@@ -24,7 +24,7 @@
 
       <div class="flex flex-col items-end gap-2 px-6 py-4 bg-emerald-500/10 border border-emerald-500/20 rounded-3xl shadow-2xl shadow-emerald-500/5">
         <span class="text-[9px] font-black text-emerald-400 uppercase tracking-[0.3em]">Inversion Total</span>
-        <span class="text-3xl font-black text-white tabular-nums">{{ formatCurrency(purchase.total || 0) }}</span>
+        <span class="text-3xl font-black text-slate-900 tabular-nums">{{ formatCurrency(purchase.total || 0) }}</span>
       </div>
     </div>
 
@@ -36,11 +36,11 @@
           <div class="space-y-5">
             <div>
               <p class="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1 opacity-60">Fecha de Operacion</p>
-              <p class="text-base font-black text-white uppercase tracking-tight">{{ purchase.purchaseDate }}</p>
+              <p class="text-base font-black text-slate-900 uppercase tracking-tight">{{ purchase.purchaseDate }}</p>
             </div>
             <div>
               <p class="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1 opacity-60">Proveedor Emitente</p>
-              <p class="text-sm font-black text-white uppercase tracking-tight">{{ purchase.supplier || "PROVEEDOR NO REGISTRADO" }}</p>
+              <p class="text-sm font-black text-slate-900 uppercase tracking-tight">{{ purchase.supplier || "PROVEEDOR NO REGISTRADO" }}</p>
             </div>
             <div>
               <p class="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1 opacity-60">N° de Documento</p>
@@ -58,13 +58,13 @@
               {{ (purchase.created_by?.name || purchase.created_by?.username || "?").slice(0, 1).toUpperCase() }}
             </div>
             <div class="space-y-1">
-              <p class="text-sm font-black text-white uppercase tracking-tight">{{ purchase.created_by?.name || purchase.created_by?.username }}</p>
+              <p class="text-sm font-black text-slate-900 uppercase tracking-tight">{{ purchase.created_by?.name || purchase.created_by?.username }}</p>
               <p class="text-[10px] font-black text-amber uppercase tracking-[0.2em]">{{ purchase.created_by?.role }}</p>
             </div>
           </div>
           <div class="pt-4 border-t border-white/[0.03]">
             <p class="text-[9px] font-black text-text-muted uppercase tracking-widest mb-1 opacity-60">Timestamp de Sistema</p>
-            <p class="text-xs font-black text-white/60 tracking-widest">{{ formatDate(purchase.createdAt) }}</p>
+            <p class="text-xs font-black text-slate-900/60 tracking-widest">{{ formatDate(purchase.createdAt) }}</p>
           </div>
         </div>
       </div>
@@ -74,11 +74,11 @@
         <div class="space-y-4">
           <div class="flex justify-between items-center px-4 py-3 bg-white/[0.02] rounded-xl border border-white/[0.07]">
             <span class="text-[10px] font-black text-text-muted uppercase tracking-widest">Variedad SKUs</span>
-            <span class="text-lg font-black text-white tabular-nums">{{ purchase.items.length }}</span>
+            <span class="text-lg font-black text-slate-900 tabular-nums">{{ purchase.items.length }}</span>
           </div>
           <div class="flex justify-between items-center px-4 py-3 bg-white/[0.02] rounded-xl border border-white/[0.07]">
             <span class="text-[10px] font-black text-text-muted uppercase tracking-widest">Unidades Fisicas</span>
-            <span class="text-lg font-black text-white tabular-nums">{{ totalUnits }}</span>
+            <span class="text-lg font-black text-slate-900 tabular-nums">{{ totalUnits }}</span>
           </div>
           <div v-if="purchase.notes" class="p-4 bg-amber/5 border border-amber/10 rounded-xl">
             <p class="text-[10px] font-black text-amber/60 uppercase tracking-widest mb-2">Observaciones</p>
@@ -90,7 +90,7 @@
 
     <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
       <div class="px-8 py-5 border-b border-white/[0.03] bg-white/[0.02]">
-        <h2 class="text-sm font-black text-white uppercase tracking-[0.2em]">Desglose de Mercancia Recibida</h2>
+        <h2 class="text-sm font-black text-slate-900 uppercase tracking-[0.2em]">Desglose de Mercancia Recibida</h2>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm border-collapse">
@@ -107,12 +107,12 @@
             <tr v-for="item in purchase.items" :key="item.id" class="hover:bg-white/[0.01] transition-all group">
               <td class="px-8 py-6">
                 <div class="flex flex-col gap-1">
-                  <p class="text-[13px] font-black text-white uppercase tracking-tight group-hover:text-amber transition-colors">{{ item.name }}</p>
+                  <p class="text-[13px] font-black text-slate-900 uppercase tracking-tight group-hover:text-amber transition-colors">{{ item.name }}</p>
                   <p class="text-[10px] font-black text-text-muted uppercase tracking-widest">{{ item.product?.categoria }}</p>
                 </div>
               </td>
               <td class="px-8 py-6 text-center">
-                <span class="text-base font-black text-white tabular-nums">{{ item.quantity }}</span>
+                <span class="text-base font-black text-slate-900 tabular-nums">{{ item.quantity }}</span>
               </td>
               <td class="px-8 py-6 text-right font-black text-text-muted tabular-nums">
                 {{ formatCurrency(item.price || 0) }}
@@ -133,7 +133,7 @@
     </div>
 
     <div class="flex justify-center pt-10">
-      <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary !py-4 px-10 !rounded-2xl border-white/[0.12] text-text-muted hover:text-white hover:border-white/20 uppercase tracking-widest text-[10px]">
+      <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary !py-4 px-10 !rounded-2xl border-white/[0.12] text-text-muted hover:text-slate-900 hover:border-slate-300 uppercase tracking-widest text-[10px]">
         REGRESAR AL LISTADO DE COMPRAS
       </RouterLink>
     </div>

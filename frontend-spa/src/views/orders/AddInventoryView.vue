@@ -33,7 +33,7 @@
               </select>
             </template>
             <template v-else>
-              <div class="input-field bg-white/[0.02] border-white/[0.07] text-white/40 flex items-center gap-3">
+              <div class="input-field bg-white/[0.02] border-white/[0.07] text-slate-900/40 flex items-center gap-3">
                 <div class="w-1.5 h-1.5 rounded-full bg-amber/40 shadow-sm" />
                 <span class="font-black uppercase tracking-widest text-[11px]">
                   {{ selectedBuildingLabel || "Sin Sede Vinculada" }}
@@ -60,7 +60,7 @@
                 type="number"
                 min="1"
                 required
-                class="input-field !pl-12 font-black text-amber text-lg tracking-widest focus:text-white transition-all shadow-inner bg-white/[0.04]"
+                class="input-field !pl-12 font-black text-amber text-lg tracking-widest focus:text-slate-900 transition-all shadow-inner bg-white/[0.04]"
               >
               <div class="absolute left-4 top-1/2 -translate-y-1/2 text-amber/40 group-focus-within:text-amber transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +76,7 @@
       </div>
 
       <div class="flex flex-col sm:flex-row items-center justify-end gap-4 pt-4 border-t border-white/[0.07]">
-        <RouterLink :to="{ name: 'ordersMyInventory' }" class="btn btn-secondary w-full sm:w-auto px-10 !rounded-2xl border-white/[0.12] hover:border-white/20">
+        <RouterLink :to="{ name: 'ordersMyInventory' }" class="btn btn-secondary w-full sm:w-auto px-10 !rounded-2xl border-white/[0.12] hover:border-slate-300">
           DESCARTAR
         </RouterLink>
         <button type="submit" class="btn btn-primary w-full sm:w-auto px-12 !py-4 shadow-2xl shadow-amber/10 group" :disabled="inventoryStore.isSubmittingEntry">

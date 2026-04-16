@@ -8,9 +8,9 @@ export default {
     extend: {
       colors: {
         navy: {
-          DEFAULT: "#1e293b",
-          accent: "#263244",
-          deep: "#0f172a",
+          DEFAULT: "#ffffff",
+          accent: "#ffffff",
+          deep: "#f1f5f9",
         },
         amber: {
           DEFAULT: "#F2AD3D",
@@ -18,9 +18,9 @@ export default {
           soft: "#C8A66B",
         },
         text: {
-          primary: "#ffffff",
-          secondary: "rgba(248, 245, 239, 0.85)",
-          muted: "rgba(248, 245, 239, 0.6)",
+          primary: "#0f172a",
+          secondary: "#475569",
+          muted: "#94a3b8",
         },
       },
       fontFamily: {

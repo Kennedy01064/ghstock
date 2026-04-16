@@ -5,7 +5,7 @@
       :key="item.id"
       class="px-5 py-4 flex items-center gap-4 hover:bg-white/[0.03] transition-colors group"
     >
-      <div class="w-14 h-14 rounded-2xl bg-navy-accent border border-white/[0.07] flex items-center justify-center p-2 shrink-0 shadow-inner overflow-hidden">
+      <div class="w-14 h-14 rounded-2xl bg-white border border-white/[0.07] flex items-center justify-center p-2 shrink-0 shadow-inner overflow-hidden">
         <img
           :src="item.imageUrl"
           :alt="item.nombreProductoSnapshot"
@@ -18,7 +18,7 @@
       </div>
 
       <div class="flex-grow min-w-0">
-        <p class="text-[11px] font-black text-white uppercase tracking-wider truncate group-hover:text-amber transition-colors">
+        <p class="text-[11px] font-black text-slate-900 uppercase tracking-wider truncate group-hover:text-amber transition-colors">
           {{ item.nombreProductoSnapshot }}
         </p>
         <div class="flex items-center gap-2 mt-1">
@@ -32,7 +32,7 @@
       <button
         v-if="editable"
         type="button"
-        class="w-9 h-9 flex items-center justify-center text-white/20 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all shrink-0 border border-transparent hover:border-red-500/30 disabled:opacity-50"
+        class="w-9 h-9 flex items-center justify-center text-slate-900/20 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all shrink-0 border border-transparent hover:border-red-500/30 disabled:opacity-50"
         :disabled="loading"
         @click="$emit('remove', item.id)"
       >

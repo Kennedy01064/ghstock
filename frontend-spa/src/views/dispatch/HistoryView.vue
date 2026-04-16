@@ -7,7 +7,7 @@
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 px-2">
       <div class="space-y-2">
         <span class="eyebrow tracking-[0.4em] !text-amber">Archivo Logistico</span>
-        <h1 class="text-5xl font-black tracking-tighter italic text-white">Historial de Despachos</h1>
+        <h1 class="text-5xl font-black tracking-tighter italic text-slate-900">Historial de Despachos</h1>
         <p class="text-text-muted font-medium text-sm">Registro historico de lotes operativos consolidados y procesados con exito.</p>
       </div>
 
@@ -20,19 +20,19 @@
           </div>
           <div class="flex flex-col">
             <span class="text-[9px] font-black text-text-muted uppercase tracking-widest">Lotes</span>
-            <span class="text-lg font-black text-white leading-none">{{ history.batches.length }}</span>
+            <span class="text-lg font-black text-slate-900 leading-none">{{ history.batches.length }}</span>
           </div>
         </div>
         <div class="w-px h-8 bg-white/[0.06]"></div>
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-white/40">
+          <div class="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-slate-900/40">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
           <div class="flex flex-col">
             <span class="text-[9px] font-black text-text-muted uppercase tracking-widest">Pedidos</span>
-            <span class="text-lg font-black text-white leading-none">{{ history.orders.length }}</span>
+            <span class="text-lg font-black text-slate-900 leading-none">{{ history.orders.length }}</span>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@
     <div class="space-y-4">
       <div class="flex items-center gap-3 px-2">
         <div class="w-1.5 h-6 bg-amber rounded-full"></div>
-        <h3 class="text-sm font-black text-white uppercase tracking-tight">Lotes de Despacho</h3>
+        <h3 class="text-sm font-black text-slate-900 uppercase tracking-tight">Lotes de Despacho</h3>
       </div>
       <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
         <div class="overflow-x-auto">
@@ -60,12 +60,12 @@
                 <td class="px-8 py-6">
                   <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-amber/5 border border-amber/10 rounded-xl group-hover:border-amber/40 transition-all">
                     <span class="w-1.5 h-1.5 rounded-full bg-amber shadow-[0_0_8px_rgba(242,173,61,0.4)]"></span>
-                    <span class="text-xs font-black text-white tracking-widest">#{{ batch.id }}</span>
+                    <span class="text-xs font-black text-slate-900 tracking-widest">#{{ batch.id }}</span>
                   </div>
                 </td>
                 <td class="px-8 py-6">
                   <div class="flex flex-col gap-0.5">
-                    <p class="font-black text-white text-[13px] uppercase tracking-tight">{{ formatDate(batch.created_at) }}</p>
+                    <p class="font-black text-slate-900 text-[13px] uppercase tracking-tight">{{ formatDate(batch.created_at) }}</p>
                     <p class="text-[10px] font-black text-text-muted uppercase tracking-widest">{{ formatTime(batch.created_at) }} HRS</p>
                   </div>
                 </td>
@@ -75,7 +75,7 @@
                       {{ creatorInitial(batch.created_by) }}
                     </div>
                     <div class="flex flex-col">
-                      <span class="text-[11px] font-black text-white uppercase tracking-widest">{{ batch.created_by?.name || batch.created_by?.username }}</span>
+                      <span class="text-[11px] font-black text-slate-900 uppercase tracking-widest">{{ batch.created_by?.name || batch.created_by?.username }}</span>
                       <span class="text-[9px] font-black text-text-muted uppercase tracking-widest mt-0.5 opacity-60">{{ batch.created_by?.role }}</span>
                     </div>
                   </div>
@@ -83,7 +83,7 @@
                 <td class="px-8 py-6 text-center">
                   <div class="flex flex-col items-center gap-1">
                     <div class="flex items-center gap-2">
-                      <span class="text-sm font-black text-white tabular-nums">{{ batch.orders?.length ?? 0 }}</span>
+                      <span class="text-sm font-black text-slate-900 tabular-nums">{{ batch.orders?.length ?? 0 }}</span>
                       <span class="text-[9px] font-black text-text-muted uppercase tracking-widest">Sedes</span>
                     </div>
                   </div>
@@ -115,7 +115,7 @@
     <div class="space-y-4">
       <div class="flex items-center gap-3 px-2">
         <div class="w-1.5 h-6 bg-white/20 rounded-full"></div>
-        <h3 class="text-sm font-black text-white uppercase tracking-tight">Historial de Pedidos</h3>
+        <h3 class="text-sm font-black text-slate-900 uppercase tracking-tight">Historial de Pedidos</h3>
         <span class="text-[10px] font-black text-text-muted bg-white/[0.04] border border-white/[0.07] rounded-lg px-2 py-1 uppercase">{{ history.orders.length }} total</span>
       </div>
       <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden">
@@ -134,10 +134,10 @@
             <tbody class="divide-y divide-white/[0.03]">
               <tr v-for="order in history.orders" :key="order.id" class="hover:bg-white/[0.01] transition-all group">
                 <td class="px-6 py-4">
-                  <span class="text-[12px] font-black text-white/60 group-hover:text-amber transition-colors">#{{ order.id }}</span>
+                  <span class="text-[12px] font-black text-slate-900/60 group-hover:text-amber transition-colors">#{{ order.id }}</span>
                 </td>
                 <td class="px-6 py-4">
-                  <span class="text-[12px] font-black text-white uppercase tracking-tight">{{ order.building?.name }}</span>
+                  <span class="text-[12px] font-black text-slate-900 uppercase tracking-tight">{{ order.building?.name }}</span>
                 </td>
                 <td class="px-6 py-4">
                   <span class="text-[11px] font-bold text-text-muted">{{ order.created_by?.name || order.created_by?.username }}</span>
@@ -151,7 +151,7 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <RouterLink :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }" class="w-8 h-8 rounded-xl bg-white/[0.05] border border-white/[0.12] text-white hover:bg-amber hover:text-navy-deep hover:border-amber transition-all inline-flex items-center justify-center">
+                  <RouterLink :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }" class="w-8 h-8 rounded-xl bg-white/[0.05] border border-white/[0.12] text-slate-900 hover:bg-amber hover:text-navy-deep hover:border-amber transition-all inline-flex items-center justify-center">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />

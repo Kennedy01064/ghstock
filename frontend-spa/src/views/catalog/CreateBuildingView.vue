@@ -32,7 +32,7 @@
           <label class="label-premium">Denominacion de Sede <span class="text-amber">*</span></label>
           <div class="relative group">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-white/10 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-slate-900/10 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" />
               </svg>
             </div>
@@ -44,7 +44,7 @@
           <label class="label-premium">Direccion Fiscal / Referencia</label>
           <div class="relative group">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-white/10 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-slate-900/10 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
@@ -57,7 +57,7 @@
             <label class="label-premium">Unidades Habitacionales</label>
             <div class="relative group">
               <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <svg class="w-5 h-5 text-white/10 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-slate-900/10 group-focus-within:text-amber transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
               </div>
@@ -78,7 +78,7 @@
                 </svg>
               </button>
 
-              <ul v-if="adminMenuOpen" class="absolute z-50 w-full mt-3 bg-navy-accent border border-white/[0.12] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
+              <ul v-if="adminMenuOpen" class="absolute z-50 w-full mt-3 bg-white border border-white/[0.12] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
                 <li>
                   <button type="button" class="w-full text-left px-5 py-3 hover:bg-white/[0.04] transition-colors border-b border-white/[0.07] text-xs font-black uppercase tracking-widest text-text-muted" @click="selectAdmin('')">
                     Liberar Asignacion
@@ -88,7 +88,7 @@
                   <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/[0.04] transition-colors group" @click="selectAdmin(admin.id)">
                     <div class="flex items-center gap-3">
                       <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
-                      <span class="text-sm font-black text-white group-hover:text-amber transition-all">@{{ admin.username }}</span>
+                      <span class="text-sm font-black text-slate-900 group-hover:text-amber transition-all">@{{ admin.username }}</span>
                     </div>
                     <p class="text-[10px] font-medium text-text-muted mt-1 ml-4.5">{{ admin.name || "Gestor Corporativo" }}</p>
                   </button>
@@ -150,7 +150,7 @@
               <img :src="buildingPreview" alt="Preview" class="h-full w-full object-cover transition-transform group-hover/img:scale-110">
             </div>
             <div class="space-y-1">
-              <p class="text-xs font-black text-white uppercase tracking-widest">Vista previa</p>
+              <p class="text-xs font-black text-slate-900 uppercase tracking-widest">Vista previa</p>
               <p class="text-[10px] font-medium text-text-muted">Imagen vinculada al edificio.</p>
             </div>
           </div>

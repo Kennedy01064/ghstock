@@ -15,7 +15,7 @@
           <div class="space-y-3">
             <span class="eyebrow tracking-[0.4em] !text-amber">Unidad de Despacho</span>
             <div class="flex items-baseline gap-4">
-              <h1 class="text-6xl font-black tracking-tighter text-white italic">#{{ batch.id }}</h1>
+              <h1 class="text-6xl font-black tracking-tighter text-slate-900 italic">#{{ batch.id }}</h1>
               <span class="px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border" :class="batch.status === 'dispatched' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber/10 text-amber border-amber/20 shadow-[0_0_20px_rgba(242,173,61,0.1)]'">
                 {{ batch.status === 'dispatched' ? 'Despachado' : batch.status === 'cancelled' ? 'Cancelado' : 'Pendiente' }}
               </span>
@@ -29,13 +29,13 @@
           </div>
 
           <div class="grid grid-cols-2 gap-4 w-full md:w-auto">
-            <div class="bg-navy-deep/60 backdrop-blur-md rounded-2xl p-5 border border-white/[0.07] flex flex-col gap-1 min-w-[140px]">
+            <div class="bg-slate-100/60 backdrop-blur-md rounded-2xl p-5 border border-white/[0.07] flex flex-col gap-1 min-w-[140px]">
               <span class="text-[9px] font-black text-text-muted uppercase tracking-[0.3em]">Sedes</span>
-              <span class="text-3xl font-black text-white">{{ batch.orders?.length ?? 0 }}</span>
+              <span class="text-3xl font-black text-slate-900">{{ batch.orders?.length ?? 0 }}</span>
             </div>
-            <div class="bg-navy-deep/60 backdrop-blur-md rounded-2xl p-5 border border-white/[0.07] flex flex-col gap-1 min-w-[140px]">
+            <div class="bg-slate-100/60 backdrop-blur-md rounded-2xl p-5 border border-white/[0.07] flex flex-col gap-1 min-w-[140px]">
               <span class="text-[9px] font-black text-text-muted uppercase tracking-[0.3em]">SKUs</span>
-              <span class="text-3xl font-black text-white">{{ batch.items?.length ?? 0 }}</span>
+              <span class="text-3xl font-black text-slate-900">{{ batch.items?.length ?? 0 }}</span>
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@
       <div class="lg:col-span-2 space-y-6">
         <div class="flex items-center gap-3 px-2">
           <div class="w-1.5 h-6 bg-amber rounded-full"></div>
-          <h3 class="text-lg font-black text-white uppercase tracking-tight">Lista Maestra de Preparacion</h3>
+          <h3 class="text-lg font-black text-slate-900 uppercase tracking-tight">Lista Maestra de Preparacion</h3>
         </div>
 
         <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden">
@@ -60,13 +60,13 @@
                   </div>
                 </div>
                 <div class="min-w-0">
-                  <p class="text-base font-black text-white truncate uppercase tracking-tight">{{ item.product?.name }}</p>
+                  <p class="text-base font-black text-slate-900 truncate uppercase tracking-tight">{{ item.product?.name }}</p>
                   <p class="text-[10px] font-black text-text-muted uppercase tracking-widest mt-1">{{ item.product?.unit || "Unidades" }}</p>
                 </div>
               </div>
               <div class="shrink-0">
                 <div class="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.12] flex items-center justify-center group-hover:bg-amber group-hover:border-amber transition-all shadow-inner">
-                  <span class="text-2xl font-black text-white group-hover:text-navy-deep tabular-nums">{{ item.total_quantity }}</span>
+                  <span class="text-2xl font-black text-slate-900 group-hover:text-navy-deep tabular-nums">{{ item.total_quantity }}</span>
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" />
                     </svg>
                   </div>
-                  <span class="text-[11px] font-black text-white uppercase tracking-tight truncate">{{ order.building?.name }}</span>
+                  <span class="text-[11px] font-black text-slate-900 uppercase tracking-tight truncate">{{ order.building?.name }}</span>
                 </div>
                 <span class="text-[10px] font-black text-text-muted bg-white/[0.04] border border-white/[0.07] rounded-lg px-2 py-1 uppercase shrink-0">{{ order.items?.length ?? 0 }} items</span>
               </div>
@@ -154,7 +154,7 @@
             </button>
           </div>
 
-          <RouterLink :to="{ name: 'dispatchPending' }" class="flex items-center justify-center gap-2 py-4 text-[10px] font-black text-text-muted hover:text-white uppercase tracking-widest transition-colors">
+          <RouterLink :to="{ name: 'dispatchPending' }" class="flex items-center justify-center gap-2 py-4 text-[10px] font-black text-text-muted hover:text-slate-900 uppercase tracking-widest transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>

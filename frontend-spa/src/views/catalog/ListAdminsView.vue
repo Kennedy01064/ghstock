@@ -3,7 +3,7 @@
     <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6">
       <div class="space-y-3">
         <span class="eyebrow">{{ isSuperadmin ? "Gestión de accesos" : "Cobertura operativa" }}</span>
-        <h1 class="text-4xl font-black tracking-tight text-white">Usuarios del sistema</h1>
+        <h1 class="text-4xl font-black tracking-tight text-slate-900">Usuarios del sistema</h1>
         <p class="text-text-muted font-medium max-w-2xl">
           {{
             isSuperadmin
@@ -58,7 +58,7 @@
           :key="option.value"
           type="button"
           class="rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] transition-all"
-          :class="selectedRole === option.value ? 'border-amber/40 bg-amber/10 text-amber' : 'border-white/[0.12] bg-white/[0.03] text-text-muted hover:text-white'"
+          :class="selectedRole === option.value ? 'border-amber/40 bg-amber/10 text-amber' : 'border-white/[0.12] bg-white/[0.03] text-text-muted hover:text-slate-900'"
           @click="selectedRole = option.value"
         >
           {{ option.label }}
@@ -71,7 +71,7 @@
           :key="option.value"
           type="button"
           class="rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] transition-all"
-          :class="selectedStatus === option.value ? 'border-white/20 bg-white/[0.06] text-white' : 'border-white/[0.12] bg-white/[0.03] text-text-muted hover:text-white'"
+          :class="selectedStatus === option.value ? 'border-slate-300 bg-white/[0.06] text-slate-900' : 'border-white/[0.12] bg-white/[0.03] text-text-muted hover:text-slate-900'"
           @click="selectedStatus = option.value"
         >
           {{ option.label }}
@@ -110,7 +110,7 @@
                     {{ userInitial(user) }}
                   </div>
                   <div class="min-w-0">
-                    <p class="text-[15px] font-black text-white tracking-tight truncate">{{ user.name || "Sin nombre registrado" }}</p>
+                    <p class="text-[15px] font-black text-slate-900 tracking-tight truncate">{{ user.name || "Sin nombre registrado" }}</p>
                     <div class="mt-1 flex items-center gap-2 flex-wrap">
                       <p class="text-[11px] font-bold text-text-muted uppercase tracking-widest">@{{ user.username }}</p>
                       <span v-if="user.role === 'superadmin'" class="inline-flex items-center rounded-lg border border-rose-400/20 bg-rose-500/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-rose-200">
@@ -139,7 +139,7 @@
                   <span
                     v-for="building in user.assigned_buildings"
                     :key="`${user.id}-${building.id}`"
-                    class="inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-white/[0.04] border border-white/[0.12] text-white/80 transition-colors"
+                    class="inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-white/[0.04] border border-white/[0.12] text-slate-900/80 transition-colors"
                   >
                     {{ building.name }}
                   </span>
@@ -164,7 +164,7 @@
                   <button
                     type="button"
                     class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] transition-all"
-                    :class="user.role === 'superadmin' ? 'text-white/20 cursor-not-allowed' : user.is_active === false ? 'text-emerald-300 hover:border-emerald-400/30 hover:bg-emerald-400/10' : 'text-rose-300 hover:border-rose-500/30 hover:bg-rose-500/10'"
+                    :class="user.role === 'superadmin' ? 'text-slate-900/20 cursor-not-allowed' : user.is_active === false ? 'text-emerald-300 hover:border-emerald-400/30 hover:bg-emerald-400/10' : 'text-rose-300 hover:border-rose-500/30 hover:bg-rose-500/10'"
                     :disabled="user.role === 'superadmin'"
                     :title="user.is_active === false ? 'Reactivar cuenta' : 'Suspender cuenta'"
                     @click="openActionModal('toggle', user)"
@@ -180,7 +180,7 @@
                   <button
                     type="button"
                     class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] transition-all"
-                    :class="user.role === 'superadmin' ? 'text-white/20 cursor-not-allowed' : 'text-text-muted hover:text-rose-500 hover:border-rose-500/30 hover:bg-rose-500/10'"
+                    :class="user.role === 'superadmin' ? 'text-slate-900/20 cursor-not-allowed' : 'text-text-muted hover:text-rose-500 hover:border-rose-500/30 hover:bg-rose-500/10'"
                     :disabled="user.role === 'superadmin'"
                     title="Eliminar registro"
                     @click="openActionModal('delete', user)"
@@ -266,10 +266,10 @@ const normalizedUsers = computed(() => userStore.users.map(normalizeUser))
 const summaryCards = computed(() => {
   if (isSuperadmin.value) {
     return [
-      { label: "Total de cuentas", value: normalizedUsers.value.length, valueClass: "text-white", cardClass: "" },
+      { label: "Total de cuentas", value: normalizedUsers.value.length, valueClass: "text-slate-900", cardClass: "" },
       { label: "Activas", value: normalizedUsers.value.filter((user) => user.is_active !== false).length, valueClass: "text-emerald-300", cardClass: "border-emerald-500/10" },
       { label: "Suspendidas", value: normalizedUsers.value.filter((user) => user.is_active === false).length, valueClass: "text-rose-300", cardClass: "border-rose-500/10" },
-      { label: "Managers", value: normalizedUsers.value.filter((user) => user.role === "manager").length, valueClass: "text-white", cardClass: "" },
+      { label: "Managers", value: normalizedUsers.value.filter((user) => user.role === "manager").length, valueClass: "text-slate-900", cardClass: "" },
     ]
   }
 
@@ -277,10 +277,10 @@ const summaryCards = computed(() => {
   const totalAssignedBuildings = normalizedUsers.value.reduce((total, user) => total + (user.assigned_buildings?.length ?? 0), 0)
 
   return [
-    { label: "Admins activos", value: normalizedUsers.value.length, valueClass: "text-white", cardClass: "" },
+    { label: "Admins activos", value: normalizedUsers.value.length, valueClass: "text-slate-900", cardClass: "" },
     { label: "Con cobertura", value: adminsWithCoverage, valueClass: "text-emerald-300", cardClass: "border-emerald-500/10" },
     { label: "Sin cobertura", value: normalizedUsers.value.filter((user) => (user.assigned_buildings?.length ?? 0) === 0).length, valueClass: "text-amber", cardClass: "border-amber/10" },
-    { label: "Edificios asignados", value: totalAssignedBuildings, valueClass: "text-white", cardClass: "" },
+    { label: "Edificios asignados", value: totalAssignedBuildings, valueClass: "text-slate-900", cardClass: "" },
   ]
 })
 

@@ -16,7 +16,7 @@
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <div v-if="searchable" class="relative max-w-md w-full">
         <input v-model="query" type="search" placeholder="Buscar..." class="input-field !pl-12" />
-        <svg class="w-4 h-4 text-white/40 absolute left-5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 text-slate-900/40 absolute left-5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
@@ -47,7 +47,7 @@
                     <span v-if="column.type === 'status'" class="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-[0.18em]" :class="statusClass(row[column.key])">
                       {{ row[column.key] }}
                     </span>
-                    <span v-else class="text-sm font-bold text-white">{{ resolveValue(row, column) }}</span>
+                    <span v-else class="text-sm font-bold text-slate-900">{{ resolveValue(row, column) }}</span>
                   </slot>
                 </td>
               </tr>
@@ -72,7 +72,7 @@
                   <span v-if="column.type === 'status'" class="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-[0.18em]" :class="statusClass(row[column.key])">
                     {{ row[column.key] }}
                   </span>
-                  <span v-else class="text-sm font-bold text-white">{{ resolveValue(row, column) }}</span>
+                  <span v-else class="text-sm font-bold text-slate-900">{{ resolveValue(row, column) }}</span>
                 </slot>
               </div>
             </div>

@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div class="space-y-2">
         <span class="eyebrow tracking-[0.3em]">Gestion de Infraestructura</span>
-        <h1 class="text-4xl font-black tracking-tight text-white">Listado de Sedes</h1>
+        <h1 class="text-4xl font-black tracking-tight text-slate-900">Listado de Sedes</h1>
         <p class="text-text-muted font-medium">Control centralizado de edificios, capacidades y administradores locales.</p>
       </div>
 
@@ -52,7 +52,7 @@
                     </svg>
                   </div>
                   <div class="space-y-1 min-w-0">
-                    <p class="font-black text-white text-sm uppercase tracking-wider group-hover:text-amber transition-colors">{{ building.name }}</p>
+                    <p class="font-black text-slate-900 text-sm uppercase tracking-wider group-hover:text-amber transition-colors">{{ building.name }}</p>
                     <div class="flex items-center gap-2 text-text-muted">
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -66,7 +66,7 @@
                 </div>
               </td>
               <td class="px-6 py-6 text-center">
-                <span class="inline-flex items-center justify-center min-w-[32px] h-8 rounded-lg bg-navy-deep border border-white/[0.12] text-[13px] font-black text-amber">
+                <span class="inline-flex items-center justify-center min-w-[32px] h-8 rounded-lg bg-slate-100 border border-white/[0.12] text-[13px] font-black text-amber">
                   {{ building.departments_count ?? 0 }}
                 </span>
               </td>
@@ -106,13 +106,13 @@
             <tr v-if="!buildingStore.isLoading && !filteredBuildings.length">
               <td colspan="4" class="px-8 py-20 text-center">
                 <div class="flex flex-col items-center gap-4">
-                  <div class="w-16 h-16 rounded-full bg-white/[0.04] flex items-center justify-center text-white/10">
+                  <div class="w-16 h-16 rounded-full bg-white/[0.04] flex items-center justify-center text-slate-900/10">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                   </div>
                   <div class="space-y-1">
-                    <p class="text-white font-black uppercase tracking-widest text-sm">
+                    <p class="text-slate-900 font-black uppercase tracking-widest text-sm">
                       {{ query.trim() ? "Sin coincidencias" : "Sin Sedes Registradas" }}
                     </p>
                     <p class="text-text-muted text-xs font-medium">

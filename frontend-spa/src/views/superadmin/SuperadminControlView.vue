@@ -6,7 +6,7 @@
           <div class="w-1.5 h-6 rounded-full bg-rose-400 shadow-[0_0_14px_rgba(251,113,133,0.4)]" />
           <span class="eyebrow tracking-[0.35em] !text-rose-300 text-[10px]">Control de Superadmin</span>
         </div>
-        <h1 class="text-5xl font-black tracking-tighter leading-none text-white">
+        <h1 class="text-5xl font-black tracking-tighter leading-none text-slate-900">
           Centro de <span class="text-amber">Control</span>
         </h1>
         <p class="max-w-2xl text-sm md:text-base font-medium text-text-muted">
@@ -17,7 +17,7 @@
       <div class="flex flex-wrap gap-4">
         <article class="card min-w-[180px] !py-5">
           <p class="eyebrow !text-text-muted/60">Usuarios activos</p>
-          <p class="mt-2 text-4xl font-black text-white">{{ activeUsers }}</p>
+          <p class="mt-2 text-4xl font-black text-slate-900">{{ activeUsers }}</p>
         </article>
         <article class="card min-w-[180px] !py-5 border-rose-500/10">
           <p class="eyebrow !text-text-muted/60">Usuarios suspendidos</p>
@@ -41,7 +41,7 @@
         <div class="flex items-start justify-between gap-6">
           <div>
             <p class="eyebrow !text-amber">Identidad institucional</p>
-            <h2 class="mt-3 text-2xl font-black tracking-tight text-white">Configuración visible del sistema</h2>
+            <h2 class="mt-3 text-2xl font-black tracking-tight text-slate-900">Configuración visible del sistema</h2>
             <p class="mt-3 max-w-xl text-sm leading-7 text-text-secondary">
               Ajusta el nombre institucional y el recurso visual principal conservando la línea gráfica actual.
             </p>
@@ -67,7 +67,7 @@
               <img :src="brandingPreview" alt="Logo" class="h-11 w-11 object-contain" />
             </div>
             <div>
-              <p class="text-sm font-black text-white">{{ brandingForm.institutional_name || "Stock Management System" }}</p>
+              <p class="text-sm font-black text-slate-900">{{ brandingForm.institutional_name || "Stock Management System" }}</p>
               <p class="mt-1 text-[11px] font-medium uppercase tracking-[0.2em] text-text-muted">Vista previa aplicada a login y control central</p>
             </div>
           </div>
@@ -87,7 +87,7 @@
         <div class="flex items-start justify-between gap-4">
           <div>
             <p class="eyebrow !text-rose-300">Seguridad operativa</p>
-            <h2 class="mt-3 text-2xl font-black tracking-tight text-white">Bloqueo global</h2>
+            <h2 class="mt-3 text-2xl font-black tracking-tight text-slate-900">Bloqueo global</h2>
           </div>
           <span class="inline-flex items-center rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em]" :class="systemStore.isLocked ? 'border-rose-400/30 bg-rose-500/10 text-rose-200' : 'border-emerald-400/30 bg-emerald-500/10 text-emerald-200'">
             {{ systemStore.isLocked ? "Activo" : "Inactivo" }}
@@ -106,15 +106,15 @@
         <button
           type="button"
           class="btn w-full"
-          :class="systemStore.isLocked ? 'bg-emerald-500 text-navy-deep hover:bg-emerald-400' : 'bg-rose-500 text-white hover:bg-rose-400'"
+          :class="systemStore.isLocked ? 'bg-emerald-500 text-navy-deep hover:bg-emerald-400' : 'bg-rose-500 text-slate-900 hover:bg-rose-400'"
           @click="lockdownModalOpen = true"
         >
           {{ systemStore.isLocked ? "Reactivar sistema" : "Suspender sistema" }}
         </button>
 
-        <div class="rounded-[28px] border border-white/[0.12] bg-navy-deep/40 p-5 space-y-3">
-          <p class="text-[11px] font-black uppercase tracking-[0.2em] text-white/50">Ultima sincronización</p>
-          <p class="text-lg font-black text-white">{{ formatDate(systemStore.settings?.last_updated) }}</p>
+        <div class="rounded-[28px] border border-white/[0.12] bg-slate-100/40 p-5 space-y-3">
+          <p class="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900/50">Ultima sincronización</p>
+          <p class="text-lg font-black text-slate-900">{{ formatDate(systemStore.settings?.last_updated) }}</p>
           <p class="text-xs leading-6 text-text-muted">
             Cualquier cambio aplicado aquí se refleja en el login institucional y en el control de acceso del backend.
           </p>
@@ -126,7 +126,7 @@
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-white/[0.07] px-8 py-6 bg-white/[0.04]">
         <div>
           <p class="eyebrow !text-amber">Auditoría</p>
-          <h2 class="mt-2 text-2xl font-black tracking-tight text-white">Eventos críticos recientes</h2>
+          <h2 class="mt-2 text-2xl font-black tracking-tight text-slate-900">Eventos críticos recientes</h2>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-3">
@@ -164,14 +164,14 @@
             <tr v-for="log in filteredLogs" :key="log.id" class="hover:bg-white/[0.03] transition-colors">
               <td class="px-8 py-5">
                 <div class="space-y-1">
-                  <p class="text-sm font-black text-white">{{ humanizeAction(log.action) }}</p>
+                  <p class="text-sm font-black text-slate-900">{{ humanizeAction(log.action) }}</p>
                   <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">
                     {{ log.resource_type || "Sistema" }} <span v-if="log.resource_id">#{{ log.resource_id }}</span>
                   </p>
                 </div>
               </td>
               <td class="px-6 py-5">
-                <span class="inline-flex items-center rounded-xl border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-[11px] font-black uppercase tracking-[0.15em] text-white/80">
+                <span class="inline-flex items-center rounded-xl border border-white/[0.12] bg-white/[0.04] px-3 py-2 text-[11px] font-black uppercase tracking-[0.15em] text-slate-900/80">
                   {{ log.username || "Sistema" }}
                 </span>
               </td>

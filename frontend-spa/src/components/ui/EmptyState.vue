@@ -17,7 +17,7 @@
 
     <!-- Content -->
     <div class="max-w-sm space-y-3">
-      <h3 class="text-xl font-black text-white uppercase tracking-tight">{{ title }}</h3>
+      <h3 class="text-xl font-black text-slate-900 uppercase tracking-tight">{{ title }}</h3>
       <p class="text-sm font-medium text-text-muted leading-relaxed opacity-60">
         {{ description }}
       </p>

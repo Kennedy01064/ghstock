@@ -2,16 +2,16 @@
   <Teleport to="body">
     <Transition name="modal-fade">
       <div v-if="open" class="fixed inset-0 z-[70] flex items-center justify-center px-4 py-8">
-        <div class="absolute inset-0 bg-navy-deep/70 backdrop-blur-sm" @click="$emit('close')"></div>
+        <div class="absolute inset-0 bg-slate-100/70 backdrop-blur-sm" @click="$emit('close')"></div>
 
         <Transition name="modal-scale">
           <div
             v-if="open"
-            class="relative z-10 w-full max-w-lg overflow-hidden rounded-[32px] border border-white/[0.12] bg-navy-accent/95 shadow-2xl"
+            class="relative z-10 w-full max-w-lg overflow-hidden rounded-[32px] border border-white/[0.12] bg-white/95 shadow-2xl"
           >
             <div class="border-b border-white/[0.12] px-7 py-6">
               <p class="text-[11px] font-black uppercase tracking-[0.2em] text-amber">{{ eyebrow }}</p>
-              <h3 class="mt-3 text-2xl font-black tracking-tight text-white">{{ title }}</h3>
+              <h3 class="mt-3 text-2xl font-black tracking-tight text-slate-900">{{ title }}</h3>
               <p v-if="description" class="mt-3 text-sm leading-7 text-text-secondary">{{ description }}</p>
             </div>
 
@@ -22,7 +22,7 @@
               <button
                 type="button"
                 class="btn flex-1"
-                :class="confirmVariant === 'danger' ? 'bg-rose-500 text-white hover:bg-rose-400' : 'btn-primary'"
+                :class="confirmVariant === 'danger' ? 'bg-rose-500 text-slate-900 hover:bg-rose-400' : 'btn-primary'"
                 :disabled="loading"
                 @click="$emit('confirm')"
               >
