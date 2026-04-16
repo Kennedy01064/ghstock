@@ -1,12 +1,12 @@
 import json
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from redis import Redis
 from redis.exceptions import RedisError
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 from backend import models, schemas
 from backend.api import deps
