@@ -16,7 +16,7 @@ interface AuthApiService {
      * El backend usa OAuth2 Password Flow (form-urlencoded) por defecto para el login
      */
     @FormUrlEncoded
-    @POST("auth/access-token")
+    @POST("auth/login")
     suspend fun login(
         @Field("username") username: String,
         @Field("password") password: String

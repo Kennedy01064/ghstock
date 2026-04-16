@@ -24,7 +24,7 @@
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
           <div>
             <div class="flex items-center gap-3">
-              <input v-model="selectedOrderIds" type="checkbox" :value="order.id" class="h-4 w-4 accent-[#F2AD3D]" />
+              <input v-model="selectedOrderIds" type="checkbox" :value="order.id" class="h-4 w-4 accent-amber" />
               <h3 class="text-lg font-black text-white">Orden #{{ order.id }} - {{ order.buildingName }}</h3>
             </div>
             <p class="text-[11px] uppercase tracking-[0.18em] text-text-muted mt-3">{{ order.items.length }} items - {{ order.createdBy?.name || 'Sin usuario' }}</p>

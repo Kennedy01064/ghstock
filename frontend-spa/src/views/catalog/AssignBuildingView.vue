@@ -34,14 +34,14 @@
 
       <div v-else class="grid gap-5 md:grid-cols-2">
         <article v-for="building in filteredBuildings" :key="building.id" class="card !p-0 overflow-hidden">
-          <img :src="building.imageUrl" :alt="building.name" class="h-44 w-full object-cover border-b border-white/5" />
+          <img :src="building.imageUrl" :alt="building.name" class="h-44 w-full object-cover border-b border-white/[0.07]" />
           <div class="p-6 space-y-4">
             <div class="flex items-start justify-between gap-4">
               <div>
                 <h3 class="text-lg font-black text-white">{{ building.name }}</h3>
                 <p class="text-[11px] uppercase tracking-[0.18em] text-text-muted mt-2">{{ building.address }}</p>
               </div>
-              <input v-model="selectedBuildingIds" type="checkbox" :value="building.id" class="h-4 w-4 accent-[#F2AD3D]" />
+              <input v-model="selectedBuildingIds" type="checkbox" :value="building.id" class="h-4 w-4 accent-amber" />
             </div>
             <div class="text-sm text-text-secondary space-y-2">
               <p>Administrador actual: <span class="text-white font-bold">{{ building.adminName }}</span></p>

@@ -5,16 +5,18 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 
 private val DarkColorScheme = darkColorScheme(
-    primary = NavyPrimary,
+    primary = AmberAccent,
     secondary = NavySecondary,
-    tertiary = AmberAccent,
+    tertiary = InfoBlue,
     background = NavyBackground,
-    surface = NavySecondary,
-    onPrimary = TextPrimary,
+    surface = NavySurface,
+    onPrimary = NavyBackground,
     onSecondary = TextPrimary,
-    onTertiary = NavyBackground,
+    onTertiary = TextPrimary,
     onBackground = TextPrimary,
     onSurface = TextPrimary,
+    error = ErrorRed,
+    onError = TextPrimary
 )
 
 @Composable
@@ -23,7 +25,7 @@ fun StockTheme(
 ) {
     MaterialTheme(
         colorScheme = DarkColorScheme,
-        // typography = Typography, // Se puede expandir luego
+        // TODO: Implement custom Typography here (Fase 5)
         content = content
     )
 }

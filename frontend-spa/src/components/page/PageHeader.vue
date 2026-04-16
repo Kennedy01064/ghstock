@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-white/5 pb-10">
+  <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-white/[0.07] pb-10">
     <div class="space-y-4">
       <RouterLink
         v-if="backTo"
@@ -21,7 +21,7 @@
       <p class="text-text-muted font-medium text-sm md:text-base max-w-2xl">{{ description }}</p>
     </div>
 
-    <div v-if="$slots.meta || meta" class="flex items-center gap-5 bg-white/[0.03] border border-white/5 backdrop-blur-3xl rounded-[2rem] px-8 py-5 shadow-2xl self-start xl:self-auto">
+    <div v-if="$slots.meta || meta" class="flex items-center gap-5 bg-white/[0.03] border border-white/[0.07] backdrop-blur-3xl rounded-[2rem] px-8 py-5 shadow-2xl self-start xl:self-auto">
       <slot name="meta">
         <div class="text-right">
           <p class="label-premium !mb-0">{{ meta.label }}</p>

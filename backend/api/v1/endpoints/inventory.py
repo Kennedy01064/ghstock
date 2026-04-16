@@ -131,6 +131,8 @@ def get_movement_history(
     movement_type: Optional[str] = None,
     skip: int = Query(0, ge=0),
     limit: int = Query(100, le=500),
+    month: Optional[int] = Query(None, ge=1, le=12),
+    year: Optional[int] = Query(None, ge=2020),
     current_user: models.User = Depends(deps.get_current_active_user),
     response: Response,
 ) -> Any:
@@ -160,6 +162,11 @@ def get_movement_history(
         query = query.filter(models.InventoryMovement.product_id == product_id)
     if movement_type:
         query = query.filter(models.InventoryMovement.movement_type == movement_type)
+    
+    if year:
+        query = query.filter(func.extract('year', models.InventoryMovement.created_at) == year)
+    if month:
+        query = query.filter(func.extract('month', models.InventoryMovement.created_at) == month)
 
     total = query.count()
     response.headers["X-Total-Count"] = str(total)

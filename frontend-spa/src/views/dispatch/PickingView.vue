@@ -28,7 +28,7 @@
             <td class="px-8 py-5 text-sm font-black text-white">{{ item.name }}</td>
             <td class="px-8 py-5 text-sm font-bold text-white">{{ item.requested }} {{ item.unit }}</td>
             <td class="px-8 py-5"><input v-model.number="item.picked" type="number" min="0" :max="item.requested" class="input-field !py-3 max-w-[120px]" /></td>
-            <td class="px-8 py-5 text-right"><input :checked="item.picked >= item.requested" type="checkbox" class="h-4 w-4 accent-[#F2AD3D]" /></td>
+            <td class="px-8 py-5 text-right"><input :checked="item.picked >= item.requested" type="checkbox" class="h-4 w-4 accent-amber" /></td>
           </tr>
         </tbody>
       </table>

@@ -10,7 +10,7 @@
         <col class="w-[16%]" />
       </colgroup>
       <thead>
-        <tr class="bg-white/[0.03] border-b border-white/5">
+        <tr class="bg-white/[0.03] border-b border-white/[0.07]">
           <th class="px-4 py-4 text-[10px] font-black uppercase tracking-[0.3em] text-text-muted">Producto / SKU</th>
           <th class="px-3 py-4 text-[10px] font-black uppercase tracking-[0.3em] text-text-muted text-center">Unidad</th>
           <th class="px-3 py-4 text-[10px] font-black uppercase tracking-[0.3em] text-text-muted text-center">Stock</th>
@@ -28,7 +28,7 @@
         >
           <td class="px-4 py-4">
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl border border-white/10 bg-navy-accent overflow-hidden shrink-0 shadow-lg group-hover:border-amber/40 group-hover:shadow-amber/10 transition-all duration-500">
+              <div class="w-10 h-10 rounded-xl border border-white/[0.12] bg-navy-accent overflow-hidden shrink-0 shadow-lg group-hover:border-amber/40 group-hover:shadow-amber/10 transition-all duration-500">
                 <img :src="product.imageUrl" :alt="product.name" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
               </div>
               <div class="min-w-0 space-y-0.5">
@@ -62,7 +62,7 @@
               <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></div>
               <span class="text-[9px] font-black text-emerald-400 uppercase tracking-widest">Activo</span>
             </div>
-            <div v-else class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/5 border border-white/10">
+            <div v-else class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/[0.04] border border-white/[0.12]">
               <div class="w-1.5 h-1.5 rounded-full bg-white/20"></div>
               <span class="text-[9px] font-black text-text-muted uppercase tracking-widest">Inactivo</span>
             </div>
@@ -82,7 +82,7 @@
               </button>
               <RouterLink
                 :to="{ name: 'catalogProductEdit', params: { productId: product.id } }"
-                class="w-8 h-8 flex items-center justify-center rounded-xl border border-white/5 bg-white/5 text-text-muted hover:text-white hover:border-white/20 hover:bg-white/10 transition-all duration-300"
+                class="w-8 h-8 flex items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] text-text-muted hover:text-white hover:border-white/20 hover:bg-white/[0.06] transition-all duration-300"
                 title="Editar Activo"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +91,7 @@
               </RouterLink>
               <button
                 type="button"
-                class="w-8 h-8 flex items-center justify-center rounded-xl border border-white/5 bg-white/5 text-text-muted transition-all duration-300"
+                class="w-8 h-8 flex items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] text-text-muted transition-all duration-300"
                 :class="product.active ? 'hover:text-rose-500 hover:border-rose-500/30 hover:bg-rose-500/10' : 'hover:text-emerald-400 hover:border-emerald-400/30 hover:bg-emerald-400/10'"
                 :title="product.active ? 'Desactivar Item' : 'Reactivar Item'"
                 @click="$emit('toggle', product.id)"

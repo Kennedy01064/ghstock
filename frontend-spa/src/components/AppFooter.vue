@@ -1,9 +1,9 @@
 <template>
-  <footer class="border-t border-white/5 bg-navy-deep py-12">
+  <footer class="border-t border-white/[0.07] bg-navy-deep py-12">
     <div class="max-w-[1320px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-8">
       <div class="flex flex-col items-center sm:items-start gap-4">
         <div class="flex items-center gap-3">
-          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5">
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/[0.12] bg-white/[0.04]">
             <img :src="logoUrl" alt="Logo" class="h-8 w-auto" />
           </span>
           <span class="font-display font-extrabold text-white tracking-tight">Grupo Hernandez</span>

@@ -6,7 +6,7 @@
   <DashboardSkeleton v-else-if="dashboardStore.isLoading && !dashboard" />
 
   <div v-else-if="dashboard" class="space-y-12 pb-24">
-    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-10 border-b border-white/5 pb-10">
+    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-10 border-b border-white/[0.07] pb-10">
       <div class="space-y-4">
         <div class="flex items-center gap-3">
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
@@ -20,12 +20,12 @@
         </p>
       </div>
 
-      <div class="flex items-center gap-5 bg-white/[0.03] border border-white/5 backdrop-blur-3xl rounded-[2rem] px-8 py-5 shadow-2xl self-start xl:self-auto">
+      <div class="flex items-center gap-5 bg-white/[0.03] border border-white/[0.07] backdrop-blur-3xl rounded-[2rem] px-8 py-5 shadow-2xl self-start xl:self-auto">
         <div class="text-right">
           <p class="label-premium !mb-0">Fecha Operativa</p>
           <p class="text-white font-black text-sm tracking-widest tabular-nums uppercase">{{ formatDate(new Date()) }}</p>
         </div>
-        <div class="w-[1px] h-10 bg-white/10"></div>
+        <div class="w-[1px] h-10 bg-white/[0.06]"></div>
         <div class="w-10 h-10 bg-amber/10 rounded-xl flex items-center justify-center border border-amber/20 shadow-lg shadow-amber/10">
           <svg class="w-5 h-5 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -69,7 +69,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <article class="card !p-0 overflow-hidden group">
-        <div class="px-8 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+        <div class="px-8 py-6 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.02]">
           <div class="flex items-center gap-4">
             <div class="w-10 h-10 bg-amber/10 rounded-xl flex items-center justify-center border border-amber/20 shadow-lg shadow-amber/5">
               <svg class="w-5 h-5 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,7 +90,7 @@
       </article>
 
       <article class="card !p-0 overflow-hidden group">
-        <div class="px-8 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+        <div class="px-8 py-6 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.02]">
           <div class="flex items-center gap-4">
             <div class="w-10 h-10 bg-indigo-500/10 rounded-xl flex items-center justify-center border border-indigo-500/20 shadow-lg shadow-indigo-500/5">
               <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
       <article class="lg:col-span-3 card !p-0 overflow-hidden flex flex-col">
-        <div class="px-8 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+        <div class="px-8 py-6 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.02]">
           <div class="flex items-center gap-4">
             <div class="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center border border-emerald-500/20 shadow-lg shadow-emerald-500/5">
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,7 +158,7 @@
 
       <article class="lg:col-span-2 flex flex-col gap-6">
         <div class="card !p-0 overflow-hidden border-rose-500/10 h-full flex flex-col">
-          <div class="px-8 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+          <div class="px-8 py-6 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.02]">
             <div class="flex items-center gap-4">
               <div class="w-10 h-10 bg-rose-500/10 rounded-xl flex items-center justify-center border border-rose-500/20 shadow-lg shadow-rose-500/5">
                 <svg class="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,12 +174,12 @@
 
           <div class="flex-grow overflow-y-auto max-h-[500px] custom-scrollbar">
             <template v-if="dashboard.alertas_stock?.length">
-              <div class="px-6 py-3 bg-white/[0.02] border-b border-white/5">
+              <div class="px-6 py-3 bg-white/[0.02] border-b border-white/[0.07]">
                 <span class="text-[9px] font-black text-white/40 uppercase tracking-[0.25em]">Almacen Central</span>
               </div>
               <div class="divide-y divide-white/5">
                 <div v-for="product in dashboard.alertas_stock" :key="product.id" class="px-6 py-4 flex items-center gap-4 hover:bg-white/[0.03] transition-all group">
-                  <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 overflow-hidden flex-shrink-0">
+                  <div class="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/[0.12] overflow-hidden flex-shrink-0">
                     <img :src="product.imagen_url || defaultProductUrl" alt="" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <div class="flex-grow min-w-0">
@@ -209,7 +209,7 @@
     <div class="mt-12 space-y-6">
       <div class="flex items-center gap-4">
         <h3 class="label-premium !mb-0 whitespace-nowrap">Acceso Rapido al Sistema</h3>
-        <div class="h-px bg-white/5 flex-grow"></div>
+        <div class="h-px bg-white/[0.04] flex-grow"></div>
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -220,7 +220,7 @@
           class="card !p-6 flex flex-col items-center justify-center gap-3 group hover:border-amber/40 hover:bg-amber/5 transition-all duration-300"
         >
           <div class="relative">
-            <div class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber group-hover:text-navy transition-all duration-500 shadow-lg">
+            <div class="w-12 h-12 bg-white/[0.04] rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber group-hover:text-navy transition-all duration-500 shadow-lg">
               <svg class="w-6 h-6 text-white group-hover:text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" :d="item.iconPath" />
               </svg>
@@ -267,7 +267,7 @@ const metrics = computed(() => [
   {
     label: "Edificios Operativos",
     value: dashboard.value?.total_edificios_activos ?? 0,
-    iconWrapClass: "bg-white/5 group-hover:bg-white/10 border-white/5 group-hover:border-white/20",
+    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-white/20",
     iconClass: "text-white/50 group-hover:text-white/80 transition-colors",
     iconPath: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
@@ -284,7 +284,7 @@ const metrics = computed(() => [
   {
     label: "Catalogo de Items",
     value: dashboard.value?.total_productos ?? 0,
-    iconWrapClass: "bg-white/5 group-hover:bg-white/10 border-white/5 group-hover:border-white/20",
+    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-white/20",
     iconClass: "text-white/50 group-hover:text-white/80 transition-colors",
     iconPath: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
@@ -371,7 +371,7 @@ function renderCharts() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: "#0B1F33",
+          backgroundColor: "#1e293b",
           titleColor: "#F2AD3D",
           bodyColor: "#ffffff",
           borderColor: "rgba(255,255,255,0.1)",
@@ -402,8 +402,8 @@ function renderCharts() {
       datasets: [
         {
           data: dashboard.value.chart_productos_data ?? [],
-          backgroundColor: ["#F2AD3D", "#06286F", "#4F46E5", "#10B981", "#6B7280"],
-          borderColor: "#041120",
+          backgroundColor: ["#F2AD3D", "#263244", "#4F46E5", "#10B981", "#6B7280"],
+          borderColor: "#0f172a",
           borderWidth: 8,
           hoverOffset: 20,
         },
@@ -424,7 +424,7 @@ function renderCharts() {
           },
         },
         tooltip: {
-          backgroundColor: "#0B1F33",
+          backgroundColor: "#1e293b",
           titleColor: "#F2AD3D",
           bodyColor: "#ffffff",
           borderColor: "rgba(255,255,255,0.1)",
@@ -439,20 +439,4 @@ function renderCharts() {
 </script>
 
 <style scoped>
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(242, 173, 61, 0.3);
-}
 </style>

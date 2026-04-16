@@ -1,9 +1,9 @@
 <template>
   <article
-    class="card !p-0 overflow-hidden border-white/5 hover:border-amber/30 transition-all group/card shadow-2xl shadow-black/40"
+    class="card !p-0 overflow-hidden border-white/[0.07] hover:border-amber/30 transition-all group/card shadow-2xl shadow-black/40"
     :class="inventory.quantity === 0 ? 'opacity-40 grayscale pointer-events-none' : ''"
   >
-    <div class="relative h-44 bg-navy-accent/50 p-6 flex items-center justify-center border-b border-white/5 overflow-hidden">
+    <div class="relative h-44 bg-white/[0.06] p-6 flex items-center justify-center border-b border-white/[0.07] overflow-hidden">
       <img
         :src="inventory.product.imageUrl"
         :alt="inventory.product.name"
@@ -11,7 +11,7 @@
       >
 
       <div class="absolute top-4 left-4">
-        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-navy-deep/80 backdrop-blur-md border border-white/10 shadow-lg">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-navy-deep/80 backdrop-blur-md border border-white/[0.12] shadow-lg">
           <svg class="w-3.5 h-3.5 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
@@ -41,7 +41,7 @@
         </p>
       </div>
 
-      <div class="mt-6 pt-5 border-t border-white/5 space-y-4">
+      <div class="mt-6 pt-5 border-t border-white/[0.07] space-y-4">
         <div class="flex items-center gap-2">
           <input
             v-model.number="consumeQuantity"
@@ -49,7 +49,7 @@
             min="1"
             :max="inventory.quantity"
             :disabled="isConsuming || isAdjusting"
-            class="w-16 h-10 px-2 bg-white/5 border border-white/10 rounded-xl text-center font-black text-amber outline-none focus:border-amber/40 focus:bg-white/10 transition-all shadow-inner disabled:opacity-50"
+            class="w-16 h-10 px-2 bg-white/[0.04] border border-white/[0.12] rounded-xl text-center font-black text-amber outline-none focus:border-amber/40 focus:bg-white/[0.06] transition-all shadow-inner disabled:opacity-50"
           >
           <button
             type="button"
@@ -74,7 +74,7 @@
               type="number"
               min="1"
               :disabled="isConsuming || isAdjusting"
-              class="w-16 h-8 px-2 bg-white/5 border border-white/5 rounded-lg text-center font-black text-emerald-400/60 outline-none focus:border-emerald-500/40 focus:bg-white/10 transition-all shadow-inner text-[11px] disabled:opacity-50"
+              class="w-16 h-8 px-2 bg-white/[0.04] border border-white/[0.07] rounded-lg text-center font-black text-emerald-400/60 outline-none focus:border-emerald-500/40 focus:bg-white/[0.06] transition-all shadow-inner text-[11px] disabled:opacity-50"
             >
             <button
               type="button"

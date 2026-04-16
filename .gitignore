@@ -10,6 +10,18 @@ env/
 .env
 *.log
 *.db
+venv/
+__pycache__/
+instance/
+.claude/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+.env
+*.log
+*.db
 *.sqlite3
 .pytest_cache/
 htmlcov/
@@ -17,3 +29,5 @@ dist/
 build/
 *.egg-info/
 .DS_Store
+mobile-android/sdk/
+replace-tokens.js

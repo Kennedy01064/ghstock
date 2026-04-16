@@ -15,8 +15,12 @@ class AuthRepository(private val tokenDataStore: TokenDataStore) {
             return NetworkResult.Error(tokenResult.message ?: "Error de autenticacion")
         }
 
-        val token = (tokenResult as NetworkResult.Success).data
-        tokenDataStore.saveTokens(token.accessToken, token.refreshToken)
+        val tokenResponse = (tokenResult as NetworkResult.Success).data
+        if (tokenResponse == null) {
+            return NetworkResult.Error("Respuesta de token vacía")
+        }
+        
+        tokenDataStore.saveTokens(tokenResponse.accessToken, tokenResponse.refreshToken)
 
         // Inicializar el cliente autenticado con el token recien guardado
         ApiClient.initAuthClient(tokenDataStore)

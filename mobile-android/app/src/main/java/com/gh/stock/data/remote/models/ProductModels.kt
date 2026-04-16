@@ -15,5 +15,6 @@ data class ProductDto(
     @SerialName("imagen_url") val imageUrl: String?,
     @SerialName("stock_actual") val currentStock: Int,
     @SerialName("stock_minimo") val minStock: Int,
+    @SerialName("unit_name") val unitName: String? = "unid.",
     @SerialName("is_active") val isActive: Boolean
 )

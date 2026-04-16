@@ -22,7 +22,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <article v-for="panel in primaryPanels" :key="panel.title" class="card !p-0 overflow-hidden">
-        <div class="px-8 py-6 border-b border-white/5 bg-white/[0.02]">
+        <div class="px-8 py-6 border-b border-white/[0.07] bg-white/[0.02]">
           <h3 class="text-base font-bold text-white">{{ panel.title }}</h3>
           <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-2">{{ panel.caption }}</p>
         </div>
@@ -32,7 +32,7 @@
               <span class="font-bold text-white">{{ item.label }}</span>
               <span class="text-text-muted">{{ item.value }}</span>
             </div>
-            <div class="h-2 rounded-full bg-white/5 overflow-hidden">
+            <div class="h-2 rounded-full bg-white/[0.04] overflow-hidden">
               <div class="h-full rounded-full bg-gradient-to-r from-amber to-amber-hover" :style="{ width: `${item.percent}%` }"></div>
             </div>
           </div>
@@ -42,7 +42,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] gap-8">
       <article class="card !p-0 overflow-hidden">
-        <div class="px-8 py-6 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
+        <div class="px-8 py-6 border-b border-white/[0.07] bg-white/[0.02] flex items-center justify-between">
           <div>
             <h3 class="text-base font-bold text-white">{{ table.title }}</h3>
             <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-2">{{ table.caption }}</p>
@@ -70,13 +70,13 @@
       </article>
 
       <article class="card !p-0 overflow-hidden">
-        <div class="px-8 py-6 border-b border-white/5 bg-white/[0.02]">
+        <div class="px-8 py-6 border-b border-white/[0.07] bg-white/[0.02]">
           <h3 class="text-base font-bold text-white">{{ feed.title }}</h3>
           <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mt-2">{{ feed.caption }}</p>
         </div>
         <div class="divide-y divide-white/5">
           <div v-for="item in feed.items" :key="item.title" class="px-8 py-5 flex items-start gap-4">
-            <div class="w-10 h-10 rounded-xl border border-white/10 bg-white/[0.04] flex items-center justify-center text-amber">
+            <div class="w-10 h-10 rounded-xl border border-white/[0.12] bg-white/[0.04] flex items-center justify-center text-amber">
               <span class="text-xs font-black">{{ item.badge }}</span>
             </div>
             <div class="min-w-0">
@@ -96,7 +96,7 @@
         class="card !p-6 flex flex-col items-center justify-center gap-3 group hover:border-amber/40 hover:bg-amber/5 transition-all duration-300"
       >
         <div class="relative">
-          <div class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber transition-all duration-500 shadow-lg">
+          <div class="w-12 h-12 bg-white/[0.04] rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber transition-all duration-500 shadow-lg">
             <svg class="w-6 h-6 text-white group-hover:text-navy-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" :d="link.iconPath" />
             </svg>

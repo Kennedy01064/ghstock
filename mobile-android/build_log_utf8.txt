@@ -1,0 +1,155 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.9/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:mergeDebugShaders UP-TO-DATE
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:mergeDebugStartupProfile UP-TO-DATE
+> Task :app:mergeExtDexDebug UP-TO-DATE
+> Task :app:mergeLibDexDebug UP-TO-DATE
+> Task :app:mergeDebugJniLibFolders UP-TO-DATE
+> Task :app:mergeDebugNativeLibs UP-TO-DATE
+> Task :app:stripDebugDebugSymbols UP-TO-DATE
+> Task :app:validateSigningDebug UP-TO-DATE
+> Task :app:writeDebugAppMetadata UP-TO-DATE
+> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+> Task :app:compileDebugKotlin
+./gradlew : e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/MainActivity.kt:59:45 
+Unresolved reference 'White'.
+En línea: 1 Carácter: 77
++ ... 7-hotspot" ; ./gradlew assembleDebug --no-daemon > build_log.txt 2>&1
++                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (e: file:///C:/U...erence 'White'.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/MainActivity.kt:67:29 Unresolved 
+reference 'NavGraph'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/MainActivity.kt:69:68 Unresolved 
+reference 'Screen'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/MainActivity.kt:69:96 Unresolved 
+reference 'Screen'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/MainActivity.kt:78:48 Unresolved 
+reference 'Screen'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/ApiClient.kt:81:24 
+Unresolved reference 'OrdersApiService'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/ApiClient.kt:82:29 
+Unresolved reference 'OrdersApiService'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/ApiClient.kt:82:29 
+Argument type mismatch: actual type is 'java.lang.Class<T>', but 'java.lang.Class<T!>!' was expected.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/ApiClient.kt:82:53 
+Unresolved reference. None of the following candidates is applicable because of a receiver type mismatch:
+val <T> KClass<T>.java: Class<T>
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:3:19 Unresolved reference 'gson'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:9:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:10:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:11:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:12:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:13:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:14:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:15:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:16:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:17:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:18:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:25:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:26:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:27:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:28:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:29:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:36:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:37:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:38:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:39:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:40:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:41:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/models/InventoryModels.k
+t:42:6 Unresolved reference 'SerializedName'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/remote/services/OperationsApiSe
+rvice.kt:31:44 Unresolved reference 'AdjustStockRequest'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/repository/AuthRepository.kt:19
+:40 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 
+'com.gh.stock.data.remote.models.TokenResponseDto?'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/repository/AuthRepository.kt:19
+:59 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 
+'com.gh.stock.data.remote.models.TokenResponseDto?'.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/repository/InventoryRepository.
+kt:13:14 Argument type mismatch: actual type is 'kotlin.Unit', but 
+'com.gh.stock.data.remote.NetworkResult<kotlin.collections.List<com.gh.stock.data.remote.models.InventoryItemDto>>' 
+was expected.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/repository/InventoryRepository.
+kt:13:28 Classifier 'class Loading<T> : NetworkResult<T>' does not have a companion object, so it cannot be used as an 
+expression.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/repository/InventoryRepository.
+kt:18:30 Argument type mismatch: actual type is 'retrofit2.Response<kotlin.Unit>', but 'retrofit2.Response<T>' was 
+expected.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/repository/InventoryRepository.
+kt:22:14 Argument type mismatch: actual type is 'kotlin.Unit', but 'com.gh.stock.data.remote.NetworkResult<kotlin.colle
+ctions.List<com.gh.stock.data.remote.models.InventoryMovementDto>>' was expected.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/repository/InventoryRepository.
+kt:22:28 Classifier 'class Loading<T> : NetworkResult<T>' does not have a companion object, so it cannot be used as an 
+expression.
+e: file:///C:/Users/HP/Desktop/Stock/mobile-android/app/src/main/java/com/gh/stock/data/repository/ReportsRepository.kt
+:33:18 Argument type mismatch: actual type is 
+'kotlin.Result<retrofit2.Response<kotlin.collections.List<com.gh.stock.data.remote.models.InventoryMovementDto>>>', 
+but 'kotlin.Result<kotlin.collections.List<com.gh.stock.data.remote.models.InventoryMovementDto>>' was expected.
+
+> Task :app:compileDebugKotlin FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin'.
+> A failure occurred while executing 
+org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1m 7s
+29 actionable tasks: 1 executed, 28 up-to-date

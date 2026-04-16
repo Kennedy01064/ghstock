@@ -10,9 +10,9 @@
       </div>
 
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-        <div class="flex items-center gap-4 bg-navy-accent/50 border border-white/5 backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl shadow-black/20">
+        <div class="flex items-center gap-4 bg-white/[0.06] border border-white/[0.07] backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl shadow-black/20">
           <span class="text-[9px] font-black text-text-muted uppercase tracking-widest text-center">Operaciones<br>Registradas</span>
-          <span class="text-2xl font-black text-white leading-none border-l border-white/10 pl-4">{{ purchases.length }}</span>
+          <span class="text-2xl font-black text-white leading-none border-l border-white/[0.12] pl-4">{{ purchases.length }}</span>
         </div>
 
         <RouterLink :to="{ name: 'dispatchPurchaseCreate' }" class="btn btn-primary shadow-2xl shadow-amber/10 group h-14 px-8">
@@ -28,7 +28,7 @@
       {{ dispatchStore.error }}
     </div>
 
-    <div class="card !p-0 border-white/5 bg-navy-accent/10 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
+    <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm whitespace-nowrap border-collapse">
           <thead>
@@ -69,7 +69,7 @@
                 </div>
               </td>
               <td class="px-8 py-6 text-center">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-navy-deep/60 border border-white/5">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-navy-deep/60 border border-white/[0.07]">
                   <span class="text-sm font-black text-white tabular-nums">{{ purchase.items?.length || 0 }}</span>
                   <span class="text-[9px] font-black text-text-muted uppercase tracking-widest">SKUs</span>
                 </div>
@@ -80,7 +80,7 @@
                 </p>
               </td>
               <td class="px-8 py-6 text-right">
-                <RouterLink :to="{ name: 'dispatchPurchaseDetail', params: { purchaseId: purchase.id } }" class="btn btn-secondary !py-2.5 !px-5 !rounded-xl !text-[10px] border-white/5 hover:border-amber/30 hover:text-amber shadow-none group/link">
+                <RouterLink :to="{ name: 'dispatchPurchaseDetail', params: { purchaseId: purchase.id } }" class="btn btn-secondary !py-2.5 !px-5 !rounded-xl !text-[10px] border-white/[0.07] hover:border-amber/30 hover:text-amber shadow-none group/link">
                   <span>VER DETALLE</span>
                   <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />

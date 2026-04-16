@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <form class="card !p-5 border-white/5 flex flex-col sm:flex-row gap-4 items-end" @submit.prevent="applyFilters">
+    <form class="card !p-5 border-white/[0.07] flex flex-col sm:flex-row gap-4 items-end" @submit.prevent="applyFilters">
       <div class="flex-1">
         <label class="label-premium">Filtrar por Sede</label>
         <select v-model="selectedBuildingId" class="select-field !py-3">
@@ -36,10 +36,10 @@
       {{ inventoryStore.error }}
     </div>
 
-    <div v-if="rows.length" class="card !p-0 overflow-hidden border-white/5">
+    <div v-if="rows.length" class="card !p-0 overflow-hidden border-white/[0.07]">
       <div class="overflow-x-auto">
         <table class="w-full text-left">
-          <thead class="bg-white/[0.03] border-b border-white/5">
+          <thead class="bg-white/[0.03] border-b border-white/[0.07]">
             <tr>
               <th class="px-6 py-4 text-[10px] font-black text-amber uppercase tracking-[0.3em]">Producto</th>
               <th class="px-6 py-4 text-[10px] font-black text-white/60 uppercase tracking-[0.3em] hidden sm:table-cell">Sede</th>
@@ -55,7 +55,7 @@
                   <img
                     :src="row.imageUrl"
                     :alt="row.productName"
-                    class="w-9 h-9 rounded-xl object-contain bg-white/5 p-1.5 border border-white/10 shrink-0"
+                    class="w-9 h-9 rounded-xl object-contain bg-white/[0.04] p-1.5 border border-white/[0.12] shrink-0"
                   >
                   <div class="min-w-0">
                     <p class="text-sm font-black text-white group-hover:text-amber transition-colors truncate">{{ row.productName }}</p>
@@ -80,8 +80,8 @@
       </div>
     </div>
 
-    <div v-else class="card border-dashed border-white/10 bg-white/[0.01] py-20 text-center">
-      <div class="w-16 h-16 bg-white/5 rounded-3xl flex items-center justify-center mx-auto mb-5">
+    <div v-else class="card border-dashed border-white/[0.12] bg-white/[0.01] py-20 text-center">
+      <div class="w-16 h-16 bg-white/[0.04] rounded-3xl flex items-center justify-center mx-auto mb-5">
         <svg class="w-8 h-8 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
         </svg>

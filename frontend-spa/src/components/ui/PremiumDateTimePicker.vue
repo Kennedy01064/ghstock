@@ -24,13 +24,13 @@
     <Transition name="picker-fade">
       <div 
         v-if="isOpen" 
-        class="absolute left-0 top-full mt-3 z-[100] w-[95vw] sm:w-[520px] rounded-[2rem] border border-white/10 bg-[#0B1F33] shadow-[0_40px_100px_-15px_rgba(0,0,0,0.9)] overflow-hidden"
+        class="absolute left-0 top-full mt-3 z-[100] w-[95vw] sm:w-[520px] rounded-[2rem] border border-white/[0.12] bg-navy shadow-[0_40px_100px_-15px_rgba(0,0,0,0.9)] overflow-hidden"
       >
         <!-- Calendar Header -->
-        <div class="px-6 py-3.5 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+        <div class="px-6 py-3.5 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
           <button 
             type="button" 
-            class="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 hover:text-amber transition-all"
+            class="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.06] hover:text-amber transition-all"
             @click="prevMonth"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@
 
           <button 
             type="button" 
-            class="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 hover:text-amber transition-all"
+            class="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.06] hover:text-amber transition-all"
             @click="nextMonth"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +78,7 @@
                 class="relative aspect-square flex items-center justify-center rounded-xl text-xs sm:text-[10px] font-bold transition-all"
                 :class="[
                   date.isCurrentMonth ? 'text-white' : 'text-white/20',
-                  date.isSelected ? 'bg-amber !text-navy-deep shadow-lg shadow-amber/40 scale-105 !font-black' : 'hover:bg-white/5',
+                  date.isSelected ? 'bg-amber !text-navy-deep shadow-lg shadow-amber/40 scale-105 !font-black' : 'hover:bg-white/[0.04]',
                   date.isToday && !date.isSelected ? 'border border-amber/30 text-amber' : ''
                 ]"
                 @click="selectDay(date)"
@@ -101,7 +101,7 @@
                     v-model="time.hours" 
                     min="0" 
                     max="23"
-                    class="w-11 h-11 bg-white/5 border border-white/10 rounded-xl text-center text-lg font-black text-white focus:border-amber/40 focus:bg-white/10 outline-none transition-all tabular-nums"
+                    class="w-11 h-11 bg-white/[0.04] border border-white/[0.12] rounded-xl text-center text-lg font-black text-white focus:border-amber/40 focus:bg-white/[0.06] outline-none transition-all tabular-nums"
                     @change="updateTime"
                   />
                   <p class="text-[7px] font-black text-center text-text-muted uppercase tracking-widest">HRS</p>
@@ -116,7 +116,7 @@
                     min="0" 
                     max="59" 
                     step="5"
-                    class="w-11 h-11 bg-white/5 border border-white/10 rounded-xl text-center text-lg font-black text-white focus:border-amber/40 focus:bg-white/10 outline-none transition-all tabular-nums"
+                    class="w-11 h-11 bg-white/[0.04] border border-white/[0.12] rounded-xl text-center text-lg font-black text-white focus:border-amber/40 focus:bg-white/[0.06] outline-none transition-all tabular-nums"
                     @change="updateTime"
                   />
                   <p class="text-[7px] font-black text-center text-text-muted uppercase tracking-widest">MIN</p>
@@ -125,18 +125,18 @@
 
               <!-- Quick Time Suggestions -->
               <div class="grid grid-cols-2 gap-2 w-full mt-2">
-                <button type="button" @click="time.hours = 12; time.minutes = 0; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-white/5 text-[8px] sm:text-[7px] font-black text-text-muted uppercase hover:bg-white/10 transition-all tracking-tighter">Mediodía</button>
-                <button type="button" @click="time.hours = 23; time.minutes = 59; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-white/5 text-[8px] sm:text-[7px] font-black text-text-muted uppercase hover:bg-white/10 transition-all tracking-tighter">Cierre</button>
+                <button type="button" @click="time.hours = 12; time.minutes = 0; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-white/[0.04] text-[8px] sm:text-[7px] font-black text-text-muted uppercase hover:bg-white/[0.06] transition-all tracking-tighter">Mediodía</button>
+                <button type="button" @click="time.hours = 23; time.minutes = 59; updateTime()" class="py-2.5 px-1.5 rounded-lg bg-white/[0.04] text-[8px] sm:text-[7px] font-black text-text-muted uppercase hover:bg-white/[0.06] transition-all tracking-tighter">Cierre</button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Footer Actions -->
-        <div class="px-5 py-4 bg-white/[0.02] border-t border-white/5 flex gap-3">
+        <div class="px-5 py-4 bg-white/[0.02] border-t border-white/[0.07] flex gap-3">
           <button 
             type="button" 
-            class="flex-1 py-2.5 px-4 rounded-xl border border-white/5 text-[10px] font-black text-text-muted hover:bg-white/5 transition-all uppercase tracking-widest"
+            class="flex-1 py-2.5 px-4 rounded-xl border border-white/[0.07] text-[10px] font-black text-text-muted hover:bg-white/[0.04] transition-all uppercase tracking-widest"
             @click="clear"
           >
             Limpiar

@@ -32,12 +32,19 @@ class PedidosPorEdificio(BaseModel):
     building_name: str
     total_pedidos: int
 
+class TopProduct(BaseModel):
+    product_name: str
+    total_consumed: int
+
 
 class ManagerDashboard(BaseModel):
     pedidos_submitted: int
     total_edificios_activos: int
     costo_despachado_mes: float
     total_productos: int
+    total_movements: int
+    total_consumptions: int
+    most_consumed_product: Optional[TopProduct] = None
     lotes_pendientes: List[DispatchBatchDetail]
     alertas_stock: List[Product]
     compras_recientes: List[PurchaseSummary]

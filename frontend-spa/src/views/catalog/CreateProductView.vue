@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-[1320px] mx-auto space-y-12 pb-32 px-4">
-    <div class="flex flex-col gap-6 border-b border-white/5 pb-10">
+    <div class="flex flex-col gap-6 border-b border-white/[0.07] pb-10">
       <RouterLink :to="{ name: 'catalogWarehouse' }" class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted hover:text-amber transition-colors group">
         <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -14,7 +14,7 @@
           <h1 class="h2">Nuevo Registro</h1>
           <p class="text-text-muted font-medium">Añadir item al inventario central de Grupo Hernandez</p>
         </div>
-        <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-inner">
+        <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner">
           <svg class="w-7 h-7 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -75,8 +75,8 @@
           <div class="space-y-3">
             <label class="label-premium">Fotografia del Activo</label>
             <input v-model="form.imageUrl" type="text" placeholder="/static/img/default-product.png o https://..." class="input-field">
-            <div v-if="productPreview" class="flex items-center gap-6 p-4 rounded-2xl bg-white/[0.03] border border-white/10 w-fit">
-              <img :src="productPreview" alt="Preview" class="h-24 w-24 object-cover rounded-xl shadow-lg border border-white/10">
+            <div v-if="productPreview" class="flex items-center gap-6 p-4 rounded-2xl bg-white/[0.03] border border-white/[0.12] w-fit">
+              <img :src="productPreview" alt="Preview" class="h-24 w-24 object-cover rounded-xl shadow-lg border border-white/[0.12]">
               <div class="space-y-1">
                 <p class="text-xs font-black text-white uppercase tracking-widest">Vista Actual</p>
                 <p class="text-[10px] font-medium text-text-muted">La API actual recibe la ruta o URL de la imagen.</p>
@@ -89,7 +89,7 @@
             <input v-model="form.sourceUrl" type="url" placeholder="https://proveedor.com/item" class="input-field">
           </div>
 
-          <div class="pt-10 flex flex-col md:flex-row gap-4 border-t border-white/5">
+          <div class="pt-10 flex flex-col md:flex-row gap-4 border-t border-white/[0.07]">
             <RouterLink :to="{ name: 'catalogWarehouse' }" class="btn btn-secondary flex-1 !h-[56px] !rounded-xl">
               <span class="font-bold text-[11px] tracking-widest uppercase">CANCELAR</span>
             </RouterLink>
@@ -108,8 +108,8 @@
         </form>
       </div>
 
-      <div class="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/5 mt-6">
-        <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-navy-accent border border-white/10 text-amber shrink-0">
+      <div class="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.07] mt-6">
+        <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-navy-accent border border-white/[0.12] text-amber shrink-0">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>

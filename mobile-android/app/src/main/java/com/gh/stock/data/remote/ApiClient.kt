@@ -3,7 +3,9 @@ package com.gh.stock.data.remote
 import com.gh.stock.data.local.TokenDataStore
 import com.gh.stock.data.remote.services.AuthApiService
 import com.gh.stock.data.remote.services.CatalogApiService
+import com.gh.stock.data.remote.services.DashboardApiService
 import com.gh.stock.data.remote.services.OperationsApiService
+import com.gh.stock.data.remote.services.OrdersApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -71,6 +73,12 @@ object ApiClient {
     val catalogService: CatalogApiService get() =
         authRetrofit.create(CatalogApiService::class.java)
 
+    val dashboardService: DashboardApiService get() =
+        authRetrofit.create(DashboardApiService::class.java)
+
     val operationsService: OperationsApiService get() =
         authRetrofit.create(OperationsApiService::class.java)
+
+    val ordersService: OrdersApiService get() =
+        authRetrofit.create(OrdersApiService::class.java)
 }

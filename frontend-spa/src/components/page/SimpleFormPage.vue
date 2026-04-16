@@ -12,7 +12,7 @@
     <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
       <form class="card space-y-6" @submit.prevent="handleSubmit">
         <div v-for="group in fieldGroups" :key="group.title" class="space-y-5">
-          <div v-if="group.title" class="border-b border-white/5 pb-3">
+          <div v-if="group.title" class="border-b border-white/[0.07] pb-3">
             <span class="section-label !mb-0">{{ group.title }}</span>
           </div>
 
@@ -40,9 +40,9 @@
 
               <label
                 v-else-if="field.type === 'checkbox'"
-                class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4 cursor-pointer"
+                class="flex items-center gap-3 rounded-2xl border border-white/[0.12] bg-white/[0.03] px-4 py-4 cursor-pointer"
               >
-                <input v-model="form[field.key]" type="checkbox" class="h-4 w-4 accent-[#F2AD3D]" />
+                <input v-model="form[field.key]" type="checkbox" class="h-4 w-4 accent-amber" />
                 <span class="text-sm text-text-secondary">{{ field.placeholder }}</span>
               </label>
 
@@ -76,7 +76,7 @@
           </div>
         </div>
 
-        <div v-if="infoNote" class="rounded-[24px] border border-white/10 bg-white/[0.03] px-5 py-4 text-sm text-text-secondary">
+        <div v-if="infoNote" class="rounded-[24px] border border-white/[0.12] bg-white/[0.03] px-5 py-4 text-sm text-text-secondary">
           {{ infoNote }}
         </div>
 
@@ -97,7 +97,7 @@
       <aside class="space-y-6">
         <div v-if="preview" class="card">
           <span class="section-label">Vista previa</span>
-          <div class="rounded-[24px] overflow-hidden border border-white/10 bg-white/[0.03]">
+          <div class="rounded-[24px] overflow-hidden border border-white/[0.12] bg-white/[0.03]">
             <img :src="preview.image" :alt="preview.title" class="h-48 w-full object-cover" />
           </div>
           <h3 class="mt-4 text-lg font-black text-white">{{ preview.title }}</h3>

@@ -63,7 +63,7 @@
           <div 
             v-for="row in filteredRows" 
             :key="row.id ?? row.code ?? row.fileName ?? row.name"
-            class="p-6 space-y-4 active:bg-white/5 transition-colors"
+            class="p-6 space-y-4 active:bg-white/[0.04] transition-colors"
           >
             <div v-for="column in columns" :key="column.key" class="flex flex-col gap-1">
               <span class="text-[9px] font-black uppercase tracking-[0.2em] text-text-muted">{{ column.label }}</span>
@@ -77,7 +77,7 @@
               </div>
             </div>
           </div>
-          <div v-if="!filteredRows.length" class="px-8 py-12 text-center text-text-muted text-sm border-t border-white/5">
+          <div v-if="!filteredRows.length" class="px-8 py-12 text-center text-text-muted text-sm border-t border-white/[0.07]">
             {{ emptyMessage }}
           </div>
         </div>

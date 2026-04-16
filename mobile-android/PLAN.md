@@ -1,7 +1,7 @@
 # PLAN DE DESARROLLO — Stock Mobile Android
 
-Estado auditado al 2026-04-10. Completitud actual estimada: **~20-25%**.  
-La app **no arranca** en su estado actual (ver Fase 0).
+Estado auditado al 2026-04-10. Completitud actual estimada: **~45%**.  
+La app ya arranca y cuenta con autenticación base y navegación funcional.
 
 ---
 
@@ -9,20 +9,21 @@ La app **no arranca** en su estado actual (ver Fase 0).
 
 | Fase | Descripcion | Estimado |
 |------|-------------|----------|
-| 0 | Corregir bloqueantes de compilacion/runtime | 2-3 h |
-| 1 | Autenticacion real + almacenamiento de token | 5-7 h |
-| 2 | Navegacion con NavGraph | 3-4 h |
-| 3 | Dashboard funcional | 4-5 h |
-| 4 | Catalogo de productos | 5-7 h |
-| 5 | Inventario por sede + ajuste de stock | 6-8 h |
-| 6 | Escaner de codigo de barras | 4-5 h |
-| 7 | Cache local con Room | 4-6 h |
-| 8 | Pulido, manejo de errores, testing | 6-8 h |
+| 0 | [COMPLETADA] Corregir bloqueantes | --- |
+| 1 | [COMPLETADA] Autenticacion real | --- |
+| 2 | [COMPLETADA] Navegacion con NavGraph | --- |
+| 3 | [COMPLETADA] Dashboard funcional | --- |
+| 4 | [COMPLETADA] Catalogo de productos | --- |
+| 5 | [COMPLETADA] Inventario por sede + ajuste de stock | --- |
+| 6 | [COMPLETADA] Escaner de codigo de barras | --- |
+| 7 | [COMPLETADA] Analíticas y Reportes | --- |
+| 8 | Cache local con Room | 4-6 h |
+| 9 | Pulido, manejo de errores, testing | 6-8 h |
 
 ---
 
-## Fase 0 — Que compile y arranque
-> **Prioridad maxima.** Ninguna otra fase se puede ejecutar hasta resolver esto.
+## Fase 0 — Que compile y arranque [COMPLETADA]
+> **Estado:** Resuelto. La aplicación compila e inicializa correctamente.
 
 ### 0.1 Corregir `libs.versions.toml` (linea 32)
 **Archivo:** `gradle/libs.versions.toml`  
@@ -108,8 +109,8 @@ val appModule = module {
 
 ---
 
-## Fase 1 — Autenticacion real
-> Sin un token valido, todos los endpoints retornan 401.
+## Fase 1 — Autenticacion real [COMPLETADA]
+> **Estado:** Implementado. TokenDataStore y AuthInterceptor funcionales.
 
 ### 1.1 Almacenamiento de token con DataStore
 **Archivo nuevo:** `data/local/TokenDataStore.kt`  
@@ -157,8 +158,8 @@ En `AuthInterceptor`, si la respuesta es 401:
 
 ---
 
-## Fase 2 — Navegacion
-> Prerequisito: Fase 1 completa.
+## Fase 2 — Navegacion [COMPLETADA]
+> **Estado:** Implementado. NavGraph gestiona el flujo Login -> Dashboard.
 
 ### 2.1 Crear NavGraph
 **Archivo nuevo:** `ui/navigation/NavGraph.kt`  
@@ -184,8 +185,8 @@ Al arrancar la app, leer `TokenDataStore`:
 
 ---
 
-## Fase 3 — Dashboard funcional
-> Prerequisito: Fases 1 y 2 completas.
+## Fase 3 — Dashboard funcional [COMPLETADA]
+> **Estado:** Implementado. Visualización de métricas y sedes asignadas funcional.
 
 ### 3.1 Endpoint de dashboard manager
 **API:** `GET /dashboard/manager` (ver `MOBILE_API_CONTRACT.md`)  
@@ -208,8 +209,8 @@ El `DashboardViewModel` actual solo maneja el deadline banner. Expandirlo para c
 
 ---
 
-## Fase 4 — Catalogo de productos
-> Prerequisito: Fase 2 completa.
+## Fase 4 — Catálogo de productos [COMPLETADA]
+> **Estado:** Implementado. Repositorio, ViewModels y Pantallas (Lista y Detalle) funcionales con búsqueda y carga de imágenes (Coil).
 
 ### 4.1 Pantalla de lista de productos
 **Archivo nuevo:** `ui/screens/catalog/CatalogScreen.kt`  
@@ -282,8 +283,8 @@ suspend fun adjustStock(@Body payload: StockAdjustmentDto): InventoryItemDto
 
 ---
 
-## Fase 6 — Escaner de codigo de barras
-> Prerequisito: Fase 4 (Catalogo funcional).
+## Fase 6 — Escaner de codigo de barras [COMPLETADA]
+> **Estado:** Implementado. Integración con CameraX + ML Kit para detección en tiempo real.
 
 ### 6.1 Permiso de camara
 **Archivo:** `AndroidManifest.xml`  

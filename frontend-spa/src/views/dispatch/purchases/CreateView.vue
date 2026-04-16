@@ -18,7 +18,7 @@
     </div>
 
     <form class="space-y-10" @submit.prevent="submitPurchase">
-      <div class="card bg-navy-accent/40 border-white/5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] relative z-10">
+      <div class="card bg-white/[0.05] border-white/[0.07] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] relative z-10">
         <div class="flex items-center gap-3 mb-8 px-2">
           <div class="w-1.5 h-6 bg-amber rounded-full" />
           <h2 class="text-lg font-black text-white uppercase tracking-tight">Informacion del Comprobante</h2>
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="card bg-navy-accent/20 border-white/5">
+      <div class="card bg-white/[0.04] border-white/[0.07]">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-6 mb-10 px-2">
           <div class="flex items-center gap-3">
             <div class="w-1.5 h-6 bg-amber rounded-full" />
@@ -52,7 +52,7 @@
           </div>
 
           <div class="flex flex-wrap gap-3 w-full sm:w-auto">
-            <button type="button" class="flex-1 sm:flex-none h-12 flex items-center justify-center gap-3 px-6 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black text-white uppercase tracking-widest hover:bg-white/10 hover:border-amber/40 hover:text-amber transition-all group disabled:opacity-50" :disabled="dispatchStore.isPurchasing" @click="selectorOpen = true">
+            <button type="button" class="flex-1 sm:flex-none h-12 flex items-center justify-center gap-3 px-6 rounded-2xl bg-white/[0.04] border border-white/[0.12] text-[10px] font-black text-white uppercase tracking-widest hover:bg-white/[0.06] hover:border-amber/40 hover:text-amber transition-all group disabled:opacity-50" :disabled="dispatchStore.isPurchasing" @click="selectorOpen = true">
               <svg class="w-4 h-4 text-amber transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
@@ -68,7 +68,7 @@
         </div>
 
         <div v-if="rows.length" class="space-y-4">
-          <div v-for="row in rows" :key="row.id" class="grid grid-cols-1 sm:grid-cols-12 gap-5 p-6 bg-white/[0.02] border border-white/10 rounded-[1.8rem] group/row hover:border-white/20 transition-all">
+          <div v-for="row in rows" :key="row.id" class="grid grid-cols-1 sm:grid-cols-12 gap-5 p-6 bg-white/[0.02] border border-white/[0.12] rounded-[1.8rem] group/row hover:border-white/20 transition-all">
             <div class="sm:col-span-6 space-y-2">
               <label class="eyebrow !text-text-muted !text-[9px]">Producto / Descripcion</label>
               <input v-model="row.name" type="text" required :disabled="dispatchStore.isPurchasing" placeholder="Descripcion material" class="input-field h-12 !px-4 !rounded-xl font-bold uppercase tracking-widest text-[11px] bg-black/20 group-hover/row:bg-black/40">
@@ -91,13 +91,13 @@
           </div>
         </div>
 
-        <div v-else class="py-20 text-center border-2 border-dashed border-white/5 rounded-[2.5rem] bg-black/20">
+        <div v-else class="py-20 text-center border-2 border-dashed border-white/[0.07] rounded-[2.5rem] bg-black/20">
           <p class="text-text-muted font-bold text-sm italic">No se han agregado productos a la lista todavia.</p>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-center justify-end gap-6 pt-6 border-t border-white/5">
-        <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary w-full sm:w-auto px-12 !py-4 border-white/10 text-white/40 hover:text-white">
+      <div class="flex flex-col sm:flex-row items-center justify-end gap-6 pt-6 border-t border-white/[0.07]">
+        <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary w-full sm:w-auto px-12 !py-4 border-white/[0.12] text-white/40 hover:text-white">
           CANCELAR
         </RouterLink>
         <button type="submit" class="btn btn-primary w-full sm:w-auto px-16 !py-5 shadow-2xl shadow-amber/20 group" :disabled="dispatchStore.isPurchasing">
@@ -118,13 +118,13 @@
 
     <Transition name="fade">
       <div v-if="selectorOpen" class="fixed inset-0 bg-navy-deep/80 backdrop-blur-2xl items-center justify-center z-[100] p-6 flex">
-        <div class="bg-navy-accent border border-white/10 rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh]">
-          <div class="p-10 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+        <div class="bg-navy-accent border border-white/[0.12] rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh]">
+          <div class="p-10 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.02]">
             <div class="space-y-1">
               <h3 class="h2 !text-3xl italic">Catalogo Maestro</h3>
               <p class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Seleccione un articulo existente</p>
             </div>
-            <button type="button" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/20 hover:text-white hover:bg-red-500/20 hover:border-red-500/40 transition-all" @click="selectorOpen = false">
+            <button type="button" class="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-white/20 hover:text-white hover:bg-red-500/20 hover:border-red-500/40 transition-all" @click="selectorOpen = false">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -142,9 +142,9 @@
             </div>
 
             <div class="flex-1 min-h-0 space-y-3 overflow-y-auto pr-4 custom-scrollbar">
-              <div v-for="product in filteredProducts" :key="product.id" class="group/item relative overflow-hidden flex items-center justify-between p-5 bg-white/[0.02] border border-white/5 rounded-[1.5rem] hover:bg-amber/5 hover:border-amber/30 cursor-pointer transition-all">
+              <div v-for="product in filteredProducts" :key="product.id" class="group/item relative overflow-hidden flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.07] rounded-[1.5rem] hover:bg-amber/5 hover:border-amber/30 cursor-pointer transition-all">
                 <div class="flex items-center gap-4">
-                  <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-[10px] font-black text-amber border border-white/5 group-hover/item:border-amber/40 group-hover/item:bg-amber group-hover/item:text-navy-deep transition-all">
+                  <div class="w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center text-[10px] font-black text-amber border border-white/[0.07] group-hover/item:border-amber/40 group-hover/item:bg-amber group-hover/item:text-navy-deep transition-all">
                     {{ (product.categoria || "G").slice(0, 1).toUpperCase() }}
                   </div>
                   <div class="flex flex-col">
@@ -153,7 +153,7 @@
                   </div>
                 </div>
 
-                <button type="button" class="h-10 px-6 rounded-xl bg-white/5 border border-white/10 text-[9px] font-black text-white hover:bg-amber hover:text-navy-deep hover:border-amber transition-all uppercase tracking-widest shadow-xl" @click="selectProduct(product)">
+                <button type="button" class="h-10 px-6 rounded-xl bg-white/[0.04] border border-white/[0.12] text-[9px] font-black text-white hover:bg-amber hover:text-navy-deep hover:border-amber transition-all uppercase tracking-widest shadow-xl" @click="selectProduct(product)">
                   ELEGIR
                 </button>
               </div>
@@ -297,24 +297,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(242, 173, 61, 0.2);
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(242, 173, 61, 0.5);
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.25s ease;

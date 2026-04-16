@@ -6,7 +6,7 @@
   <DashboardSkeleton v-else-if="dashboardStore.isLoading && !dashboard" />
 
   <div v-else-if="dashboard" class="space-y-12 pb-24">
-    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-10 border-b border-white/5 pb-10">
+    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-10 border-b border-white/[0.07] pb-10">
       <div class="space-y-4">
         <div class="flex items-center gap-3">
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
@@ -20,12 +20,12 @@
         </p>
       </div>
 
-      <div class="flex items-center gap-5 bg-white/[0.03] border border-white/5 backdrop-blur-3xl rounded-[2rem] px-8 py-5 shadow-2xl self-start xl:self-auto">
+      <div class="flex items-center gap-5 bg-white/[0.03] border border-white/[0.07] backdrop-blur-3xl rounded-[2rem] px-8 py-5 shadow-2xl self-start xl:self-auto">
         <div class="text-right">
           <p class="label-premium !mb-0">Fecha Operativa</p>
           <p class="text-white font-black text-sm tracking-widest tabular-nums uppercase">{{ formatDate(new Date()) }}</p>
         </div>
-        <div class="w-[1px] h-10 bg-white/10"></div>
+        <div class="w-[1px] h-10 bg-white/[0.06]"></div>
         <div class="w-10 h-10 bg-amber/10 rounded-xl flex items-center justify-center border border-amber/20 shadow-lg shadow-amber/10">
           <svg class="w-5 h-5 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -70,7 +70,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <article class="card !p-0 overflow-hidden group">
-        <div class="px-8 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+        <div class="px-8 py-6 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.02]">
           <div class="flex items-center gap-4">
             <div class="w-10 h-10 bg-amber/10 rounded-xl flex items-center justify-center border border-amber/20 shadow-lg shadow-amber/5">
               <svg class="w-5 h-5 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +91,7 @@
       </article>
 
       <article class="card !p-0 overflow-hidden group">
-        <div class="px-8 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+        <div class="px-8 py-6 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.02]">
           <div class="flex items-center gap-4">
             <div class="w-10 h-10 bg-indigo-500/10 rounded-xl flex items-center justify-center border border-indigo-500/20 shadow-lg shadow-indigo-500/5">
               <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,8 +114,8 @@
     </div>
 
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-      <article class="card !p-0 overflow-hidden border-white/5">
-        <div class="px-7 py-5 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+      <article class="card !p-0 overflow-hidden border-white/[0.07]">
+        <div class="px-7 py-5 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
           <h3 class="text-sm font-black text-white uppercase tracking-widest">Lotes en Proceso</h3>
           <span v-if="dashboard.lotes_pendientes?.length" class="px-3 py-1 bg-amber/10 text-amber text-[10px] font-black rounded-lg border border-amber/20 uppercase tracking-widest">{{ dashboard.lotes_pendientes.length }} activos</span>
         </div>
@@ -146,7 +146,7 @@
       </article>
 
       <article class="card !p-0 overflow-hidden border-rose-500/10">
-        <div class="px-7 py-5 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+        <div class="px-7 py-5 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
           <h3 class="text-sm font-black text-white uppercase tracking-widest">Alertas de Stock</h3>
           <span v-if="dashboard.alertas_stock?.length" class="px-3 py-1 bg-rose-500/10 text-rose-400 text-[10px] font-black rounded-lg border border-rose-500/20 uppercase tracking-widest flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 bg-rose-400 rounded-full animate-pulse"></span>
@@ -155,7 +155,7 @@
         </div>
         <div v-if="dashboard.alertas_stock?.length" class="divide-y divide-white/[0.04]">
           <div v-for="product in dashboard.alertas_stock" :key="product.id" class="flex items-center gap-4 px-7 py-4 hover:bg-white/[0.02] transition-colors group">
-            <img :src="product.imagen_url || defaultProductUrl" :alt="product.name" class="w-10 h-10 rounded-xl object-contain bg-white/5 p-1.5 border border-white/10 shrink-0" />
+            <img :src="product.imagen_url || defaultProductUrl" :alt="product.name" class="w-10 h-10 rounded-xl object-contain bg-white/[0.04] p-1.5 border border-white/[0.12] shrink-0" />
             <div class="flex-1 min-w-0">
               <p class="text-[13px] font-black text-white truncate group-hover:text-amber transition-colors">{{ product.name }}</p>
               <p class="text-[10px] text-text-muted font-bold">Min: {{ product.stock_minimo }} {{ product.unit }}</p>
@@ -172,8 +172,8 @@
         </div>
       </article>
 
-      <article class="card !p-0 overflow-hidden border-white/5">
-        <div class="px-7 py-5 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+      <article class="card !p-0 overflow-hidden border-white/[0.07]">
+        <div class="px-7 py-5 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.01]">
           <h3 class="text-sm font-black text-white uppercase tracking-widest">Compras Recientes</h3>
           <RouterLink :to="{ name: 'dispatchPurchases' }" class="text-[10px] font-black text-amber hover:text-amber/80 uppercase tracking-widest transition-colors">Ver todas</RouterLink>
         </div>
@@ -197,8 +197,8 @@
       </article>
     </div>
 
-    <article class="card !p-0 border-white/5 mb-24 relative z-[60]">
-      <div class="px-8 py-6 border-b border-white/5 flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white/[0.02] rounded-t-[20px]">
+    <article class="card !p-0 border-white/[0.07] mb-24 relative z-[60]">
+      <div class="px-8 py-6 border-b border-white/[0.07] flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white/[0.02] rounded-t-[20px]">
         <div class="flex items-center gap-4">
           <div class="w-11 h-11 rounded-2xl bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center shadow-lg shadow-cyan-400/5">
             <svg class="w-5 h-5 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,7 +211,7 @@
           </div>
         </div>
 
-        <span class="inline-flex items-center rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em]" :class="submissionDeadline ? deadlineStateClass(submissionDeadline.state) : 'border-white/10 bg-white/[0.03] text-text-muted'">
+        <span class="inline-flex items-center rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em]" :class="submissionDeadline ? deadlineStateClass(submissionDeadline.state) : 'border-white/[0.12] bg-white/[0.03] text-text-muted'">
           {{ submissionDeadline ? deadlineStateLabel(submissionDeadline.state) : "Sin fecha activa" }}
         </span>
       </div>
@@ -238,7 +238,7 @@
             </div>
           </div>
 
-          <div class="rounded-[28px] border border-white/10 bg-white/[0.03] px-5 py-4 text-sm leading-7 text-text-secondary">
+          <div class="rounded-[28px] border border-white/[0.12] bg-white/[0.03] px-5 py-4 text-sm leading-7 text-text-secondary">
             La alerta se mostrara en el dashboard admin. Si la fecha vence y aun existen borradores, el aviso cambiara a estado critico.
           </div>
 
@@ -252,7 +252,7 @@
           </div>
         </form>
 
-        <aside class="rounded-[32px] border p-6 space-y-4 shadow-2xl" :class="submissionDeadline ? deadlineStatePanelClass(submissionDeadline.state) : 'border-white/10 bg-white/[0.03]'">
+        <aside class="rounded-[32px] border p-6 space-y-4 shadow-2xl" :class="submissionDeadline ? deadlineStatePanelClass(submissionDeadline.state) : 'border-white/[0.12] bg-white/[0.03]'">
           <p class="text-[10px] font-black uppercase tracking-[0.24em]" :class="submissionDeadline ? (submissionDeadline.state === 'overdue' ? 'text-rose-200' : 'text-cyan-200') : 'text-text-muted'">
             Estado actual
           </p>
@@ -265,7 +265,7 @@
               </p>
             </div>
 
-            <div class="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 space-y-2">
+            <div class="rounded-2xl border border-white/[0.12] bg-black/10 px-4 py-4 space-y-2">
               <p class="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Listas pendientes</p>
               <p class="text-3xl font-black text-white">{{ submissionDeadline.pending_orders_count }}</p>
               <p class="text-xs leading-6 text-text-secondary font-bold">
@@ -291,7 +291,7 @@
     <div class="mt-12 space-y-6">
       <div class="flex items-center gap-4">
         <h3 class="label-premium !mb-0 whitespace-nowrap">Acceso Rápido</h3>
-        <div class="h-px bg-white/5 flex-grow"></div>
+        <div class="h-px bg-white/[0.04] flex-grow"></div>
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -302,7 +302,7 @@
           class="card !p-6 flex flex-col items-center justify-center gap-3 group hover:border-amber/40 hover:bg-amber/5 transition-all duration-300"
         >
           <div class="relative">
-            <div class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber group-hover:text-navy transition-all duration-500 shadow-lg">
+            <div class="w-12 h-12 bg-white/[0.04] rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-amber group-hover:text-navy transition-all duration-500 shadow-lg">
               <svg class="w-6 h-6 text-white group-hover:text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" :d="item.iconPath" />
               </svg>
@@ -359,7 +359,7 @@ const metrics = computed(() => [
   {
     label: "Edificios Operativos",
     value: dashboard.value?.total_edificios_activos ?? 0,
-    iconWrapClass: "bg-white/5 group-hover:bg-white/10 border-white/5 group-hover:border-white/20",
+    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-white/20",
     iconClass: "text-white/50 group-hover:text-white/80 transition-colors",
     iconPath: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
@@ -376,7 +376,7 @@ const metrics = computed(() => [
   {
     label: "Catálogo Activo",
     value: dashboard.value?.total_productos ?? 0,
-    iconWrapClass: "bg-white/5 group-hover:bg-white/10 border-white/5 group-hover:border-white/20",
+    iconWrapClass: "bg-white/[0.04] group-hover:bg-white/[0.06] border-white/[0.07] group-hover:border-white/20",
     iconClass: "text-white/50 group-hover:text-white/80 transition-colors",
     iconPath: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
     cardClass: "hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]",
@@ -566,7 +566,7 @@ function renderCharts() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: "#0B1F33",
+          backgroundColor: "#1e293b",
           titleColor: "#F2AD3D",
           bodyColor: "#ffffff",
           borderColor: "rgba(255,255,255,0.1)",
@@ -597,8 +597,8 @@ function renderCharts() {
       datasets: [
         {
           data: dashboard.value.chart_productos_data ?? [],
-          backgroundColor: ["#F2AD3D", "#06286F", "#4F46E5", "#10B981", "#6B7280"],
-          borderColor: "#041120",
+          backgroundColor: ["#F2AD3D", "#263244", "#4F46E5", "#10B981", "#6B7280"],
+          borderColor: "#0f172a",
           borderWidth: 8,
           hoverOffset: 20,
         },
@@ -624,7 +624,7 @@ function renderCharts() {
           },
         },
         tooltip: {
-          backgroundColor: "#0B1F33",
+          backgroundColor: "#1e293b",
           titleColor: "#F2AD3D",
           bodyColor: "#ffffff",
           borderColor: "rgba(255,255,255,0.1)",

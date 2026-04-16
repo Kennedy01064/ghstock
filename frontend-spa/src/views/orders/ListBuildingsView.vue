@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-12 pb-32 max-w-5xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/5 pb-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/[0.07] pb-8">
       <div class="space-y-3">
         <div class="flex items-center gap-3">
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]" />
@@ -11,7 +11,7 @@
           Identifique la unidad inmobiliaria para iniciar el manifiesto de requerimientos y control de existencias.
         </p>
       </div>
-      <div class="h-16 w-16 rounded-[2rem] bg-navy-accent border border-white/10 flex items-center justify-center text-amber shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)] shrink-0">
+      <div class="h-16 w-16 rounded-[2rem] bg-navy-accent border border-white/[0.12] flex items-center justify-center text-amber shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)] shrink-0">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
@@ -30,12 +30,12 @@
       <article
         v-for="building in buildings"
         :key="building.id"
-        class="card !p-0 overflow-hidden border-white/5 hover:border-amber/30 transition-all group/card shadow-[0_32px_64px_-12px_rgba(0,0,0,0.6)] backdrop-blur-3xl relative"
+        class="card !p-0 overflow-hidden border-white/[0.07] hover:border-amber/30 transition-all group/card shadow-[0_32px_64px_-12px_rgba(0,0,0,0.6)] backdrop-blur-3xl relative"
       >
         <div class="absolute inset-0 bg-gradient-to-r from-amber/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
 
         <div class="flex flex-col lg:flex-row min-h-[220px] relative z-10">
-          <div class="w-full lg:w-80 bg-navy-deep relative overflow-hidden shrink-0 border-b lg:border-b-0 lg:border-r border-white/5">
+          <div class="w-full lg:w-80 bg-navy-deep relative overflow-hidden shrink-0 border-b lg:border-b-0 lg:border-r border-white/[0.07]">
             <img
               v-if="building.imageUrl"
               :src="building.imageUrl"
@@ -63,7 +63,7 @@
                     {{ building.name }}
                   </h3>
                   <div class="flex items-center gap-2.5 text-text-muted">
-                    <div class="w-5 h-5 flex items-center justify-center rounded-lg bg-white/5 border border-white/10">
+                    <div class="w-5 h-5 flex items-center justify-center rounded-lg bg-white/[0.04] border border-white/[0.12]">
                       <svg class="w-3 h-3 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -82,7 +82,7 @@
                 </div>
               </div>
 
-              <div class="h-px w-12 bg-white/10 group-hover/card:w-24 group-hover/card:bg-amber transition-all duration-700" />
+              <div class="h-px w-12 bg-white/[0.06] group-hover/card:w-24 group-hover/card:bg-amber transition-all duration-700" />
             </div>
 
             <button
@@ -101,8 +101,8 @@
       </article>
     </div>
 
-    <div v-else class="card flex flex-col items-center justify-center py-32 border-dashed border-white/10 bg-white/[0.01] rounded-[3rem]">
-      <div class="w-24 h-24 rounded-[2.5rem] bg-white/5 border border-white/10 flex items-center justify-center text-white/5 mb-8 shadow-inner">
+    <div v-else class="card flex flex-col items-center justify-center py-32 border-dashed border-white/[0.12] bg-white/[0.01] rounded-[3rem]">
+      <div class="w-24 h-24 rounded-[2.5rem] bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-white/5 mb-8 shadow-inner">
         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>

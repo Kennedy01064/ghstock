@@ -6,8 +6,15 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.gh.stock.ui.screens.catalog.CatalogScreen
+import com.gh.stock.ui.screens.catalog.ProductDetailScreen
 import com.gh.stock.ui.screens.dashboard.DashboardScreen
+import com.gh.stock.ui.screens.inventory.InventoryScreen
 import com.gh.stock.ui.screens.login.LoginScreen
+import com.gh.stock.ui.screens.orders.OrderDetailScreen
+import com.gh.stock.ui.screens.orders.OrdersListScreen
+import com.gh.stock.ui.screens.reports.ReportsContainerScreen
+import com.gh.stock.ui.screens.catalog.BarcodeScannerScreen
 
 @Composable
 fun NavGraph(
@@ -23,8 +30,6 @@ fun NavGraph(
             LoginScreen(
                 onLoginSuccess = {
                     navController.navigate(Screen.Dashboard.route) {
-                        // Limpiar el back-stack para que el usuario no pueda
-                        // volver al Login con el boton de atras
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
                 }
@@ -36,8 +41,14 @@ fun NavGraph(
                 onNavigateToCatalog = {
                     navController.navigate(Screen.Catalog.route)
                 },
-                onNavigateToInventory = { buildingId ->
-                    navController.navigate(Screen.Inventory.createRoute(buildingId))
+                onNavigateToInventory = { id, name ->
+                    navController.navigate(Screen.Inventory.createRoute(id, name))
+                },
+                onNavigateToOrders = {
+                    navController.navigate(Screen.OrdersList.route)
+                },
+                onNavigateToReports = {
+                    navController.navigate(Screen.Reports.route)
                 },
                 onLogout = {
                     navController.navigate(Screen.Login.route) {
@@ -47,37 +58,83 @@ fun NavGraph(
             )
         }
 
-        // Pantallas futuras — se implementan en Fases 4 y 5
         composable(Screen.Catalog.route) {
-            // CatalogScreen — Fase 4
+            CatalogScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToProduct = { productId ->
+                    navController.navigate(Screen.ProductDetail.createRoute(productId) + "?fromCatalog=true")
+                },
+                onNavigateToScanner = {
+                    navController.navigate(Screen.BarcodeScanner.route)
+                }
+            )
+        }
+
+        composable(Screen.BarcodeScanner.route) {
+            BarcodeScannerScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onProductFound = { productId ->
+                    navController.navigate(Screen.ProductDetail.createRoute(productId) + "?fromCatalog=true") {
+                        popUpTo(Screen.BarcodeScanner.route) { inclusive = true }
+                    }
+                }
+            )
         }
 
         composable(
-            route = Screen.ProductDetail.route,
-            arguments = listOf(navArgument("productId") { type = NavType.IntType })
+            route = Screen.ProductDetail.route + "?fromCatalog={fromCatalog}",
+            arguments = listOf(
+                navArgument("productId") { type = NavType.IntType },
+                navArgument("fromCatalog") { type = NavType.BoolType; defaultValue = false }
+            )
         ) { backStackEntry ->
             val productId = backStackEntry.arguments?.getInt("productId") ?: return@composable
-            // ProductDetailScreen(productId) — Fase 4
+            ProductDetailScreen(
+                productId = productId,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable(
             route = Screen.Inventory.route,
-            arguments = listOf(navArgument("buildingId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val buildingId = backStackEntry.arguments?.getInt("buildingId") ?: return@composable
-            // InventoryScreen(buildingId) — Fase 5
-        }
-
-        composable(
-            route = Screen.AdjustStock.route,
             arguments = listOf(
                 navArgument("buildingId") { type = NavType.IntType },
-                navArgument("productId") { type = NavType.IntType }
+                navArgument("buildingName") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val buildingId = backStackEntry.arguments?.getInt("buildingId") ?: return@composable
-            val productId = backStackEntry.arguments?.getInt("productId") ?: return@composable
-            // AdjustStockSheet(buildingId, productId) — Fase 5
+            val buildingName = backStackEntry.arguments?.getString("buildingName") ?: ""
+            InventoryScreen(
+                buildingId = buildingId,
+                buildingName = buildingName,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Screen.OrdersList.route) {
+            OrdersListScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToOrderDetail = { id ->
+                    navController.navigate(Screen.OrderDetail.createRoute(id))
+                }
+            )
+        }
+
+        composable(
+            route = Screen.OrderDetail.route,
+            arguments = listOf(navArgument("orderId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val orderId = backStackEntry.arguments?.getInt("orderId") ?: 0
+            OrderDetailScreen(
+                orderId = orderId,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Screen.Reports.route) {
+            ReportsContainerScreen(
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }

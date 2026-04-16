@@ -14,7 +14,7 @@
           <h1 class="h2">Alta de Personal</h1>
           <p class="text-text-muted font-medium">Configuracion de credenciales y permisos corporativos.</p>
         </div>
-        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-inner">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-inner">
           <svg class="w-6 h-6 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
           </svg>
@@ -71,9 +71,9 @@
               </svg>
             </button>
 
-            <ul v-if="roleMenuOpen && authStore.currentRole === 'superadmin'" class="absolute z-50 w-full mt-3 bg-navy-accent border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
+            <ul v-if="roleMenuOpen && authStore.currentRole === 'superadmin'" class="absolute z-50 w-full mt-3 bg-[#1e293b] border border-white/[0.12] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden backdrop-blur-xl">
               <li>
-                <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/5 transition-colors border-b border-white/5 group" @click="selectRole('admin')">
+                <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/[0.04] transition-colors border-b border-white/[0.07] group" @click="selectRole('admin')">
                   <div class="flex items-center gap-3">
                     <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
                     <span class="text-sm font-black text-white group-hover:text-amber transition-all">Perfil Operativo</span>
@@ -82,7 +82,7 @@
                 </button>
               </li>
               <li>
-                <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/5 transition-colors group" @click="selectRole('manager')">
+                <button type="button" class="w-full text-left px-5 py-4 hover:bg-white/[0.04] transition-colors group" @click="selectRole('manager')">
                   <div class="flex items-center gap-3">
                     <div class="w-1.5 h-1.5 rounded-full bg-amber/40 group-hover:bg-amber transition-colors" />
                     <span class="text-sm font-black text-white group-hover:text-amber transition-all">Perfil Directivo</span>
@@ -120,7 +120,7 @@
           </div>
         </div>
 
-        <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-white/10">
+        <div class="pt-6 flex flex-col md:flex-row gap-4 border-t border-white/[0.12]">
           <RouterLink :to="{ name: 'catalogAdmins' }" class="btn btn-secondary flex-1">Cancelar</RouterLink>
           <button data-testid="user-submit" type="submit" class="btn btn-primary flex-1 shadow-2xl shadow-amber/10" :disabled="userStore.isSubmitting">
             <svg v-if="!userStore.isSubmitting" class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,7 +135,7 @@
       </form>
     </div>
 
-    <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/5 flex items-start gap-4">
+    <div class="p-5 rounded-2xl bg-white/[0.04] border border-white/[0.07] flex items-start gap-4">
       <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-amber/10 border border-amber/20 text-amber shrink-0">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />

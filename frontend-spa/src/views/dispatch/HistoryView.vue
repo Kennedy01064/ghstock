@@ -11,7 +11,7 @@
         <p class="text-text-muted font-medium text-sm">Registro historico de lotes operativos consolidados y procesados con exito.</p>
       </div>
 
-      <div class="flex items-center gap-6 bg-navy-accent/50 border border-white/5 backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl shadow-black/20">
+      <div class="flex items-center gap-6 bg-white/[0.06] border border-white/[0.07] backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl shadow-black/20">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 rounded-xl bg-amber/10 border border-amber/20 flex items-center justify-center text-amber">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,9 +23,9 @@
             <span class="text-lg font-black text-white leading-none">{{ history.batches.length }}</span>
           </div>
         </div>
-        <div class="w-px h-8 bg-white/10"></div>
+        <div class="w-px h-8 bg-white/[0.06]"></div>
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40">
+          <div class="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-white/40">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
@@ -43,7 +43,7 @@
         <div class="w-1.5 h-6 bg-amber rounded-full"></div>
         <h3 class="text-sm font-black text-white uppercase tracking-tight">Lotes de Despacho</h3>
       </div>
-      <div class="card !p-0 border-white/5 bg-navy-accent/10 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
+      <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm whitespace-nowrap border-collapse">
             <thead>
@@ -71,7 +71,7 @@
                 </td>
                 <td class="px-8 py-6">
                   <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-xs font-black text-amber shadow-inner group-hover:border-amber/30 transition-all">
+                    <div class="w-10 h-10 rounded-2xl bg-white/[0.04] border border-white/[0.12] flex items-center justify-center text-xs font-black text-amber shadow-inner group-hover:border-amber/30 transition-all">
                       {{ creatorInitial(batch.created_by) }}
                     </div>
                     <div class="flex flex-col">
@@ -89,7 +89,7 @@
                   </div>
                 </td>
                 <td class="px-8 py-6 text-right">
-                  <RouterLink :to="{ name: 'dispatchBatchDetail', params: { batchId: batch.id } }" class="btn btn-secondary !py-2.5 !px-5 !rounded-xl !text-[10px] border-white/5 hover:border-amber/30 hover:text-amber shadow-none group/link">
+                  <RouterLink :to="{ name: 'dispatchBatchDetail', params: { batchId: batch.id } }" class="btn btn-secondary !py-2.5 !px-5 !rounded-xl !text-[10px] border-white/[0.07] hover:border-amber/30 hover:text-amber shadow-none group/link">
                     <span>VER DETALLES</span>
                     <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
@@ -116,9 +116,9 @@
       <div class="flex items-center gap-3 px-2">
         <div class="w-1.5 h-6 bg-white/20 rounded-full"></div>
         <h3 class="text-sm font-black text-white uppercase tracking-tight">Historial de Pedidos</h3>
-        <span class="text-[10px] font-black text-text-muted bg-white/5 border border-white/5 rounded-lg px-2 py-1 uppercase">{{ history.orders.length }} total</span>
+        <span class="text-[10px] font-black text-text-muted bg-white/[0.04] border border-white/[0.07] rounded-lg px-2 py-1 uppercase">{{ history.orders.length }} total</span>
       </div>
-      <div class="card !p-0 border-white/5 bg-navy-accent/10 overflow-hidden">
+      <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm whitespace-nowrap border-collapse">
             <thead>
@@ -151,7 +151,7 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <RouterLink :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }" class="w-8 h-8 rounded-xl bg-white/[0.05] border border-white/10 text-white hover:bg-amber hover:text-navy-deep hover:border-amber transition-all inline-flex items-center justify-center">
+                  <RouterLink :to="{ name: 'ordersOrderDetail', params: { orderId: order.id } }" class="w-8 h-8 rounded-xl bg-white/[0.05] border border-white/[0.12] text-white hover:bg-amber hover:text-navy-deep hover:border-amber transition-all inline-flex items-center justify-center">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />

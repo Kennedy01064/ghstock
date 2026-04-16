@@ -195,18 +195,30 @@ def get_admin_dashboard(
 
 @router.get("/manager", response_model=schemas.dashboard.ManagerDashboard)
 def get_manager_dashboard(
+    month: Optional[int] = Query(None, ge=1, le=12),
+    year: Optional[int] = Query(None, ge=2020),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_active_management),
 ) -> Any:
     """Warehouse operations dashboard."""
     settings_row = deps.get_system_setting(db)
-    cache_key = f"analytics:manager:v3:settings:{_settings_cache_version(settings_row)}"
+    cache_key = f"analytics:manager:v3:settings:{_settings_cache_version(settings_row)}:m:{month}:y:{year}"
     cached_payload = _get_cached_dashboard(cache_key)
     if cached_payload is not None:
         return cached_payload
 
     now = datetime.now(timezone.utc)
-    first_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    
+    # Use provided month/year or default to current
+    target_month = month or now.month
+    target_year = year or now.year
+    
+    first_of_month = datetime(target_year, target_month, 1, tzinfo=timezone.utc)
+    # Get last day of month to bound the query
+    if target_month == 12:
+        next_month = datetime(target_year + 1, 1, 1, tzinfo=timezone.utc)
+    else:
+        next_month = datetime(target_year, target_month + 1, 1, tzinfo=timezone.utc)
 
     pedidos_submitted = db.query(models.Order).filter_by(status="submitted").count()
     pending_orders_count = db.query(models.Order).filter_by(status="draft").count()
@@ -219,7 +231,8 @@ def get_manager_dashboard(
         models.DispatchBatch, models.DispatchBatchItem.batch_id == models.DispatchBatch.id
     ).filter(
         models.DispatchBatch.status == "dispatched",
-        models.DispatchBatch.created_at >= first_of_month
+        models.DispatchBatch.created_at >= first_of_month,
+        models.DispatchBatch.created_at < next_month
     ).scalar() or 0
     total_productos = db.query(models.Product).filter_by(is_active=True).count()
     lotes_pendientes = db.query(models.DispatchBatch).filter_by(status="pending").all()
@@ -229,11 +242,45 @@ def get_manager_dashboard(
     ).order_by(models.Product.stock_actual.asc()).limit(8).all()
     compras_recientes = db.query(models.Purchase).order_by(models.Purchase.purchase_date.desc()).limit(5).all()
 
+    total_movements = db.query(models.InventoryMovement).filter(
+        models.InventoryMovement.created_at >= first_of_month,
+        models.InventoryMovement.created_at < next_month
+    ).count()
+
+    total_consumptions = db.query(models.ConsumptionLog).filter(
+        models.ConsumptionLog.created_at >= first_of_month,
+        models.ConsumptionLog.created_at < next_month
+    ).count()
+
+    most_consumed_raw = db.query(
+        models.Product.name.label("product_name"),
+        func.sum(models.ConsumptionLog.quantity_consumed).label("total_consumed")
+    ).join(
+        models.ConsumptionLog, models.Product.id == models.ConsumptionLog.product_id
+    ).filter(
+        models.ConsumptionLog.created_at >= first_of_month,
+        models.ConsumptionLog.created_at < next_month
+    ).group_by(models.Product.name).order_by(func.sum(models.ConsumptionLog.quantity_consumed).desc()).first()
+
+    most_consumed_product = None
+    if most_consumed_raw:
+        most_consumed_product = {"product_name": most_consumed_raw.product_name, "total_consumed": int(most_consumed_raw.total_consumed)}
+
     pedidos_por_edificio_raw = db.query(
         models.Building.name.label("building_name"),
-        func.count(models.Order.id).label("total_pedidos")
+        func.count(models.Order.id).label("total_pedidos"),
+        func.coalesce(func.sum(models.DispatchBatchItem.total_quantity * models.Product.precio), 0).label("gasto_total")
     ).join(
         models.Order, models.Building.id == models.Order.building_id
+    ).join(
+        models.DispatchBatch, models.Order.id == models.DispatchBatch.order_id, isouter=True
+    ).join(
+        models.DispatchBatchItem, models.DispatchBatch.id == models.DispatchBatchItem.batch_id, isouter=True
+    ).join(
+        models.Product, models.DispatchBatchItem.product_id == models.Product.id, isouter=True
+    ).filter(
+        models.Order.created_at >= first_of_month,
+        models.Order.created_at < next_month
     ).group_by(models.Building.name).order_by(func.count(models.Order.id).desc()).all()
 
     top_productos = db.query(
@@ -241,6 +288,11 @@ def get_manager_dashboard(
         func.sum(models.OrderItem.quantity).label("total_solicitado")
     ).join(
         models.OrderItem, models.Product.id == models.OrderItem.product_id
+    ).join(
+        models.Order, models.OrderItem.order_id == models.Order.id
+    ).filter(
+        models.Order.created_at >= first_of_month,
+        models.Order.created_at < next_month
     ).group_by(models.Product.name).order_by(func.sum(models.OrderItem.quantity).desc()).limit(5).all()
 
     payload = {
@@ -248,11 +300,18 @@ def get_manager_dashboard(
         "total_edificios_activos": total_edificios_activos,
         "costo_despachado_mes": costo_despachado_mes,
         "total_productos": total_productos,
+        "total_movements": total_movements,
+        "total_consumptions": total_consumptions,
+        "most_consumed_product": most_consumed_product,
         "lotes_pendientes": lotes_pendientes,
         "alertas_stock": alertas_stock,
         "compras_recientes": compras_recientes,
         "pedidos_por_edificio": [
-            {"building_name": row.building_name, "total_pedidos": row.total_pedidos}
+            {
+                "building_name": row.building_name, 
+                "total_pedidos": row.total_pedidos,
+                "gasto_total": float(row.gasto_total)
+            }
             for row in pedidos_por_edificio_raw
         ],
         "chart_edificios_labels": [row.building_name for row in pedidos_por_edificio_raw],

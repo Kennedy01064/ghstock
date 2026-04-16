@@ -11,7 +11,7 @@
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 px-2">
       <div class="space-y-2">
         <div class="flex items-center gap-3">
-          <RouterLink :to="{ name: 'dispatchPurchases' }" class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-text-muted hover:text-amber hover:bg-white/10 transition-all group">
+          <RouterLink :to="{ name: 'dispatchPurchases' }" class="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center text-text-muted hover:text-amber hover:bg-white/[0.06] transition-all group">
             <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
             </svg>
@@ -29,7 +29,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="card bg-navy-accent/30 border-white/5 relative overflow-hidden group">
+      <div class="card bg-white/[0.04] border-white/[0.07] relative overflow-hidden group">
         <div class="absolute top-0 left-0 w-1 h-full bg-amber/40 shadow-[0_0_15px_rgba(242,173,61,0.2)]" />
         <div class="space-y-6">
           <h3 class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Datos del Comprobante</h3>
@@ -50,10 +50,10 @@
         </div>
       </div>
 
-      <div class="card bg-navy-accent/30 border-white/5">
+      <div class="card bg-white/[0.04] border-white/[0.07]">
         <div class="space-y-6">
           <h3 class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em]">Validacion de Registro</h3>
-          <div class="flex items-center gap-5 p-4 bg-black/20 rounded-2xl border border-white/5">
+          <div class="flex items-center gap-5 p-4 bg-black/20 rounded-2xl border border-white/[0.07]">
             <div class="w-14 h-14 rounded-2xl bg-amber/10 border border-amber/20 flex items-center justify-center text-xl font-black text-amber shadow-2xl shadow-amber/5">
               {{ (purchase.created_by?.name || purchase.created_by?.username || "?").slice(0, 1).toUpperCase() }}
             </div>
@@ -69,14 +69,14 @@
         </div>
       </div>
 
-      <div class="card bg-navy-accent/30 border-white/5 flex flex-col justify-between">
+      <div class="card bg-white/[0.04] border-white/[0.07] flex flex-col justify-between">
         <h3 class="text-[10px] font-black text-text-muted uppercase tracking-[0.3em] mb-6">Resumen Operativo</h3>
         <div class="space-y-4">
-          <div class="flex justify-between items-center px-4 py-3 bg-white/[0.02] rounded-xl border border-white/5">
+          <div class="flex justify-between items-center px-4 py-3 bg-white/[0.02] rounded-xl border border-white/[0.07]">
             <span class="text-[10px] font-black text-text-muted uppercase tracking-widest">Variedad SKUs</span>
             <span class="text-lg font-black text-white tabular-nums">{{ purchase.items.length }}</span>
           </div>
-          <div class="flex justify-between items-center px-4 py-3 bg-white/[0.02] rounded-xl border border-white/5">
+          <div class="flex justify-between items-center px-4 py-3 bg-white/[0.02] rounded-xl border border-white/[0.07]">
             <span class="text-[10px] font-black text-text-muted uppercase tracking-widest">Unidades Fisicas</span>
             <span class="text-lg font-black text-white tabular-nums">{{ totalUnits }}</span>
           </div>
@@ -88,7 +88,7 @@
       </div>
     </div>
 
-    <div class="card !p-0 border-white/5 bg-navy-accent/10 overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
+    <div class="card !p-0 border-white/[0.07] bg-white/[0.02] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]">
       <div class="px-8 py-5 border-b border-white/[0.03] bg-white/[0.02]">
         <h2 class="text-sm font-black text-white uppercase tracking-[0.2em]">Desglose de Mercancia Recibida</h2>
       </div>
@@ -133,7 +133,7 @@
     </div>
 
     <div class="flex justify-center pt-10">
-      <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary !py-4 px-10 !rounded-2xl border-white/10 text-text-muted hover:text-white hover:border-white/20 uppercase tracking-widest text-[10px]">
+      <RouterLink :to="{ name: 'dispatchPurchases' }" class="btn btn-secondary !py-4 px-10 !rounded-2xl border-white/[0.12] text-text-muted hover:text-white hover:border-white/20 uppercase tracking-widest text-[10px]">
         REGRESAR AL LISTADO DE COMPRAS
       </RouterLink>
     </div>

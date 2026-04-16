@@ -26,7 +26,7 @@
     <div class="grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px]" :class="sidePanels.length ? '' : '!grid-cols-1'">
       <div class="space-y-8">
         <div v-for="section in sections" :key="section.title" class="card !p-0 overflow-hidden">
-          <div class="px-8 py-6 border-b border-white/5 bg-white/[0.02]">
+          <div class="px-8 py-6 border-b border-white/[0.07] bg-white/[0.02]">
             <h3 class="text-base font-bold text-white">{{ section.title }}</h3>
             <p v-if="section.description" class="text-[11px] uppercase tracking-[0.18em] text-text-muted mt-2">{{ section.description }}</p>
           </div>

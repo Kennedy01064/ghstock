@@ -3,7 +3,7 @@ package com.gh.stock.ui.screens.dashboard.components
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,7 +47,7 @@ fun DeadlineBanner(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Default.Warning,
+                imageVector = Icons.Default.Info,
                 contentDescription = null,
                 tint = AmberAccent,
                 modifier = Modifier.size(32.dp)

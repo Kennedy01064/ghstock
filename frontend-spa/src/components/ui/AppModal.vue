@@ -7,9 +7,9 @@
         <Transition name="modal-scale">
           <div
             v-if="open"
-            class="relative z-10 w-full max-w-lg overflow-hidden rounded-[32px] border border-white/10 bg-navy-accent/95 shadow-2xl"
+            class="relative z-10 w-full max-w-lg overflow-hidden rounded-[32px] border border-white/[0.12] bg-navy-accent/95 shadow-2xl"
           >
-            <div class="border-b border-white/10 px-7 py-6">
+            <div class="border-b border-white/[0.12] px-7 py-6">
               <p class="text-[11px] font-black uppercase tracking-[0.2em] text-amber">{{ eyebrow }}</p>
               <h3 class="mt-3 text-2xl font-black tracking-tight text-white">{{ title }}</h3>
               <p v-if="description" class="mt-3 text-sm leading-7 text-text-secondary">{{ description }}</p>
