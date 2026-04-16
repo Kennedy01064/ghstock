@@ -1,18 +1,15 @@
 <template>
-  <div v-if="dashboardStore.error" class="card border border-rose-500/20 bg-rose-500/10 text-rose-200">
-    {{ dashboardStore.error }}
-  </div>
-
-  <DashboardSkeleton v-else-if="dashboardStore.isLoading && !dashboard" />
-
-  <div v-else-if="dashboard" class="space-y-12 pb-24">
-    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-10 border-b border-slate-200 pb-10">
+  <div data-testid="manager-dashboard-root" class="space-y-10 pb-24">
+    <header class="flex flex-col xl:flex-row xl:items-end justify-between gap-10 border-b border-slate-200 pb-10">
       <div class="space-y-4">
         <div class="flex items-center gap-3">
           <div class="w-1.5 h-6 bg-amber rounded-full shadow-[0_0_12px_rgba(242,173,61,0.4)]"></div>
           <span class="eyebrow tracking-[0.4em] !text-amber text-[10px]">Operación Manager</span>
         </div>
-        <h1 class="text-5xl font-black tracking-tighter italic leading-none text-slate-900">
+        <h1
+          data-testid="manager-dashboard-title"
+          class="text-5xl font-black tracking-tighter italic leading-none text-slate-900"
+        >
           Tablero <span class="text-amber">Logístico</span>
         </h1>
         <p class="text-text-muted font-medium text-sm md:text-base max-w-xl">
@@ -32,9 +29,16 @@
           </svg>
         </div>
       </div>
+    </header>
+
+    <div v-if="dashboardStore.error" class="card border border-rose-500/20 bg-rose-50 text-rose-700">
+      {{ dashboardStore.error }}
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <DashboardSkeleton v-else-if="dashboardStore.isLoading && !dashboard" />
+
+    <div v-else-if="dashboard" class="space-y-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <article
         v-for="metric in metrics"
         :key="metric.label"
@@ -314,6 +318,7 @@
           <p class="text-[11px] font-black text-text-muted uppercase tracking-[0.2em] group-hover:text-slate-900 transition-colors text-center">{{ item.label }}</p>
         </RouterLink>
       </div>
+    </div>
     </div>
   </div>
 </template>

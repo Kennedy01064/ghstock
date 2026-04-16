@@ -25,7 +25,7 @@ test.describe("Authentication Flow", () => {
   test("should login successfully as manager", async ({ page }) => {
     await login(page, "mgomez", "mgomez")
     await expect(page).toHaveURL("/dashboard/manager")
-    await expect(page.getByText(/Tablero Logístico/i).first()).toBeVisible()
+    await expect(page.getByTestId("manager-dashboard-title")).toBeVisible()
   })
 
   test("should show error on invalid credentials", async ({ page }) => {
