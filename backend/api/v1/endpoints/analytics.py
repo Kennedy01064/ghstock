@@ -273,7 +273,9 @@ def get_manager_dashboard(
     ).join(
         models.Order, models.Building.id == models.Order.building_id
     ).join(
-        models.DispatchBatch, models.Order.id == models.DispatchBatch.order_id, isouter=True
+        models.dispatch_batch_orders, models.Order.id == models.dispatch_batch_orders.c.order_id, isouter=True
+    ).join(
+        models.DispatchBatch, models.DispatchBatch.id == models.dispatch_batch_orders.c.dispatch_batch_id, isouter=True
     ).join(
         models.DispatchBatchItem, models.DispatchBatch.id == models.DispatchBatchItem.batch_id, isouter=True
     ).join(
