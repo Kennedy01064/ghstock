@@ -248,8 +248,8 @@ def get_manager_dashboard(
     ).count()
 
     total_consumptions = db.query(models.ConsumptionLog).filter(
-        models.ConsumptionLog.created_at >= first_of_month,
-        models.ConsumptionLog.created_at < next_month
+        models.ConsumptionLog.reported_at >= first_of_month,
+        models.ConsumptionLog.reported_at < next_month
     ).count()
 
     most_consumed_raw = db.query(
@@ -258,8 +258,8 @@ def get_manager_dashboard(
     ).join(
         models.ConsumptionLog, models.Product.id == models.ConsumptionLog.product_id
     ).filter(
-        models.ConsumptionLog.created_at >= first_of_month,
-        models.ConsumptionLog.created_at < next_month
+        models.ConsumptionLog.reported_at >= first_of_month,
+        models.ConsumptionLog.reported_at < next_month
     ).group_by(models.Product.name).order_by(func.sum(models.ConsumptionLog.quantity_consumed).desc()).first()
 
     most_consumed_product = None
