@@ -11,12 +11,11 @@
     <form class="card !p-5 border-slate-200 flex flex-col sm:flex-row gap-4 items-end" @submit.prevent="applyFilters">
       <div class="flex-1">
         <label class="label-premium">Filtrar por Sede</label>
-        <select v-model="selectedBuildingId" class="select-field !py-3">
-          <option value="">Todas las sedes</option>
-          <option v-for="building in buildings" :key="building.id" :value="String(building.id)">
-            {{ building.name }}
-          </option>
-        </select>
+        <PremiumSelect
+          v-model="selectedBuildingId"
+          :options="[{ value: '', label: 'Todas las sedes' }, ...buildings.map(b => ({ value: String(b.id), label: b.name }))]"
+          placeholder="Todas las sedes"
+        />
       </div>
       <button type="submit" class="btn btn-primary !py-3 !px-5 !min-h-0 text-[11px] shrink-0">Aplicar</button>
       <button
@@ -95,6 +94,7 @@
 <script setup>
 import { computed, onMounted, ref } from "vue"
 
+import PremiumSelect from "@/components/ui/PremiumSelect.vue"
 import { useBuildingStore } from "@/stores/buildingStore"
 import { useInventoryStore } from "@/stores/inventoryStore"
 import { assetUrl, defaultProductUrl, formatDate } from "@/utils/formatters"

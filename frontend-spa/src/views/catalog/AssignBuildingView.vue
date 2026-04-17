@@ -15,9 +15,11 @@
       <div class="card space-y-5">
         <div>
           <label class="label-premium">Administrador</label>
-          <select v-model="selectedAdminId" class="select-field">
-            <option v-for="admin in admins" :key="admin.id" :value="admin.id">{{ admin.name }} - {{ admin.role }}</option>
-          </select>
+          <PremiumSelect
+            v-model="selectedAdminId"
+            :options="admins.map(a => ({ value: a.id, label: `${a.name} - ${a.role}` }))"
+            placeholder="Seleccionar administrador"
+          />
         </div>
         <div>
           <label class="label-premium">Buscar edificio</label>
@@ -58,6 +60,7 @@
 import { computed, onMounted, ref } from "vue"
 
 import PageHeader from "@/components/page/PageHeader.vue"
+import PremiumSelect from "@/components/ui/PremiumSelect.vue"
 import { useBuildingStore } from "@/stores/buildingStore"
 import { useUserStore } from "@/stores/userStore"
 import { useUiStore } from "@/stores/uiStore"

@@ -549,7 +549,8 @@ function renderCharts() {
   const doughnutCtx = doughnutChartRef.value.getContext("2d")
   const gradient = barCtx.createLinearGradient(0, 0, 0, 300)
   gradient.addColorStop(0, "#F2AD3D")
-  gradient.addColorStop(1, "rgba(242, 173, 61, 0.35)")
+  gradient.addColorStop(0.5, "rgba(242, 173, 61, 0.80)")
+  gradient.addColorStop(1, "rgba(242, 173, 61, 0.60)")
 
   barChart = new Chart(barCtx, {
     type: "bar",

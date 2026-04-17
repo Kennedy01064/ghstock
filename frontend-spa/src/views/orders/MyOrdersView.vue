@@ -16,21 +16,19 @@
     <form class="card !p-5 border-slate-200 flex flex-col sm:flex-row gap-4 items-end" @submit.prevent="applyFilters">
       <div class="flex-1">
         <label class="label-premium">Estado</label>
-        <select v-model="filters.status" class="select-field !py-3">
-          <option value="">Todos los estados</option>
-          <option v-for="option in statusOptions" :key="option.value" :value="option.value">
-            {{ option.label }}
-          </option>
-        </select>
+        <PremiumSelect
+          v-model="filters.status"
+          :options="[{ value: '', label: 'Todos los estados' }, ...statusOptions]"
+          placeholder="Todos los estados"
+        />
       </div>
       <div class="flex-1">
         <label class="label-premium">Sede</label>
-        <select v-model="filters.buildingId" class="select-field !py-3">
-          <option value="">Todas las sedes</option>
-          <option v-for="building in buildings" :key="building.id" :value="String(building.id)">
-            {{ building.name }}
-          </option>
-        </select>
+        <PremiumSelect
+          v-model="filters.buildingId"
+          :options="[{ value: '', label: 'Todas las sedes' }, ...buildings.map(b => ({ value: String(b.id), label: b.name }))]"
+          placeholder="Todas las sedes"
+        />
       </div>
       <button type="submit" class="btn btn-primary !py-3 !px-5 whitespace-nowrap text-[11px] shrink-0">Aplicar</button>
       <button
@@ -195,6 +193,7 @@ import { useRoute, useRouter } from "vue-router"
 
 import EmptyState from "@/components/ui/EmptyState.vue"
 import AppModal from "@/components/ui/AppModal.vue"
+import PremiumSelect from "@/components/ui/PremiumSelect.vue"
 import { useBuildingStore } from "@/stores/buildingStore"
 import { useOrdersStore } from "@/stores/ordersStore"
 import { useUiStore } from "@/stores/uiStore"

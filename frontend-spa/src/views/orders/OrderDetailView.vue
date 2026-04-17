@@ -107,10 +107,11 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <select v-model="categoryFilter" class="select-field">
-                <option value="">Todas las Categorias</option>
-                <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
-              </select>
+              <PremiumSelect
+                v-model="categoryFilter"
+                :options="[{ value: '', label: 'Todas las Categorias' }, ...categories.map(c => ({ value: c, label: c }))]"
+                placeholder="Todas las Categorias"
+              />
             </div>
           </div>
           
@@ -210,6 +211,7 @@ import { useRoute, useRouter } from "vue-router"
 
 import OrderItemsList from "@/components/orders/OrderItemsList.vue"
 import AppModal from "@/components/ui/AppModal.vue"
+import PremiumSelect from "@/components/ui/PremiumSelect.vue"
 import DashboardSkeleton from "@/components/common/DashboardSkeleton.vue"
 import EmptyState from "@/components/ui/EmptyState.vue"
 import { useProductStore } from "@/stores/productStore"

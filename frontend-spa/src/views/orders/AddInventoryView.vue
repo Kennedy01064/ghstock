@@ -25,12 +25,11 @@
           <div class="space-y-3">
             <label class="eyebrow !text-text-muted">Sede de Recepcion <span class="text-amber">*</span></label>
             <template v-if="authStore.isManagement">
-              <select v-model="form.buildingId" required class="select-field">
-                <option disabled value="">Seleccionar destino...</option>
-                <option v-for="building in buildingOptions" :key="building.id" :value="String(building.id)">
-                  {{ building.name }}
-                </option>
-              </select>
+              <PremiumSelect
+                v-model="form.buildingId"
+                :options="buildingOptions.map(b => ({ value: String(b.id), label: b.name }))"
+                placeholder="Seleccionar destino..."
+              />
             </template>
             <template v-else>
               <div class="input-field bg-slate-50 border-slate-200 text-slate-900/40 flex items-center gap-3">
@@ -44,12 +43,11 @@
 
           <div class="space-y-3">
             <label class="eyebrow !text-text-muted">Insumo a Registrar <span class="text-amber">*</span></label>
-            <select v-model="form.productId" required class="select-field">
-              <option disabled value="">Localizar producto...</option>
-              <option v-for="product in productOptions" :key="product.id" :value="String(product.id)">
-                {{ product.name }} | {{ product.categoria }}
-              </option>
-            </select>
+            <PremiumSelect
+              v-model="form.productId"
+              :options="productOptions.map(p => ({ value: String(p.id), label: `${p.name} | ${p.categoria}` }))"
+              placeholder="Localizar producto..."
+            />
           </div>
 
           <div class="space-y-3 md:col-span-2">
@@ -99,6 +97,7 @@
 import { computed, onMounted, reactive } from "vue"
 import { useRouter } from "vue-router"
 
+import PremiumSelect from "@/components/ui/PremiumSelect.vue"
 import { useAuthStore } from "@/stores/authStore"
 import { useBuildingStore } from "@/stores/buildingStore"
 import { useProductStore } from "@/stores/productStore"
