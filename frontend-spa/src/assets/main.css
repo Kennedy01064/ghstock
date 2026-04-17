@@ -12,6 +12,8 @@
     --text-primary: #0f172a;
     --text-secondary: #475569;
     --text-muted: #64748b;
+    --bg-page: #f5f4ef;
+    --bg-subtle: #efede7;
 }
 
 /* Base Styles */
@@ -293,4 +295,9 @@ body::-webkit-scrollbar-thumb {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover,
 body::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
+}
+
+/* Page background — warm cream instead of cold white */
+body {
+    background-color: var(--bg-page);
 }
